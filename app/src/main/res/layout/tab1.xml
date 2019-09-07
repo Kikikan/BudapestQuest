@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/newGameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tab_text_1"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/nevEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Név"
+        android:inputType="textPersonName" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/kasztgroup">
+
+        <RadioButton
+            android:id="@+id/kaszt1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/kaszt1"
+            android:checked="true"
+            />
+        <RadioButton
+            android:id="@+id/kaszt2"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/kaszt2"
+            />
+        <RadioButton
+            android:id="@+id/kaszt3"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/kaszt3"
+            />
+
+        <Button
+            android:id="@+id/createchar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="CreateButton"
+            android:text="Kész" />
+
+    </RadioGroup>
+</LinearLayout>

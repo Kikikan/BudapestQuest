@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Budapest Quest</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_1">Új játék</string>
+    <string name="tab_text_2">Én</string>
+    <string name="switch1_text">Hoszt</string>
+    <string name="kaszt1">Erős</string>
+    <string name="kaszt2">Kitartó</string>
+    <string name="kaszt3">Mozgékony</string>
 </resources>
