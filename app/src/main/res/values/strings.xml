@@ -6,4 +6,6 @@
     <string name="kaszt1">Erős</string>
     <string name="kaszt2">Kitartó</string>
     <string name="kaszt3">Mozgékony</string>
+    <string name="low_storage_error">Alacsony tárhely.</string>
+    <string name="no_camera_permission">Nincs jogom használni a kamerát.</string>
 </resources>

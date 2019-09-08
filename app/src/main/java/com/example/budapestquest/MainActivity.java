@@ -1,8 +1,15 @@
 package com.example.budapestquest;
 
+import android.content.Intent;
+import android.graphics.Point;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.example.budapestquest.Karakterek.Karakter;
+import com.example.budapestquest.barcode.BarcodeCaptureActivity;
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -10,6 +17,7 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,15 +34,14 @@ public class MainActivity extends AppCompatActivity {
 
     public static GameController gameController = new GameController();
     RadioGroup radioGroup;
-    public RadioButton radioButton;
-    Karakter selKar = null;
+    public static final int QR_READER_CODE = 100;
+    public TextView QrResultText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        radioGroup = findViewById(R.id.kasztgroup);
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
@@ -45,8 +52,10 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                QrResultText = findViewById(R.id.result);
+                Intent intent = new Intent(getApplicationContext(), BarcodeCaptureActivity.class);
+                startActivityForResult(intent, QR_READER_CODE);
+
             }
         });
     }
@@ -58,4 +67,17 @@ public class MainActivity extends AppCompatActivity {
         int radioId = radioGroup.getCheckedRadioButtonId();
         gameController.CreateChar(name, radioId);
     }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == QR_READER_CODE) {
+            if (resultCode == CommonStatusCodes.SUCCESS) {
+                if (intent != null) {
+                    Barcode barcode = intent.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
+                    QrResultText.setText(barcode.rawValue);
+                }
+            }
+        } else
+            super.onActivityResult(requestCode, resultCode, intent);
+    }
+
 }

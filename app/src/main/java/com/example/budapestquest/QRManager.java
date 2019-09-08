@@ -47,4 +47,5 @@ public class QRManager {
         return bitmap;
     }
 
+    public static String Result = "";
 }
