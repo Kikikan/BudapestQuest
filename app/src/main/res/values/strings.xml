@@ -3,9 +3,12 @@
     <string name="tab_text_1">Új játék</string>
     <string name="tab_text_2">Én</string>
     <string name="switch1_text">Hoszt</string>
-    <string name="kaszt1">Erős</string>
-    <string name="kaszt2">Kitartó</string>
-    <string name="kaszt3">Mozgékony</string>
+    <string name="kaszt1">Buda (+3 Védekezési Pont)</string>
+    <string name="kaszt2">Pest (+3 Támadási Pont)</string>
+    <string name="uni1">ELTE (12,5% eséllyel kap el az ellenőr)</string>
+    <string name="uni2">BME (munkánál nem marad ki egy körből)</string>
+    <string name="uni3">Corvinus (-20% a boltban)</string>
+    <string name="uni4">TF (8 alkalommal 8 oldalú kockával dobhat)</string>
     <string name="low_storage_error">Alacsony tárhely.</string>
     <string name="no_camera_permission">Nincs jogom használni a kamerát.</string>
 </resources>

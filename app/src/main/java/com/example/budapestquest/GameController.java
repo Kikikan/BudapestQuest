@@ -5,13 +5,23 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.budapestquest.Karakterek.Eros;
+import com.example.budapestquest.Karakterek.Buda;
 import com.example.budapestquest.Karakterek.Karakter;
-import com.example.budapestquest.Karakterek.Kitarto;
-import com.example.budapestquest.Karakterek.Mozgekony;
+import com.example.budapestquest.Karakterek.Pest;
 import com.google.zxing.WriterException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameController {
+
+    public static List<Integer> KasztRadioButtonIdList = new ArrayList<>();
+    public static List<Integer> ClassRadioButtonIdList = new ArrayList<>();
+
+    public static final int ELTE_ID = 1;
+    public static final int BME_ID = 2;
+    public static final int CORVINUS_ID = 3;
+    public static final int TF_ID = 4;
 
     private static Karakter En;
     private TextView nameText;
@@ -60,23 +70,36 @@ public class GameController {
         }
     }
 
-    protected void CreateChar(String name, int id) {
-        switch (id) {
-            case 2131230818:
-                En = new Eros();
+    protected void CreateChar(String name, int kasztId, int uniId) {
+        String uni = "";
+        switch (kasztId) {
+            case 0:
+                En = new Buda();
                 break;
-            case 2131230819:
-                En = new Kitarto();
-                break;
-            case 2131230820:
-                En = new Mozgekony();
+            case 1:
+                En = new Pest();
                 break;
                 default:
                     En = new Karakter();
                     break;
         }
-        nameText.setText(name);
+        switch(uniId) {
+            case GameController.ELTE_ID:
+                uni = "ELTE";
+                break;
+            case GameController.BME_ID:
+                uni = "BME";
+                break;
+            case GameController.CORVINUS_ID:
+                uni = "Corvinus";
+                break;
+            case GameController.TF_ID:
+                uni = "TF";
+                break;
+        }
+        nameText.setText(name + " (" + uni + ")");
         En.Name = name;
+        En.UNI = uniId;
         Update();
     }
 }

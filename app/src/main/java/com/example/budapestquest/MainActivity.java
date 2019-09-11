@@ -33,7 +33,6 @@ import org.w3c.dom.Text;
 public class MainActivity extends AppCompatActivity {
 
     public static GameController gameController = new GameController();
-    RadioGroup radioGroup;
     public static final int QR_READER_CODE = 100;
     public TextView QrResultText;
 
@@ -63,9 +62,31 @@ public class MainActivity extends AppCompatActivity {
     public void CreateButton(View v) {
         EditText nameText = findViewById(R.id.nevEditText);
         String name = nameText.getText().toString();
-        radioGroup = findViewById(R.id.kasztgroup);
-        int radioId = radioGroup.getCheckedRadioButtonId();
-        gameController.CreateChar(name, radioId);
+        RadioGroup kasztGroup = findViewById(R.id.kasztgroup);
+        RadioButton[] kasztButtons = new RadioButton[kasztGroup.getChildCount()];
+        RadioGroup uniGroup = findViewById(R.id.unigroup);
+        RadioButton[] uniButtons = new RadioButton[uniGroup.getChildCount()];
+        for (int i = 0; i < kasztButtons.length; i++) {
+            kasztButtons[i] = (RadioButton)kasztGroup.getChildAt(i);
+        }
+        for (int i = 0; i < uniButtons.length; i++) {
+            uniButtons[i] = (RadioButton)uniGroup.getChildAt(i);
+        }
+        int kasztId = -1;
+        int uniId = -1;
+        int kasztCheckedId = kasztGroup.getCheckedRadioButtonId();
+        int uniCheckedId = uniGroup.getCheckedRadioButtonId();
+        for (int i = 0; i < kasztButtons.length; i++) {
+            if (kasztButtons[i].getId() == kasztCheckedId) {
+                kasztId = i;
+            }
+        }
+        for (int i = 0; i < uniButtons.length; i++) {
+            if (uniButtons[i].getId() == uniCheckedId) {
+                uniId = i + 1;
+            }
+        }
+        gameController.CreateChar(name, kasztId, uniId);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {

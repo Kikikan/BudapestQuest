@@ -21,6 +21,7 @@
         android:inputType="textPersonName" />
 
     <RadioGroup
+        android:layout_marginTop="50px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/kasztgroup">
@@ -38,16 +39,45 @@
             android:layout_width="wrap_content"
             android:text="@string/kaszt2"
             />
+
+    </RadioGroup>
+
+    <RadioGroup
+        android:layout_marginTop="50px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/unigroup">
+
         <RadioButton
-            android:id="@+id/kaszt3"
+            android:id="@+id/uni1"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="@string/kaszt3"
+            android:text="@string/uni1"
+            android:checked="true"
+            />
+        <RadioButton
+            android:id="@+id/uni2"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/uni2"
+            />
+        <RadioButton
+            android:id="@+id/uni3"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/uni3"
+            />
+        <RadioButton
+            android:id="@+id/uni4"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/uni4"
             />
 
     </RadioGroup>
 
     <Button
+        android:layout_marginTop="50px"
         android:id="@+id/createchar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
