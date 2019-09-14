@@ -22,6 +22,7 @@ public class Karakter implements java.io.Serializable {
     public double   DeP = 0;
     public double   CR = 0.05;
     public double   DO = 0.05;
+    double          actHP = 0;
 
     public Targy    Fej = null;
     public Targy    Mellkas = null;
