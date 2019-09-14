@@ -14,6 +14,7 @@ public class Karakter {
     public double DeP = 0;
     public double CR = 0.05;
     public double DO = 0.05;
+    double actHP;
 
     public Targy[] Felszereles = new Targy[4];  // 0 - fej, 1 - mellkas, 2 - láb, 3 - fegyver
 
