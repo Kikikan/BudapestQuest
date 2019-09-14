@@ -59,9 +59,8 @@ public class GameController {
         depText.setText("Védekezési Pont: " + En.DeP);
         crText.setText("Kritikus Sebzés Esélye: " + En.CR + "%");
         doText.setText("Kivédés Esélye: " + En.DO + "%");
-        QRManager qr = new QRManager();
         try {
-            Bitmap bitmap = qr.TextToImageEncode(En.GenerateCode(), view);
+            Bitmap bitmap = QRManager.TextToImageEncode('0'+En.Serialize());
 
             qrView.setImageBitmap(bitmap);
         }

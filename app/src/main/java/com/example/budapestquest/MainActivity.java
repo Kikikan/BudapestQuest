@@ -26,9 +26,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.example.budapestquest.ui.main.SectionsPagerAdapter;
+import java.util.Random;
 
-import org.w3c.dom.Text;
+import com.example.budapestquest.ui.main.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -93,8 +93,44 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == QR_READER_CODE) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (intent != null) {
-                    Barcode barcode = intent.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
-                    QrResultText.setText(barcode.rawValue);
+                    try {
+                        //TODO: optimalizálni + konstans QR kód ID-ket valahova berakni + classba kiszervezni az egészet?
+                        Barcode barcode = intent.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
+                        char method = barcode.rawValue.charAt(0);
+                        String data = barcode.rawValue.substring(1);
+                        switch (method){
+                            // Aréna
+                            case '0': // harc kezdete
+                                Karakter enemy = Karakter.Deserialize(data);
+
+                                /*
+                                    Random r = new Random(data.hashCode() ^ GameController.En.hashCache);
+
+                                    Magyarázat:
+                                    Random seed = beolvasott serializált adatunkból származtatott hash (XOR) mi serializált adatunkból származtatott hash
+
+                                    Így ugye egy közös titkot állíthatunk föl, mindkét eszközön ugyan azt fogjuk kapni. Már csak ugye el kéne érni a GameController.En-jét...
+                                */
+
+                                QrResultText.setText("Beolvasott karakter:" + enemy.Name + " ("+ enemy.UNI +")");
+                                break;
+                            case '1': // harc második etup
+                                break;
+
+                            // Akciókártyák
+                            case '2':
+                                QrResultText.setText("Bolt");
+                                break;
+                            case '3':
+                                QrResultText.setText("Kondi");
+                                break;
+                            default:
+                                // Ideiglenes nyílván
+                                throw new Exception("Ismeretlen QR kód");
+                        }
+                    }catch(Exception e){
+                        QrResultText.setText(e.toString());
+                    }
                 }
             }
         } else
