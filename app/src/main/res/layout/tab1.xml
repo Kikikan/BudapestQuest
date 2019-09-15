@@ -7,7 +7,7 @@
         android:id="@+id/newGameText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/tab_text_1"
+        android:text="@string/tab_text_main"
         android:textAlignment="center"
         android:textSize="36sp"
         android:textStyle="bold" />
