@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import com.example.budapestquest.Karakterek.Karakter;
+import com.example.budapestquest.akcioKartyak.Kondi;
 import com.example.budapestquest.barcode.BarcodeCaptureActivity;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -123,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case '3':
                                 QrResultText.setText("Kondi");
+                                gameController.edzes();
                                 break;
                             default:
                                 // Ideiglenes nyílván

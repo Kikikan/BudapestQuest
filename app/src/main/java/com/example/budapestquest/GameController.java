@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.example.budapestquest.Karakterek.Buda;
 import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.Karakterek.Pest;
+import com.example.budapestquest.akcioKartyak.Kondi;
 import com.google.zxing.WriterException;
 
 import java.util.ArrayList;
@@ -101,4 +102,27 @@ public class GameController {
         En.UNI = uniId;
         Update();
     }
+
+
+    //Bí adta hozzá:
+    public void edzes()
+    {
+        //TODO frontend-el összekötni és ott tudjon választani melyiket szeretne
+        int valaszt = 0;
+
+        switch(valaszt)
+        {
+            case 0: //harciEdzés
+                En = Kondi.harciEdzes(En);
+                break;
+            case 1: //kardioEdzés
+                En = Kondi.kardioEdzes(En);
+                break;
+            case 2: //vegyesEdzes
+                En = Kondi.vegyesEdzes(En);
+                break;
+        }
+    }
+
+    //TODO kaszinó fronted része és összekötni a backenddel
 }
