@@ -99,4 +99,5 @@ public class Kaszino
         return random > meddig;
     }
 
+
 }
