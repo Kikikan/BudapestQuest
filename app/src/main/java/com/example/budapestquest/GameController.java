@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.example.budapestquest.Karakterek.Buda;
 import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.Karakterek.Pest;
+import com.example.budapestquest.akcioKartyak.Kondi;
 import com.google.zxing.WriterException;
 
 import java.io.BufferedReader;
@@ -133,4 +134,27 @@ public class GameController {
                 throw new Exception("Ismeretlen QR kód utasítás.");
         }
     }
+
+
+    //Bí adta hozzá:
+    public void edzes()
+    {
+        //TODO frontend-el összekötni és ott tudjon választani melyiket szeretne
+        int valaszt = 0;
+
+        switch(valaszt)
+        {
+            case 0: //harciEdzés
+                En = Kondi.harciEdzes(En);
+                break;
+            case 1: //kardioEdzés
+                En = Kondi.kardioEdzes(En);
+                break;
+            case 2: //vegyesEdzes
+                En = Kondi.vegyesEdzes(En);
+                break;
+        }
+    }
+
+    //TODO kaszinó fronted része és összekötni a backenddel
 }
