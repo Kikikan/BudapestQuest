@@ -107,6 +107,26 @@ public class GameController {
         Update();
     }
 
+    //Bí adta hozzá:
+    public void edzes()
+    {
+        //TODO frontend-el összekötni és ott tudjon választani melyiket szeretne
+        int valaszt = 0;
+
+        switch(valaszt)
+        {
+            case 0: //harciEdzés
+                En = Kondi.harciEdzes(En);
+                break;
+            case 1: //kardioEdzés
+                En = Kondi.kardioEdzes(En);
+                break;
+            case 2: //vegyesEdzes
+                En = Kondi.vegyesEdzes(En);
+                break;
+        }
+    }
+
     // Context csak a Toast miatt jön, totál ideiglenes
     protected void HandleQR(char method, String version, String data, Context v) throws Exception{
         switch (method){
@@ -129,32 +149,10 @@ public class GameController {
                 break;
             case '3':
                 Toast.makeText(v, "KONDI", Toast.LENGTH_LONG).show();
+                edzes();
                 break;
             default:
                 throw new Exception("Ismeretlen QR kód utasítás.");
         }
     }
-
-
-    //Bí adta hozzá:
-    public void edzes()
-    {
-        //TODO frontend-el összekötni és ott tudjon választani melyiket szeretne
-        int valaszt = 0;
-
-        switch(valaszt)
-        {
-            case 0: //harciEdzés
-                En = Kondi.harciEdzes(En);
-                break;
-            case 1: //kardioEdzés
-                En = Kondi.kardioEdzes(En);
-                break;
-            case 2: //vegyesEdzes
-                En = Kondi.vegyesEdzes(En);
-                break;
-        }
-    }
-
-    //TODO kaszinó fronted része és összekötni a backenddel
 }
