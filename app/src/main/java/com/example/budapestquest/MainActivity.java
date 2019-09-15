@@ -5,7 +5,7 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.example.budapestquest.Karakterek.Karakter;
+import com.example.budapestquest.Targyak.Targy;
 import com.example.budapestquest.barcode.BarcodeCaptureActivity;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -22,17 +22,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
-import java.util.Random;
+import android.widget.Toast;
 
 import com.example.budapestquest.ui.main.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
-
     public static GameController gameController = new GameController();
+
     public static final int QR_READER_CODE = 100;
     public TextView QrResultText;
 
@@ -44,8 +42,10 @@ public class MainActivity extends AppCompatActivity {
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
+
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
         FloatingActionButton fab = findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -54,82 +54,65 @@ public class MainActivity extends AppCompatActivity {
                 QrResultText = findViewById(R.id.result);
                 Intent intent = new Intent(getApplicationContext(), BarcodeCaptureActivity.class);
                 startActivityForResult(intent, QR_READER_CODE);
-
             }
         });
+
+        // Ha "ébredünk", töltsük be magunkat a cacheből, már ha ott vagyunk
+        if(savedInstanceState != null){
+            gameController.En = GameController.Load(getApplicationContext().getCacheDir(), "player.dat");
+        }
     }
 
+    // Ha az Android megölné az applikációnkat erőforráshiány miatt, itt definiálhatjuk, mit mentsen el
+    //TODO: Ezt ellenőrizni, és kicsit kicsinosítani
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        gameController.Save(getApplicationContext().getCacheDir(), "player.dat");
+    }
+
+    //TODO: Csak akkor lehessen továbbmenni a többi panelre, ha ez sikerrel járt.
     public void CreateButton(View v) {
-        EditText nameText = findViewById(R.id.nevEditText);
-        String name = nameText.getText().toString();
-        RadioGroup kasztGroup = findViewById(R.id.kasztgroup);
-        RadioButton[] kasztButtons = new RadioButton[kasztGroup.getChildCount()];
-        RadioGroup uniGroup = findViewById(R.id.unigroup);
-        RadioButton[] uniButtons = new RadioButton[uniGroup.getChildCount()];
-        for (int i = 0; i < kasztButtons.length; i++) {
-            kasztButtons[i] = (RadioButton)kasztGroup.getChildAt(i);
+        try {
+            String name = ((EditText) findViewById(R.id.nevEditText)).getText().toString();
+
+            RadioGroup kasztGroup = findViewById(R.id.kasztgroup);
+            int kasztId = kasztGroup.indexOfChild(kasztGroup.findViewById(kasztGroup.getCheckedRadioButtonId()));
+
+            RadioGroup uniGroup = findViewById(R.id.unigroup);
+            int uniId = uniGroup.indexOfChild(uniGroup.findViewById(uniGroup.getCheckedRadioButtonId()));
+
+            gameController.CreateChar(name, kasztId, uniId);
+        }catch(Exception e){
+            Toast.makeText(getApplicationContext(), "Hiba: " + e.toString(), Toast.LENGTH_SHORT).show();
         }
-        for (int i = 0; i < uniButtons.length; i++) {
-            uniButtons[i] = (RadioButton)uniGroup.getChildAt(i);
-        }
-        int kasztId = -1;
-        int uniId = -1;
-        int kasztCheckedId = kasztGroup.getCheckedRadioButtonId();
-        int uniCheckedId = uniGroup.getCheckedRadioButtonId();
-        for (int i = 0; i < kasztButtons.length; i++) {
-            if (kasztButtons[i].getId() == kasztCheckedId) {
-                kasztId = i;
-            }
-        }
-        for (int i = 0; i < uniButtons.length; i++) {
-            if (uniButtons[i].getId() == uniCheckedId) {
-                uniId = i + 1;
-            }
-        }
-        gameController.CreateChar(name, kasztId, uniId);
     }
 
+    // Ideiglenes teszt gomb az Item generálásra
+    public void RandItemGen(View v){
+        Targy t = Targy.Generate(Targy.FEJ_ID, Targy.TIER_1);
+        Toast.makeText(getApplicationContext(), "Tárgy: " + t.modifier.Name + " " + t.item.Name + " (Tier: "+(t.Tier+1)+")", Toast.LENGTH_SHORT).show();
+    }
+
+    // QR Kód feldolgozás csak jelenleg
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == QR_READER_CODE) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (intent != null) {
                     try {
-                        //TODO: optimalizálni + konstans QR kód ID-ket valahova berakni + classba kiszervezni az egészet?
                         Barcode barcode = intent.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
-                        char method = barcode.rawValue.charAt(0);
-                        String data = barcode.rawValue.substring(1);
-                        switch (method){
-                            // Aréna
-                            case '0': // harc kezdete
-                                Karakter enemy = Karakter.Deserialize(data);
+                        if (barcode.rawValue.length() < 6)
+                            throw new Exception("Hibás QR formátum.");
 
-                                /*
-                                    Random r = new Random(data.hashCode() ^ GameController.En.hashCache);
+                        // Parse
+                        String version = barcode.rawValue.substring(0,4);
+                        char method = barcode.rawValue.charAt(4);
+                        String data = barcode.rawValue.substring(5);
 
-                                    Magyarázat:
-                                    Random seed = beolvasott serializált adatunkból származtatott hash (XOR) mi serializált adatunkból származtatott hash
-
-                                    Így ugye egy közös titkot állíthatunk föl, mindkét eszközön ugyan azt fogjuk kapni. Már csak ugye el kéne érni a GameController.En-jét...
-                                */
-
-                                QrResultText.setText("Beolvasott karakter:" + enemy.Name + " ("+ enemy.UNI +")");
-                                break;
-                            case '1': // harc második etup
-                                break;
-
-                            // Akciókártyák
-                            case '2':
-                                QrResultText.setText("Bolt");
-                                break;
-                            case '3':
-                                QrResultText.setText("Kondi");
-                                break;
-                            default:
-                                // Ideiglenes nyílván
-                                throw new Exception("Ismeretlen QR kód");
-                        }
+                        // GameControllerben feldolgozzuk
+                        gameController.HandleQR(method, version, data, getApplicationContext());
                     }catch(Exception e){
-                        QrResultText.setText(e.toString());
+                        Toast.makeText(getApplicationContext(), "Hiba: " + e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }

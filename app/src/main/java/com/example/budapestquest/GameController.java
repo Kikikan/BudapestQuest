@@ -1,29 +1,28 @@
 package com.example.budapestquest;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.budapestquest.Karakterek.Buda;
 import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.Karakterek.Pest;
 import com.google.zxing.WriterException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 
 public class GameController {
+    public static final String Version = "1000";
 
-    public static List<Integer> KasztRadioButtonIdList = new ArrayList<>();
-    public static List<Integer> ClassRadioButtonIdList = new ArrayList<>();
+    public Karakter En = null;
 
-    public static final int ELTE_ID = 1;
-    public static final int BME_ID = 2;
-    public static final int CORVINUS_ID = 3;
-    public static final int TF_ID = 4;
-
-    private static Karakter En;
     private TextView nameText;
     private TextView hpText;
     private TextView ftText;
@@ -34,7 +33,6 @@ public class GameController {
     private TextView crText;
     private TextView doText;
     private ImageView qrView;
-    private View view;
 
     protected void Initialize(View v) {
         nameText = v.findViewById(R.id.nevText);
@@ -47,7 +45,6 @@ public class GameController {
         crText = v.findViewById(R.id.crText);
         doText = v.findViewById(R.id.doText);
         qrView = v.findViewById(R.id.qrView);
-        view = v;
     }
 
     protected void Update() {
@@ -60,8 +57,7 @@ public class GameController {
         crText.setText("Kritikus Sebzés Esélye: " + En.CR + "%");
         doText.setText("Kivédés Esélye: " + En.DO + "%");
         try {
-            Bitmap bitmap = QRManager.TextToImageEncode('0'+En.Serialize());
-
+            Bitmap bitmap = QRManager.TextToImageEncode('0',En.Serialize());
             qrView.setImageBitmap(bitmap);
         }
         catch (WriterException e) {
@@ -69,8 +65,30 @@ public class GameController {
         }
     }
 
-    protected void CreateChar(String name, int kasztId, int uniId) {
-        String uni = "";
+    public static Karakter Load(File fp, String fn) {
+        try {
+            File file = new File(fp, fn);
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            char[] data = new char[(int) file.length()];
+            br.read(data);
+            return Karakter.Deserialize(new String(data));
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+    public boolean Save(File fp, String fn){
+        try{
+            BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fp, fn).getAbsoluteFile()));
+            bw.write(En.Serialize());
+            bw.flush();
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    public void CreateChar(String name, int kasztId, int uniId) {
         switch (kasztId) {
             case 0:
                 En = new Buda();
@@ -78,27 +96,41 @@ public class GameController {
             case 1:
                 En = new Pest();
                 break;
-                default:
-                    En = new Karakter();
-                    break;
-        }
-        switch(uniId) {
-            case GameController.ELTE_ID:
-                uni = "ELTE";
-                break;
-            case GameController.BME_ID:
-                uni = "BME";
-                break;
-            case GameController.CORVINUS_ID:
-                uni = "Corvinus";
-                break;
-            case GameController.TF_ID:
-                uni = "TF";
+            default:
+                En = new Karakter();
                 break;
         }
-        nameText.setText(name + " (" + uni + ")");
+        nameText.setText(name + " (" + Karakter.EgyetemIDToString(uniId) + ")");
         En.Name = name;
         En.UNI = uniId;
         Update();
+    }
+
+    // Context csak a Toast miatt jön, totál ideiglenes
+    protected void HandleQR(char method, String version, String data, Context v) throws Exception{
+        switch (method){
+            // Aréna
+            case '0':
+                if (!version.equals(Version))
+                    throw new Exception("Különböző játékverzió. ( beolvasott: "+version+" != mienk: "+Version+" )");
+
+                Karakter enemy = Karakter.Deserialize(data);
+                Toast.makeText(v, "Beolvasott karakter:" + enemy.Name + " ("+ Karakter.EgyetemIDToString(enemy.UNI) +")", Toast.LENGTH_LONG).show();
+
+                break;
+            case '1':
+                break;
+
+            // Akciókártyák
+            //TODO: Panelek megnyitása
+            case '2':
+                Toast.makeText(v, "BOLT", Toast.LENGTH_LONG).show();
+                break;
+            case '3':
+                Toast.makeText(v, "KONDI", Toast.LENGTH_LONG).show();
+                break;
+            default:
+                throw new Exception("Ismeretlen QR kód utasítás.");
+        }
     }
 }

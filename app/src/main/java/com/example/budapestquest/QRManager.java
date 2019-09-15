@@ -11,11 +11,21 @@ public class QRManager {
     public final static int COLOR_BLACK = 0xFF000000;
     public final static int COLOR_WHITE = 0xFFFFFFFF;
 
-    public static Bitmap TextToImageEncode(String Value) throws WriterException {
+    /*
+    *
+    * Formátum:
+    * 4 byte: verzió -> TODO: Compile-time assertelni a méretét
+    * 1 byte: method
+    * x byte: data
+    *
+    * Ez a verzió eléggé future-proof?
+    * */
+
+    public static Bitmap TextToImageEncode(char method, String data) throws WriterException {
         BitMatrix bitMatrix;
         try {
             bitMatrix = new MultiFormatWriter().encode(
-                    Value,
+                    GameController.Version + method + data,
                     BarcodeFormat.DATA_MATRIX.QR_CODE,
                     QRcodeWidth, QRcodeWidth, null
             );

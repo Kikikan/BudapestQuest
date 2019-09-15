@@ -2,6 +2,8 @@ package com.example.budapestquest.Karakterek;
 
 public class Harc {
 
+    //TODO: Az actHP-t szerintem függvényen belül kéne tárolni, mivel csak itt használatos.
+
     public Karakter fight(Karakter a,Karakter b){
         Karakter gyoztes = a;
 
