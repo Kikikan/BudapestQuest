@@ -22,7 +22,7 @@ import java.io.FileWriter;
 public class GameController {
     public static final String Version = "1000";
 
-    public Karakter En = null;
+    public static Karakter En = null;
 
     private TextView nameText;
     private TextView hpText;

@@ -29,15 +29,13 @@ public class Karakter {
     public int      UNI = 0;
     public double   XP = 0;
     public int      FT = 100;
-    public int      HP = 100;
+    public double   HP = 100;
     public int      Vonaljegy = 0;
     public double   DMG = 10;
     public double   DaP = 0;
     public double   DeP = 0;
     public double   CR = 0.05;
     public double   DO = 0.05;
-
-    public double   actHP = 100.0f;
 
     public Targy[] Felszereles = new Targy[4];
 
@@ -95,7 +93,7 @@ public class Karakter {
             objStream.writeInt(UNI);
             objStream.writeDouble(XP);
             objStream.writeInt(FT);
-            objStream.writeInt(HP);
+            objStream.writeDouble(HP);
             objStream.writeInt(Vonaljegy);
             objStream.writeDouble(DMG);
             objStream.writeDouble(DaP);
