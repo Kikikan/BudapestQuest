@@ -156,7 +156,6 @@ public class Karakter {
                 if(FT >= 60)
                 {
                     FT -= 60;
-
                 }
                 else
                 {
@@ -195,7 +194,9 @@ public class Karakter {
         FT += 15 * db;
     }
 
-
+    //Azt csinálja, hogy a meglévő tárgyat kicseréli arra a tárgyra amit váltózóként megadunk neki
+    //I hope értehtő vagyok :D
+    //Mindenkinek szép kódolást :D
     public void targyCsere (Targy targy)
     {
         for(int i = 0; i < Felszereles.length; i++)

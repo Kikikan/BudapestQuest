@@ -153,6 +153,8 @@ public class GameController {
         }
     }
 
+    //Azért vannak ezek lentebb, hogy ha akarunk neki külön felületett szebben szét legyen szedve
+
     public void kaszinoPoker (int osszeg)
     {
         En = Kaszino.poker(En, osszeg);
@@ -188,9 +190,10 @@ public class GameController {
 
     public void lepes (String data)
     {
-        boolean valaszt = data.charAt(1)=='1';
+        //itt vizsgálja, hogy használjon jegyet (1) vagy ne (0)
+        boolean jegyHasznalat = data.charAt(1)=='1';
 
-        if(!En.lepes(valaszt))
+        if(!En.lepes(jegyHasznalat))
         {
             //kimarad a körből
         }
@@ -202,25 +205,27 @@ public class GameController {
 
 //--------------------------------------------------
 //kartyahuzas
+    //az akciókártyákat húz ami fizikai és qr-ből ide jön
     public void kartyahuzas(String data)
     {
         switch (data)
         {
-            case "0":
+            case "0"://penz+
                 int nyert = HuzottKartyak.talalVagyVeszitPenzt();
                 En.FT += nyert;
                 //TODO kiírathatja mennyit nyert
                 break;
-            case "1":
+            case "1"://penz-
                 int veszit = HuzottKartyak.talalVagyVeszitPenzt();
                 En.FT -= veszit;
                 //TODO kiírathatja mennyit veszített
                 break;
-            case "2":
+            case "2"://targy+
                 Targy talat = HuzottKartyak.talaltTargy();
                 //TODO frontend, hogy vállaszon melyik kell neki
                 itamCsere(talat);
                 break;
+                //azért nincsen targy-, mert túl nagy veszteség
 
         }
     }
@@ -231,6 +236,7 @@ public class GameController {
 //munka
 
     //TODO db-t megadni frontendről
+    //lehet munkát válalni és a db jelezi, hány kört akarsz kimaradni
     public void munka()
     {
         int db = 0;
@@ -241,6 +247,9 @@ public class GameController {
 //--------------------------------------------------
 
     //TODO összehozni, hogy tudjon választani a felhasználó, hogy akar cserélni
+    //azért van, hogy ha boltba is kell tudjuk használni, hogy a felhasználónak egy felületet kell lene
+    //feldoni, hogy akarod ezt az itemet (true) vagy inkább megtartod (false) amid van
+    //valtozoban akarcserelni eltárolni ideiglenes)
     public void itamCsere (Targy targy)
     {
         boolean akarcserelni = true;
@@ -270,30 +279,30 @@ public class GameController {
 
             // Akciókártyák
             //TODO: Panelek megnyitása
-            case '2':
+            case '2'://bolt (felhasználó választja ki mit vásárol)
                 Toast.makeText(v, "BOLT", Toast.LENGTH_LONG).show();
                 break;
-            case '3':
+            case '3'://kondi (felhasználó választja ki mit akar edzeni/ data: 0 erőnléti, 1 kondi)
                 Toast.makeText(v, "KONDI", Toast.LENGTH_LONG).show();
                 edzes();
                 break;
-            case '4':
+            case '4'://automata (felhasználó választja ki mennyit akar venni)
                 Toast.makeText(v, "AUTOMATA", Toast.LENGTH_LONG).show();
                 jegyVasarlas();
                 break;
-            case '5':
+            case '5'://kaszinó (felhasználó választja ki mit akar játszani)
                 Toast.makeText(v, "KASZINÓ", Toast.LENGTH_LONG).show();
                 kaszino();
                 break;
-            case '6':
+            case '6'://lepes(data tárolja: 1 használ jegyet, 0 nem használ jegyet)
                 Toast.makeText(v, "LEPES", Toast.LENGTH_LONG).show();
                 lepes(data);
                 break;
-            case '7':
+            case '7'://akciókártya húzása(data tárolja: 0 penz+, 1 penz-, 2 targy+) (azért nincs targy- mert tul nagy hátrány)
                 Toast.makeText(v, "KARTYAHUZAS", Toast.LENGTH_LONG).show();
                 kartyahuzas(data);
                 break;
-            case '8':
+            case '8'://munka (majd a felhasználó választja ki mennyit akar dolgozni)
                 Toast.makeText(v, "MUNKA", Toast.LENGTH_LONG).show();
                 munka();
                 break;
