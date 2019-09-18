@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.example.budapestquest.Karakterek.Buda;
 import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.Karakterek.Pest;
+import com.example.budapestquest.akcioKartyak.Kaszino;
 import com.example.budapestquest.akcioKartyak.Kondi;
 import com.google.zxing.WriterException;
 
@@ -121,10 +122,23 @@ public class GameController {
             case 1: //kardioEdzés
                 En = Kondi.kardioEdzes(En);
                 break;
-            case 2: //vegyesEdzes
-                En = Kondi.vegyesEdzes(En);
-                break;
         }
+    }
+
+
+    public void kaszinoPoker (int osszeg)
+    {
+        En = Kaszino.poker(En, osszeg);
+    }
+
+    public void kaszinoRulett (int osszeg)
+    {
+        En = Kaszino.rulett(En, osszeg);
+    }
+
+    public void kaszinoBlackj (int osszeg)
+    {
+        En = Kaszino.blackJack(En, osszeg);
     }
 
     // Context csak a Toast miatt jön, totál ideiglenes
@@ -155,4 +169,5 @@ public class GameController {
                 throw new Exception("Ismeretlen QR kód utasítás.");
         }
     }
+
 }
