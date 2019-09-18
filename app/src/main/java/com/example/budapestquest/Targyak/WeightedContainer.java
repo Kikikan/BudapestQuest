@@ -10,7 +10,10 @@ public class WeightedContainer<T extends Containerable>{
 
     public WeightedContainer(T[] _Items){
         Items = _Items;
-        //TODO: assert(Items.length != 0)
+
+        if(Items.length == 0)
+            throw new IllegalArgumentException("Nem lehet üres a tömb.");
+
         for (int i = 0; i < Items.length; i++) {
             CalculatedWeight += Items[i].Weight;
         }
@@ -23,8 +26,6 @@ public class WeightedContainer<T extends Containerable>{
                 return i;
             }
         }
-
-        // Ha minden igaz, akkor ez akkor következhet csak be, hogyha üres tömbbel rendelkezünk.
         return -1;
     }
 }

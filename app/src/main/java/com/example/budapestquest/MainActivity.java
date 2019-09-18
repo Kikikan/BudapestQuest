@@ -101,13 +101,15 @@ public class MainActivity extends AppCompatActivity {
                 if (intent != null) {
                     try {
                         Barcode barcode = intent.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
-                        if (barcode.rawValue.length() < 6)
+                        if ((barcode.rawValue.length() < 13) || !barcode.rawValue.substring(0,8).equals(QRManager.QRCONST))
                             throw new Exception("Hibás QR formátum.");
 
                         // Parse
-                        String version = barcode.rawValue.substring(0,4);
-                        char method = barcode.rawValue.charAt(4);
-                        String data = barcode.rawValue.substring(5);
+                        String version = barcode.rawValue.substring(8,12);
+                        char method = barcode.rawValue.charAt(12);
+                        String data = barcode.rawValue.substring(13);
+
+                        //TODO: empty data check vagy itt, vagy ott
 
                         // GameControllerben feldolgozzuk
                         gameController.HandleQR(method, version, data, getApplicationContext());
