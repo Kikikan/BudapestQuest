@@ -10,7 +10,9 @@ import android.widget.Toast;
 import com.example.budapestquest.Karakterek.Buda;
 import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.Karakterek.Pest;
+import com.example.budapestquest.akcioKartyak.HuzottKartyak;
 import com.example.budapestquest.akcioKartyak.Kaszino;
+import com.example.budapestquest.Targyak.Targy;
 import com.google.zxing.WriterException;
 
 import java.io.BufferedReader;
@@ -66,6 +68,7 @@ public class GameController {
         }
     }
 
+    //TODO: mentés / betöltés
     public static Karakter Load(File fp, String fn) {
         try {
             File file = new File(fp, fn);
@@ -140,30 +143,15 @@ public class GameController {
         switch (valaszt)
         {
             case 0:
-                kaszinoPoker(osszeg);
+                Kaszino.poker(osszeg);
                 break;
             case 1:
-                kaszinoRulett(osszeg);
+                Kaszino.rulett(osszeg);
                 break;
             case 2:
-                kaszinoBlackj(osszeg);
+                Kaszino.blackJack(osszeg);
                 break;
         }
-    }
-
-    public void kaszinoPoker (int osszeg)
-    {
-        En = Kaszino.poker(En, osszeg);
-    }
-
-    public void kaszinoRulett (int osszeg)
-    {
-        En = Kaszino.rulett(En, osszeg);
-    }
-
-    public void kaszinoBlackj (int osszeg)
-    {
-        En = Kaszino.blackJack(En, osszeg);
     }
 
 //-------------------------------------------------
@@ -184,63 +172,107 @@ public class GameController {
 //-------------------------------------------------
 //LEPES
 
-
-    public void lepes ()
+    public void lepes (String data)
     {
-        boolean valaszt = true;
+        boolean valaszt = data.charAt(1)=='1';
 
-        if(En.lepes(valaszt))
+        if(!En.lepes(valaszt))
         {
-            //NEM KAPTA EL AZ ELLENŐR
-        }
-        else
-        {
-            //ELKAPTA AZ ELLENŐR
+            //kimarad a körből
         }
     }
 
 
 //--------------------------------------------------
 
+
+    //--------------------------------------------------
+//kartyahuzas
+    public void kartyahuzas(String data)
+    {
+        switch (data)
+        {
+            case "0":
+                int nyert = HuzottKartyak.talalVagyVeszitPenzt();
+                En.FT += nyert;
+                //TODO kiírathatja mennyit nyert
+                break;
+            case "1":
+                int veszit = HuzottKartyak.talalVagyVeszitPenzt();
+                En.FT -= veszit;
+                //TODO kiírathatja mennyit veszített
+                break;
+            case "2":
+                Targy talat = HuzottKartyak.talaltTargy();
+                //TODO frontend, hogy vállaszon melyik kell neki
+                itamCsere(talat);
+                break;
+
+        }
+    }
+
+//--------------------------------------------------
+
+//--------------------------------------------------
+//munka
+
+    //TODO db-t megadni frontendről
+    public void munka()
+    {
+        int db = 0;
+
+        En.munka(db);
+    }
+
+//--------------------------------------------------
+
+    //TODO összehozni, hogy tudjon választani a felhasználó, hogy akar cserélni
+    public void itamCsere (Targy targy)
+    {
+        boolean akarcserelni = true;
+
+        if(akarcserelni)
+        {
+            En.targyCsere(targy);
+        }
+    }
+
     // Context csak a Toast miatt jön, totál ideiglenes
     protected void HandleQR(char method, String version, String data, Context v) throws Exception{
         switch (method){
-            // Aréna
-            case '0':
+            /* Aréna */
+            case QRManager.QR_HARC1:
+            case QRManager.QR_HARC2:
                 if (!version.equals(Version))
                     throw new Exception("Különböző játékverzió. ( beolvasott: "+version+" != mienk: "+Version+" )");
 
                 Karakter enemy = Karakter.Deserialize(data);
-                Toast.makeText(v, "Beolvasott karakter:" + enemy.Name + " ("+ Karakter.EgyetemIDToString(enemy.UNI) +")", Toast.LENGTH_LONG).show();
+                if(enemy == null)
+                    throw new Exception("Hiba a karakter beolvasásánál.");
 
-                break;
-            case '1':
+                Toast.makeText(v, "Beolvasott karakter:" + enemy.Name + " ("+ Karakter.EgyetemIDToString(enemy.UNI) +") Kezd: " + (method == QRManager.QR_HARC1 ? "én" : "ő"), Toast.LENGTH_LONG).show();
+                //Fight(this, enemy, method == QRManager.QR_HARC1);
                 break;
 
-            // Akciókártyák
+            /* Akciókártyák */
             //TODO: Panelek megnyitása
-            case '2':
+            case QRManager.QR_BOLT:
                 Toast.makeText(v, "BOLT", Toast.LENGTH_LONG).show();
                 break;
-            case '3':
+            case QRManager.QR_KONDI:
                 Toast.makeText(v, "KONDI", Toast.LENGTH_LONG).show();
-                edzes();
+                //Kondi();
                 break;
-            case '4':
-                Toast.makeText(v, "AUTOMATA", Toast.LENGTH_LONG).show();
-                jegyVasarlas();
+            case QRManager.QR_KASZINO:
+                Toast.makeText(v, "KASZINO", Toast.LENGTH_LONG).show();
+                //Kaszino();
                 break;
-            case '5':
-                Toast.makeText(v, "KASZINÓ", Toast.LENGTH_LONG).show();
-                kaszino();
-                break;
-            case '6':
-                Toast.makeText(v, "LEPES", Toast.LENGTH_LONG).show();
-                lepes();
+            case QRManager.QR_MUNKA:
+                Toast.makeText(v, "MUNKA", Toast.LENGTH_LONG).show();
+                munka();
                 break;
             default:
                 throw new Exception("Ismeretlen QR kód utasítás.");
         }
     }
-
 }
