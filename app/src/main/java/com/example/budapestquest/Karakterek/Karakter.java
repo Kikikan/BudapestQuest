@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
+import java.util.Random;
 
 public class Karakter {
     public static final int ELTE_ID = 0;
@@ -123,4 +124,52 @@ public class Karakter {
             return null;
         }
     }
+
+
+    public void jegyvasarlas (int db)
+    {
+        int vonaljegyara = 50;
+        FT -= vonaljegyara * db;
+        Vonaljegy += db;
+    }
+
+    public boolean lepes(boolean vonaljegyHasznalata)
+    {
+        if(vonaljegyHasznalata)
+        {
+            Vonaljegy--;
+        }
+        else
+        {
+            int random = new Random().nextInt(100+1);
+
+            if(random <= 25)
+            {
+                //elkapta az elenőr
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public void  harciEdzes ()
+    {
+        int belepo = 150;
+
+        FT -= belepo;
+
+        DaP += 2;
+    }
+
+    public void kardioEdzes ()
+    {
+        int belepo = 150;
+
+        FT -= belepo;
+
+        DeP += 2;
+    }
+
 }

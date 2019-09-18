@@ -11,7 +11,6 @@ import com.example.budapestquest.Karakterek.Buda;
 import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.Karakterek.Pest;
 import com.example.budapestquest.akcioKartyak.Kaszino;
-import com.example.budapestquest.akcioKartyak.Kondi;
 import com.google.zxing.WriterException;
 
 import java.io.BufferedReader;
@@ -109,22 +108,48 @@ public class GameController {
     }
 
     //Bí adta hozzá:
+//-----------------------------------------
+//EDZÉS
+
+    //TODO frontend-el összekötni és ott tudjon választani melyiket szeretne
     public void edzes()
     {
-        //TODO frontend-el összekötni és ott tudjon választani melyiket szeretne
         int valaszt = 0;
 
         switch(valaszt)
         {
             case 0: //harciEdzés
-                En = Kondi.harciEdzes(En);
+                En.harciEdzes();
                 break;
             case 1: //kardioEdzés
-                En = Kondi.kardioEdzes(En);
+                En.kardioEdzes();
                 break;
         }
     }
 
+//-------------------------------------------------
+//KASZINÓ
+
+    //TODO valaszt és osszegnek megkell adni az erteket frontendről
+    public void kaszino()
+    {
+        int valaszt = 0;
+
+        int osszeg = 0;
+
+        switch (valaszt)
+        {
+            case 0:
+                kaszinoPoker(osszeg);
+                break;
+            case 1:
+                kaszinoRulett(osszeg);
+                break;
+            case 2:
+                kaszinoBlackj(osszeg);
+                break;
+        }
+    }
 
     public void kaszinoPoker (int osszeg)
     {
@@ -140,6 +165,42 @@ public class GameController {
     {
         En = Kaszino.blackJack(En, osszeg);
     }
+
+//-------------------------------------------------
+
+//-----------------------------------------------
+//AUTOMATA
+
+    //TODO darabjegynek frontendről kapja meg az adatott
+    public void jegyVasarlas()
+    {
+        int darabjegy = 0;
+
+        En.jegyvasarlas(darabjegy);
+    }
+
+//-------------------------------------------------
+
+//-------------------------------------------------
+//LEPES
+
+
+    public void lepes ()
+    {
+        boolean valaszt = true;
+
+        if(En.lepes(valaszt))
+        {
+            //NEM KAPTA EL AZ ELLENŐR
+        }
+        else
+        {
+            //ELKAPTA AZ ELLENŐR
+        }
+    }
+
+
+//--------------------------------------------------
 
     // Context csak a Toast miatt jön, totál ideiglenes
     protected void HandleQR(char method, String version, String data, Context v) throws Exception{
@@ -164,6 +225,18 @@ public class GameController {
             case '3':
                 Toast.makeText(v, "KONDI", Toast.LENGTH_LONG).show();
                 edzes();
+                break;
+            case '4':
+                Toast.makeText(v, "AUTOMATA", Toast.LENGTH_LONG).show();
+                jegyVasarlas();
+                break;
+            case '5':
+                Toast.makeText(v, "KASZINÓ", Toast.LENGTH_LONG).show();
+                kaszino();
+                break;
+            case '6':
+                Toast.makeText(v, "LEPES", Toast.LENGTH_LONG).show();
+                lepes();
                 break;
             default:
                 throw new Exception("Ismeretlen QR kód utasítás.");
