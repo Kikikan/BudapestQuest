@@ -218,8 +218,8 @@ public class GameController {
                 break;
             case "2":
                 Targy talat = HuzottKartyak.talaltTargy();
-
                 //TODO frontend, hogy vállaszon melyik kell neki
+                itamCsere(talat);
                 break;
 
         }
@@ -240,7 +240,16 @@ public class GameController {
 
 //--------------------------------------------------
 
+    //TODO összehozni, hogy tudjon választani a felhasználó, hogy akar cserélni
+    public void itamCsere (Targy targy)
+    {
+        boolean akarcserelni = true;
 
+        if(akarcserelni)
+        {
+            En.targyCsere(targy);
+        }
+    }
 
 
     // Context csak a Toast miatt jön, totál ideiglenes
@@ -257,8 +266,6 @@ public class GameController {
                 break;
 
             case '1':
-                Toast.makeText(v, "MUNKA", Toast.LENGTH_LONG).show();
-                munka();
                 break;
 
             // Akciókártyák
@@ -286,7 +293,10 @@ public class GameController {
                 Toast.makeText(v, "KARTYAHUZAS", Toast.LENGTH_LONG).show();
                 kartyahuzas(data);
                 break;
-
+            case '8':
+                Toast.makeText(v, "MUNKA", Toast.LENGTH_LONG).show();
+                munka();
+                break;
 
 
             default:

@@ -196,4 +196,16 @@ public class Karakter {
     }
 
 
+    public void targyCsere (Targy targy)
+    {
+        for(int i = 0; i < Felszereles.length; i++)
+        {
+            if(Felszereles[i].Slot == targy.Slot)
+            {
+                Felszereles[i] = targy;
+                break;
+            }
+        }
+    }
+
 }
