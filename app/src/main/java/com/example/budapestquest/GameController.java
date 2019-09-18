@@ -10,6 +10,8 @@ import android.widget.Toast;
 import com.example.budapestquest.Karakterek.Buda;
 import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.Karakterek.Pest;
+import com.example.budapestquest.Targyak.Targy;
+import com.example.budapestquest.akcioKartyak.HuzottKartyak;
 import com.example.budapestquest.akcioKartyak.Kaszino;
 import com.google.zxing.WriterException;
 
@@ -184,23 +186,62 @@ public class GameController {
 //-------------------------------------------------
 //LEPES
 
-
-    public void lepes ()
+    public void lepes (String data)
     {
-        boolean valaszt = true;
+        boolean valaszt = data.charAt(1)=='1';
 
-        if(En.lepes(valaszt))
+        if(!En.lepes(valaszt))
         {
-            //NEM KAPTA EL AZ ELLENŐR
-        }
-        else
-        {
-            //ELKAPTA AZ ELLENŐR
+            //kimarad a körből
         }
     }
 
 
 //--------------------------------------------------
+
+
+//--------------------------------------------------
+//kartyahuzas
+    public void kartyahuzas(String data)
+    {
+        switch (data)
+        {
+            case "0":
+                int nyert = HuzottKartyak.talalVagyVeszitPenzt();
+                En.FT += nyert;
+                //TODO kiírathatja mennyit nyert
+                break;
+            case "1":
+                int veszit = HuzottKartyak.talalVagyVeszitPenzt();
+                En.FT -= veszit;
+                //TODO kiírathatja mennyit veszített
+                break;
+            case "2":
+                Targy talat = HuzottKartyak.talaltTargy();
+
+                //TODO frontend, hogy vállaszon melyik kell neki
+                break;
+
+        }
+    }
+
+//--------------------------------------------------
+
+//--------------------------------------------------
+//munka
+
+    //TODO db-t megadni frontendről
+    public void munka()
+    {
+        int db = 0;
+
+        En.munka(db);
+    }
+
+//--------------------------------------------------
+
+
+
 
     // Context csak a Toast miatt jön, totál ideiglenes
     protected void HandleQR(char method, String version, String data, Context v) throws Exception{
@@ -214,7 +255,10 @@ public class GameController {
                 Toast.makeText(v, "Beolvasott karakter:" + enemy.Name + " ("+ Karakter.EgyetemIDToString(enemy.UNI) +")", Toast.LENGTH_LONG).show();
 
                 break;
+
             case '1':
+                Toast.makeText(v, "MUNKA", Toast.LENGTH_LONG).show();
+                munka();
                 break;
 
             // Akciókártyák
@@ -236,8 +280,15 @@ public class GameController {
                 break;
             case '6':
                 Toast.makeText(v, "LEPES", Toast.LENGTH_LONG).show();
-                lepes();
+                lepes(data);
                 break;
+            case '7':
+                Toast.makeText(v, "KARTYAHUZAS", Toast.LENGTH_LONG).show();
+                kartyahuzas(data);
+                break;
+
+
+
             default:
                 throw new Exception("Ismeretlen QR kód utasítás.");
         }

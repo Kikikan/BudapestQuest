@@ -37,6 +37,7 @@ public class Karakter {
     public double   DeP = 0;
     public double   CR = 0.05;
     public double   DO = 0.05;
+    public int      korbolKimaradas = 0;
 
     public Targy[] Felszereles = new Targy[4];
 
@@ -135,6 +136,13 @@ public class Karakter {
 
     public boolean lepes(boolean vonaljegyHasznalata)
     {
+        if(korbolKimaradas != 0)
+        {
+            korbolKimaradas--;
+
+            return false;
+        }
+
         if(vonaljegyHasznalata)
         {
             Vonaljegy--;
@@ -145,9 +153,17 @@ public class Karakter {
 
             if(random <= 25)
             {
-                //elkapta az elenőr
+                if(FT >= 60)
+                {
+                    FT -= 60;
 
-                return false;
+                }
+                else
+                {
+                    korbolKimaradas -= 1;
+                    return false;
+                }
+
             }
         }
 
@@ -171,5 +187,13 @@ public class Karakter {
 
         DeP += 2;
     }
+
+    public void munka (int db)
+    {
+        korbolKimaradas += db;
+
+        FT += 15 * db;
+    }
+
 
 }
