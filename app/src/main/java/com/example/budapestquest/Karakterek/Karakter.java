@@ -167,7 +167,6 @@ public class Karakter {
                 if(FT >= 60)
                 {
                     FT -= 60;
-
                 }
                 else
                 {
@@ -183,20 +182,23 @@ public class Karakter {
 
     public void  harciEdzes ()
     {
-        int belepo = 150;
+        int belepo = 160;
 
         FT -= belepo;
 
+        DMG += 2;
         DaP += 2;
+        CR += 2;
     }
 
     public void kardioEdzes ()
     {
-        int belepo = 150;
+        int belepo = 160;
 
         FT -= belepo;
-
+        HP += 2;
         DeP += 2;
+        DO += 2;
     }
 
     public void munka (int db)
@@ -206,7 +208,9 @@ public class Karakter {
         FT += 15 * db;
     }
 
-
+    //Azt csinálja, hogy a meglévő tárgyat kicseréli arra a tárgyra amit váltózóként megadunk neki
+    //I hope értehtő vagyok :D
+    //Mindenkinek szép kódolást :D
     public void targyCsere (Targy targy)
     {
         for(int i = 0; i < Felszereles.length; i++)

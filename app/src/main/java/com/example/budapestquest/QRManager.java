@@ -17,7 +17,10 @@ public class QRManager {
     public final static char QR_HARC2   = '1';
     public final static char QR_BOLT    = '2';
     public final static char QR_KONDI   = '3';
-    public final static char QR_KASZINO = '4';
+    public final static char QR_AUTOMATA= '4';
+    public final static char QR_KASZINO = '5';
+    public final static char QR_LEPES   = '6';
+    public final static char QR_AKCIOK  = '7';
     public final static char QR_MUNKA   = '8';
 
     /*

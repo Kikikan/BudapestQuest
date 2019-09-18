@@ -3,6 +3,8 @@ package com.example.budapestquest.akcioKartyak;
 import com.example.budapestquest.GameController;
 import com.example.budapestquest.Karakterek.Karakter;
 
+//SZAR
+//Karakter-ben benne van
 public class Kondi{
     private static final int belepo_harci = 100;
     private static final int belepo_kardio = 100;

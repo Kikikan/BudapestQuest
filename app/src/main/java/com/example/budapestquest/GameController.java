@@ -157,17 +157,17 @@ public class GameController {
 
     public void kaszinoPoker (int osszeg)
     {
-        En = Kaszino.poker(En, osszeg);
+        Kaszino.poker(osszeg);
     }
 
     public void kaszinoRulett (int osszeg)
     {
-        En = Kaszino.rulett(En, osszeg);
+        Kaszino.rulett(osszeg);
     }
 
     public void kaszinoBlackj (int osszeg)
     {
-        En = Kaszino.blackJack(En, osszeg);
+        Kaszino.blackJack(osszeg);
     }
 
 //-------------------------------------------------
@@ -265,7 +265,7 @@ public class GameController {
     protected void HandleQR(char method, String version, String data, Context v) throws Exception{
         switch (method){
             // Aréna
-            case '0':
+            case QRManager.QR_HARC1:
                 if (!version.equals(Version))
                     throw new Exception("Különböző játékverzió. ( beolvasott: "+version+" != mienk: "+Version+" )");
 
@@ -274,35 +274,35 @@ public class GameController {
 
                 break;
 
-            case '1':
+            case QRManager.QR_HARC2:
                 break;
 
             // Akciókártyák
             //TODO: Panelek megnyitása
-            case '2'://bolt (felhasználó választja ki mit vásárol)
+            case QRManager.QR_BOLT://bolt (felhasználó választja ki mit vásárol)
                 Toast.makeText(v, "BOLT", Toast.LENGTH_LONG).show();
                 break;
-            case '3'://kondi (felhasználó választja ki mit akar edzeni/ data: 0 erőnléti, 1 kondi)
+            case QRManager.QR_KONDI://kondi (felhasználó választja ki mit akar edzeni/ data: 0 erőnléti, 1 kondi)
                 Toast.makeText(v, "KONDI", Toast.LENGTH_LONG).show();
                 edzes();
                 break;
-            case '4'://automata (felhasználó választja ki mennyit akar venni)
+            case QRManager.QR_AUTOMATA://automata (felhasználó választja ki mennyit akar venni)
                 Toast.makeText(v, "AUTOMATA", Toast.LENGTH_LONG).show();
                 jegyVasarlas();
                 break;
-            case '5'://kaszinó (felhasználó választja ki mit akar játszani)
+            case QRManager.QR_KASZINO://kaszinó (felhasználó választja ki mit akar játszani)
                 Toast.makeText(v, "KASZINÓ", Toast.LENGTH_LONG).show();
                 kaszino();
                 break;
-            case '6'://lepes(data tárolja: 1 használ jegyet, 0 nem használ jegyet)
+            case QRManager.QR_LEPES://lepes(data tárolja: 1 használ jegyet, 0 nem használ jegyet)
                 Toast.makeText(v, "LEPES", Toast.LENGTH_LONG).show();
                 lepes(data);
                 break;
-            case '7'://akciókártya húzása(data tárolja: 0 penz+, 1 penz-, 2 targy+) (azért nincs targy- mert tul nagy hátrány)
+            case QRManager.QR_AKCIOK://akciókártya húzása(data tárolja: 0 penz+, 1 penz-, 2 targy+) (azért nincs targy- mert tul nagy hátrány)
                 Toast.makeText(v, "KARTYAHUZAS", Toast.LENGTH_LONG).show();
                 kartyahuzas(data);
                 break;
-            case '8'://munka (majd a felhasználó választja ki mennyit akar dolgozni)
+            case QRManager.QR_MUNKA://munka (majd a felhasználó választja ki mennyit akar dolgozni)
                 Toast.makeText(v, "MUNKA", Toast.LENGTH_LONG).show();
                 munka();
                 break;
