@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Tab3">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Dobókocka"
+        android:textSize="36sp" />
+
+    <TextView
+        android:id="@+id/doboTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="0"
+        android:textAlignment="gravity"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/doboButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dobás!"
+        android:textSize="18sp" />
+
+</LinearLayout>
