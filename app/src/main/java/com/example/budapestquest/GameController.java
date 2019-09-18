@@ -132,10 +132,19 @@ public class GameController {
 //-------------------------------------------------
 //KASZINÓ
 
-    //TODO valaszt és osszegnek megkell adni az erteket frontendről
-    public void kaszino()
+    //TODO kiválasztani, hogy melyik játékkal akar játszani
+    public void kaszinoValasztas()
     {
-        int valaszt = 0;
+        for(int i = 0; i < 3; i++)
+        {
+            int valaszt = 0;
+            kaszino(valaszt);
+        }
+    }
+
+    //TODO valaszt és osszegnek megkell adni az erteket frontendről
+    public void kaszino(int valaszt)
+    {
 
         int osszeg = 0;
 
@@ -292,7 +301,7 @@ public class GameController {
                 break;
             case '5'://kaszinó (felhasználó választja ki mit akar játszani)
                 Toast.makeText(v, "KASZINÓ", Toast.LENGTH_LONG).show();
-                kaszino();
+                kaszinoValasztas();
                 break;
             case '6'://lepes(data tárolja: 1 használ jegyet, 0 nem használ jegyet)
                 Toast.makeText(v, "LEPES", Toast.LENGTH_LONG).show();
