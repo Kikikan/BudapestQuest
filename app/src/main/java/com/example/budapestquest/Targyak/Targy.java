@@ -1,5 +1,9 @@
 package com.example.budapestquest.Targyak;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
 public class Targy {
     public static final int FEJ_ID = 0;
     public static final int MELLKAS_ID = 1;
@@ -15,15 +19,15 @@ public class Targy {
     public final int ItemID;
     public final int ModifierID;
 
-    // Habár ezek itt redundánsak, az ID-ket célszerű tárolni a serializáció miatt + késöbb nem kell indexOf
+    // Habár ezek itt redundánsak, az ID-ket célszerű tárolni a serializáció miatt, ezeket meg azért, hogy nem kelljen mindig tömbökben turkálni.
     public final Item item;
     public final Modifier modifier;
 
     public Targy(int _Slot, int _Tier, int _ItemID, int _ModifierID){
         if(_Slot < 0 || _Slot > 3)
-            throw new IllegalArgumentException("Nem létező slot.");
+            throw new IllegalArgumentException("Nem létező Slot.");
         if(_Tier < 0 || _Tier > 2)
-            throw new IllegalArgumentException("Nem létező tier.");
+            throw new IllegalArgumentException("Nem létező Tier.");
 
         Slot = _Slot;
         Tier = _Tier;
@@ -32,132 +36,152 @@ public class Targy {
         ModifierID = _ModifierID;
 
         if((item = GetItem(Slot, Tier, ItemID)) == null)
-            throw new IllegalArgumentException("Nem létező item.");
-        if((modifier = GetModifier(ModifierID)) == null)
-            throw new IllegalArgumentException("Nem létező modifier.");
+            throw new IllegalArgumentException("Nem létező Item.");
+        if((modifier = GetModifier(Slot, ModifierID)) == null)
+            throw new IllegalArgumentException("Nem létező Modifier.");
+    }
+
+    public static WeightedContainer<Item> GetItemContainer(int Slot, int Tier){
+        if((Slot < 0 || Slot > 3) || (Tier< 0 || Tier > 2))
+            throw new IllegalArgumentException("Nem létező Slot / Tier.");
+        return ItemSchema[Slot][Tier];
+    }
+
+    public static WeightedContainer<Modifier> GetModifierContainer(int Slot){
+        if(Slot < 0 || Slot > 3)
+            throw new IllegalArgumentException("Nem létező Slot.");
+        return Modifiers[(Slot / 3)];
+    }
+
+    public double GetRarity(){
+        return GetItemRarity() * GetModifierRarity();
+    }
+
+    public double GetItemRarity(){
+        WeightedContainer<Item> t = GetItemContainer(Slot, Tier);
+        return t.Items[ItemID].Weight / t.CalculatedWeight;
+    }
+
+    public double GetModifierRarity(){
+        WeightedContainer<Modifier> m = GetModifierContainer(Slot);
+        return m.Items[ModifierID].Weight / m.CalculatedWeight;
     }
 
     public static Item GetItem(int Slot, int Tier, int ItemID){
-        try{
-            switch (Slot){
-                case FEJ_ID:        return Fejek[Tier].Items[ItemID];
-                case MELLKAS_ID:    return Mellkasok[Tier].Items[ItemID];
-                case LAB_ID:        return Labak[Tier].Items[ItemID];
-                case FEGYVER_ID:    return Fegyverek[Tier].Items[ItemID];
-                default: return null;
-            }
-        }catch (IndexOutOfBoundsException e){
-            return null;
-        }
+        WeightedContainer<Item> c = GetItemContainer(Slot, Tier);
+        if(c == null)
+            throw new IllegalArgumentException("Nem létező Slot / Tier.");
+        if(ItemID < 0 || ItemID > c.Items.length)
+            throw new IllegalArgumentException("Nem létező Tárgy.");
+        return c.Items[ItemID];
     }
 
-    public static Modifier GetModifier(int ModifierID){
-        try {
-            return Modifiers.Items[ModifierID];
-        }catch (IndexOutOfBoundsException e){
-            return null;
-        }
+    public static Modifier GetModifier(int Slot, int ModifierID){
+        WeightedContainer<Modifier> m = GetModifierContainer(Slot);
+        if(m == null)
+            throw new IllegalArgumentException("Nem létező Modifier.");
+        if(ModifierID < 0 || ModifierID > m.Items.length)
+            throw new IllegalArgumentException("Nem létező Modifier.");
+        return m.Items[ModifierID];
     }
 
     //TODO: Ezt itt alul mind helyrerakni + feltölteni contenttel
-
     //TODO: Esetleg valami adatbázisba kiszervezni az egészet, amit aztán lehet majd frissíteni?
-
-    /* FEJ ITEMEK */
-    public static final Item[] Fej_T1 = {
-            new Item("Hálósapka", "Menőn néz ki.", 3.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-    };
-    public static final Item[] Fej_T2 = {
-            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-    };
-    public static final Item[] Fej_T3 = {
-            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-    };
-    public static final WeightedContainer<Item>[] Fejek = new WeightedContainer[]{
-            new WeightedContainer<>(Fej_T1),
-            new WeightedContainer<>(Fej_T2),
-            new WeightedContainer<>(Fej_T3)
-    };
-
-    /* MELLKAS ITEMEK */
-    public static final Item[] Mellkas_T1 = {
-            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-    };
-    public static final Item[] Mellkas_T2 = {
-            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-    };
-    public static final Item[] Mellkas_T3 = {
-            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-    };
-    public static final WeightedContainer<Item>[] Mellkasok = new WeightedContainer[]{
-            new WeightedContainer<>(Mellkas_T1),
-            new WeightedContainer<>(Mellkas_T2),
-            new WeightedContainer<>(Mellkas_T3)
-    };
-
-    /* LÁB ITEMEK */
-    public static final Item[] Lab_T1 = {
-            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-    };
-    public static final Item[] Lab_T2 = {
-            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-    };
-    public static final Item[] Lab_T3 = {
-            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-    };
-    public static final WeightedContainer<Item>[] Labak = new WeightedContainer[]{
-            new WeightedContainer<>(Lab_T1),
-            new WeightedContainer<>(Lab_T2),
-            new WeightedContainer<>(Lab_T3)
-    };
-
-    /* FEGYVER ITEMEK */
-    public static final Item[] Fegyver_T1 = {
-            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-    };
-    public static final Item[] Fegyver_T2 = {
-            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-    };
-    public static final Item[] Fegyver_T3 = {
-            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-    };
-    public static final WeightedContainer<Item>[] Fegyverek = new WeightedContainer[]{
-            new WeightedContainer<Item>(Fegyver_T1),
-            new WeightedContainer<Item>(Fegyver_T2),
-            new WeightedContainer<Item>(Fegyver_T3)
+    public static final WeightedContainer<Item>[][] ItemSchema = new WeightedContainer[][]{
+            /* FEJ ITEMEK */
+            new WeightedContainer[]{
+                    new WeightedContainer<>(new Item[]{
+                            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                            new Item("Kalap", "Megvéd az UFÓktól.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                            new Item("Fejkendő", "Megvéd az UFÓktól.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    }),
+                    new WeightedContainer<>(new Item[]{
+                            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    }),
+                    new WeightedContainer<>(new Item[]{
+                            new Item("Bukósisak", "Menőn néz ki.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    })
+            },
+            /* MELLKAS ITEMEK */
+            new WeightedContainer[]{
+                    new WeightedContainer<>(new Item[]{
+                            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    }),
+                    new WeightedContainer<>(new Item[]{
+                            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    }),
+                    new WeightedContainer<>(new Item[]{
+                            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    })
+            },
+            /* LÁB ITEMEK */
+            new WeightedContainer[]{
+                    new WeightedContainer<>(new Item[]{
+                            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    }),
+                    new WeightedContainer<>(new Item[]{
+                            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    }),
+                    new WeightedContainer<>(new Item[]{
+                            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    })
+            },
+            /* FEGYVER ITEMEK */
+            new WeightedContainer[]{
+                    new WeightedContainer<>(new Item[]{
+                            new Item("Bot", "Egy bot...", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                            new Item("Esernyő", "Egy e-ser-NYŐ!", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                            new Item("Baseball ütő", "Most pofázzá'.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                            new Item("Törött borosüveg", "Lafiesta édes élmény.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    }),
+                    new WeightedContainer<>(new Item[]{
+                            new Item("Buzogány", "Menőn néz ki.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                            new Item("Bicska", "Van cigid? Buszjegyre kell.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                            new Item("Rozsdás bökő", "Tetanusz is coming.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    }),
+                    new WeightedContainer<>(new Item[]{
+                            new Item("MP5", "\uD83C\uDFB6All the other kids with the pumped up kicks\uD83C\uDFB6", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                            new Item("Láncfűrész", "Vrr-vrrrrrr", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                            new Item("Stielhandgranate", "*insert német szöveg here*.", 1.0f, 20, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    })
+            }
     };
 
-    /* MÓDOSÍTÓK */
-    public static final Modifier[] Modifiers_T = {
-            new Modifier("Átlagos", 10.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-            new Modifier("Epikus", 1.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-            new Modifier("Nagyon klassz", 2.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
-            new Modifier("Kurva szar", 5.0f, 0, 0.0f,0.0f,0.0f,0.0f,0.0f),
+    public static final WeightedContainer<Modifier>[] Modifiers = (WeightedContainer<Modifier>[])new WeightedContainer[]{
+            /* RUHÁRA */
+            new WeightedContainer<>(new Modifier[]{
+                    new Modifier("Szakadt", 2.0f, 0.6f, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    new Modifier("Rongyos", 5.0f, 0.8f, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    new Modifier("Átlagos", 12.0f, 1.0f, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    new Modifier("H&M-es", 5.0f, 1.3f, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    new Modifier("Epikus", 1.0f, 1.8f, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    new Modifier("Legendás", 0.5f, 2.2f, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+            }),
+            /* FEGYVERRE */
+            new WeightedContainer<>(new Modifier[]{
+                    new Modifier("Kurva szar", 2.0f, 0.6f, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    new Modifier("Törött", 5.0f, 0.8f, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    new Modifier("Átlagos", 12.0f, 1.0f, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    new Modifier("Nagyon klassz", 5.0f, 1.3f, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    new Modifier("Epikus", 1.0f, 1.8f, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+                    new Modifier("Legendás", 0.5f, 2.2f, 0.0f, 0.0f,0.0f,0.0f,0.0f,0.0f),
+            })
     };
-    public static final WeightedContainer<Modifier> Modifiers = new WeightedContainer<>(Modifiers_T);
 
-    public static Targy Generate(int slot, int tier){
-        if(tier < 0 || tier > 3) return null;
-        int itemid;
-        switch (slot){
-            case FEJ_ID:        itemid = Fejek[tier].GetRandom(); break;
-            case MELLKAS_ID:    itemid = Mellkasok[tier].GetRandom(); break;
-            case LAB_ID:        itemid = Labak[tier].GetRandom(); break;
-            case FEGYVER_ID:    itemid = Fegyverek[tier].GetRandom(); break;
-            default: return null;
-        }
-        return new Targy(slot, tier, itemid, Modifiers.GetRandom());
+    public static Targy Generate(int Slot, int Tier){
+        WeightedContainer<Item> c = GetItemContainer(Slot, Tier);
+        WeightedContainer<Modifier> m = GetModifierContainer(Slot);
+        if(c == null || m == null)
+            throw new IllegalArgumentException("Nem létező Slot / Tier.");
+        return new Targy(Slot, Tier, c.GetRandom(), m.GetRandom());
     }
 }

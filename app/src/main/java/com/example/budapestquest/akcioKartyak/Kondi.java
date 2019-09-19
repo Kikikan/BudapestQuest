@@ -1,73 +1,27 @@
 package com.example.budapestquest.akcioKartyak;
 
+import com.example.budapestquest.GameController;
 import com.example.budapestquest.Karakterek.Karakter;
 
-public class Kondi
-{
-    public static Karakter harciEdzes(Karakter en)
-    {
-        int belepo = 100;
+//SZAR
+//Karakter-ben benne van
+public class Kondi{
+    private static final int belepo_harci = 160;
+    private static final int belepo_kardio = 160;
 
-        en.FT -= belepo;
+    public void harciEdzes() {
+        GameController.En.FT -= belepo_harci;
 
-        //TODO KÉRDÉS (optimalizálok): Ha 40 pontja van akkor melyikhez tartozon?
-        if(en.DaP < 40)
-        {
-            en.DaP += 3;
-        }
-        else
-        {
-            en.DaP += 2;
-        }
-
-        return en;
+        GameController.En.DMG += 2*10;
+        GameController.En.DaP += 2;
+        GameController.En.CR += 2;
     }
 
-    public static Karakter kardioEdzes (Karakter en)
-    {
-        //TODO KÉRDÉS (optimalizálok): 1 egység legyen az ára?
-        int belepo = 100;
+    public void kardioEdzes() {
+        GameController.En.FT -= belepo_kardio;
 
-        en.FT -= belepo;
-
-
-        if(en.DeP < 40)
-        {
-            en.DeP += 6;
-        }
-        else
-        {
-            en.DeP += 4;
-        }
-
-        return en;
-    }
-
-    public static Karakter vegyesEdzes (Karakter en)
-    {
-        int belepo = 180;
-
-        en.FT -= belepo;
-
-
-        if(en.DeP < 40)
-        {
-            en.DeP += 6;
-        }
-        else
-        {
-            en.DeP += 4;
-        }
-
-        if(en.DaP < 40)
-        {
-            en.DaP += 3;
-        }
-        else
-        {
-            en.DaP += 2;
-        }
-
-        return en;
+        GameController.En.HP += 2*100;
+        GameController.En.DeP += 2;
+        GameController.En.DO += 2;
     }
 }

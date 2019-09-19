@@ -1,4 +1,4 @@
-package com.example.budapestquest.ui.main;
+package com.example.budapestquest.Karakterek;
 import com.example.budapestquest.GameController;
 import com.example.budapestquest.Karakterek.Karakter;
 
