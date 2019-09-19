@@ -48,8 +48,10 @@ public class harc_act extends AppCompatActivity {
     public boolean Fight(Karakter enemy, boolean enkezdek){
         Karakter en = GameController.En;
 
+        // TÖRÖLD KI HA SIKERÜLT QR KÓDDAL MEGNYITNI AZ ACTIVITYT
         boolean debug = true;
         boolean debug_vesztett = true;
+        //IDÁIG
 
 
         double HPen = en.HP, HPenemy = enemy.HP;
@@ -58,6 +60,7 @@ public class harc_act extends AppCompatActivity {
         Random rand = new Random(en.RandFactor ^ enemy.RandFactor);
         en.RandFactor = new Random().nextInt();
 
+        // TÖRÖLD KI HA SIKERÜLT QR KÓDDAL MEGNYITNI AZ ACTIVITYT
         if(debug){
             if(debug_vesztett){
                 vesztes.setText("Vesztettél!");
@@ -66,6 +69,7 @@ public class harc_act extends AppCompatActivity {
                 nyertes.setText("Nyertél!");
             }
         }
+        //IDÁIG
 
         if(enkezdek)
             if((HPenemy -= SimulateKor(en, enemy, rand, kor++)) < 0){
