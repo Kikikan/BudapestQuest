@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     // Ideiglenes teszt gomb az Item generálásra
     public void RandItemGen(View v){
         Targy t = Targy.Generate(Targy.FEJ_ID, Targy.TIER_1);
-        Toast.makeText(getApplicationContext(), "Tárgy: " + t.modifier.Name + " " + t.item.Name + " (Tier: "+(t.Tier+1)+")", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Tárgy: " + t.modifier.Name + " " + t.item.Name + " (Tier: "+(t.Tier+1)+") Ennek esélye: " + t.GetRarity(), Toast.LENGTH_SHORT).show();
     }
 
     // QR Kód feldolgozás csak jelenleg

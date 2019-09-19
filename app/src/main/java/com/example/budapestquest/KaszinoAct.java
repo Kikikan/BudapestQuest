@@ -3,18 +3,11 @@ package com.example.budapestquest;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.Toast;
+import android.view.View;
 
 import java.util.Random;
 
-public class kaszino_act extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_kaszino_act);
-    }
-
+public class KaszinoAct extends AppCompatActivity {
     private static final int pokerszint = 50;
     public static final double pokerodds = 0.45;
 
@@ -26,7 +19,18 @@ public class kaszino_act extends AppCompatActivity {
 
     public static final Random rand = new Random();
 
-    public static void poker(int osszeg) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_kaszino);
+    }
+
+    public int GetOsszeg(){
+        return 10;
+    }
+
+    public void ButtonPoker(View v) {
+        int osszeg = GetOsszeg();
         if(isNyer(pokerszint)) {
             GameController.En.FT += (int) (osszeg * pokerodds);
             //Toast.makeText(getApplicationContext(), "Nyert", 2);
@@ -37,7 +41,8 @@ public class kaszino_act extends AppCompatActivity {
         }
     }
 
-    public static void rulett(int osszeg) {
+    public void ButtonRulett(View v) {
+        int osszeg = GetOsszeg();
         if(isNyer(ruletszint)) {
             GameController.En.FT += (int) (osszeg * ruletodds);
             //Toast.makeText(getApplicationContext(), "Nyert", 2);
@@ -48,7 +53,8 @@ public class kaszino_act extends AppCompatActivity {
         }
     }
 
-    public static void blackJack(int osszeg) {
+    public void ButtonJack(View v) {
+        int osszeg = GetOsszeg();
         if(isNyer(blackszint)) {
             GameController.En.FT += (int) (osszeg * blackodds);
             //Toast.makeText(getApplicationContext(), "Nyert", 2);

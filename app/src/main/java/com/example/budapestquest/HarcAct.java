@@ -2,24 +2,58 @@ package com.example.budapestquest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.view.View;
 
-import com.example.budapestquest.GameController;
 import com.example.budapestquest.Karakterek.Karakter;
-import com.example.budapestquest.R;
+import com.google.zxing.WriterException;
 
 import java.util.Random;
 
-public class harc_act extends AppCompatActivity {
+public class HarcAct extends AppCompatActivity {
 
-    TextView nyertes = (TextView)findViewById(R.id.nyertesIndikator);
-    TextView vesztes = (TextView)findViewById(R.id.vesztesIndikator);
+    private TextView nyertes;
+    private TextView vesztes;
+    private ImageView qrkod;
+
+    Karakter enemy;
+    boolean enkezd;
+    Random rand;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_harc_act);
+        setContentView(R.layout.activity_harc);
+
+        nyertes = findViewById(R.id.nyertesIndikator);
+        vesztes = findViewById(R.id.vesztesIndikator);
+        qrkod = findViewById(R.id.qrView2);
+
+        if((enemy = Karakter.Deserialize(getIntent().getStringExtra("ENEMY"))) == null) {
+            Toast.makeText(getApplicationContext(), "Hiba a karakter beolvasásnál.", Toast.LENGTH_LONG).show();
+            this.finish();
+        }
+        enkezd = getIntent().getBooleanExtra("ENKEZD", false);
+        rand = new Random(GameController.En.RandFactor ^ enemy.RandFactor);
+
+        try {
+            Bitmap bitmap = QRManager.TextToImageEncode(QRManager.QR_HARC2, GameController.En.Serialize());
+            qrkod.setImageBitmap(bitmap);
+        }
+        catch (WriterException e) {
+            e.printStackTrace();
+        }
     }
+
+    public void startFight(View v){
+        Toast.makeText(getApplicationContext(), "FIGHT START. Nyert: " + Fight(enemy, enkezd) + " Random: ", Toast.LENGTH_LONG).show();
+    }
+
     public void SortKiir(String str){
         return;
     }
@@ -57,7 +91,7 @@ public class harc_act extends AppCompatActivity {
         double HPen = en.HP, HPenemy = enemy.HP;
         int kor = 1;
 
-        Random rand = new Random(en.RandFactor ^ enemy.RandFactor);
+
         en.RandFactor = new Random().nextInt();
 
         // TÖRÖLD KI HA SIKERÜLT QR KÓDDAL MEGNYITNI AZ ACTIVITYT
