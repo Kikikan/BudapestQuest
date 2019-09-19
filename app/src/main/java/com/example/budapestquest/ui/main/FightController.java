@@ -14,12 +14,13 @@ public class FightController {
         Karakter tamado = En;
         Karakter vedekezo = ellenfel;
         while (actHP > 0 && eActHP > 0) {
+            // Ilyenor fordulnak a szerepek
             if (kor % 2 == 0) {
                 tamado = ellenfel;
-                vedekezo = tamado;
+                vedekezo = GameController.En;
             }
             System.out.println(kor + ". kör, " + tamado.Name + " támad:");
-
+            //Itt generálom le a két random számot, ami eldönti, hogy a védekező dodge-ol, vagy a támadó critel
             double random1 = Math.random()*100.0;
             double random2 = Math.random()*100.0;
 
