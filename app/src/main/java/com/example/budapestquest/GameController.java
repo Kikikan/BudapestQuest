@@ -226,7 +226,9 @@ public class GameController {
                 itamCsere(talat);
                 break;
                 //azért nincsen targy-, mert túl nagy veszteség
-
+            case "3"://aréna győzelem
+                En.arenaBajnok();
+                break;
         }
     }
 

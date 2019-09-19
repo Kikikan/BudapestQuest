@@ -222,4 +222,10 @@ public class Karakter {
             }
         }
     }
+
+    public void arenaBajnok()
+    {
+        XP += 5;
+        FT += 100;
+    }
 }
