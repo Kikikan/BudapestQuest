@@ -18,16 +18,8 @@ import com.example.budapestquest.Karakterek.Buda;
 import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.Karakterek.Pest;
 import com.example.budapestquest.akcioKartyak.HuzottKartyak;
-import com.example.budapestquest.akcioKartyak.Kaszino;
 import com.example.budapestquest.Targyak.Targy;
 import com.example.budapestquest.akcioKartyak.Kondi;
-
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 
 public class GameController {
     public static final String Version = "1000";

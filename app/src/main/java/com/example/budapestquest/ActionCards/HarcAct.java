@@ -82,7 +82,7 @@ public class HarcAct extends AppCompatActivity {
                 return (int) (((100 - vedekezo.DeP) / 100) * ((100 + tamado.DMG) / 100) * tamado.DMG);
             }
         }
-        return 0;
+        return 0; 
     }
 
     // Visszaadja, hogy győztünk-e
