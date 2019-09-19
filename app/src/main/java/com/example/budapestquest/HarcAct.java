@@ -41,17 +41,21 @@ public class HarcAct extends AppCompatActivity {
         enkezd = getIntent().getBooleanExtra("ENKEZD", false);
         rand = new Random(GameController.En.RandFactor ^ enemy.RandFactor);
 
-        try {
+        Bitmap bitmap = QRManager.TextToImageEncode(QRManager.QR_HARC2, GameController.En.Serialize());
+        qrkod.setImageBitmap(bitmap);
+
+        /*if(enkezd) {
             Bitmap bitmap = QRManager.TextToImageEncode(QRManager.QR_HARC2, GameController.En.Serialize());
             qrkod.setImageBitmap(bitmap);
-        }
-        catch (WriterException e) {
-            e.printStackTrace();
-        }
+        }else
+            qrkod.setVisibility(View.INVISIBLE);
+
+         */
+
     }
 
     public void startFight(View v){
-        Toast.makeText(getApplicationContext(), "FIGHT START. Nyert: " + Fight(enemy, enkezd) + " Random: ", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "FIGHT START. Nyert: " + Fight(enemy, enkezd) + " Random: " + (GameController.En.RandFactor ^ enemy.RandFactor), Toast.LENGTH_LONG).show();
     }
 
     public void SortKiir(String str){
