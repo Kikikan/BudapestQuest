@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".kaszino_act">
+    tools:context=".KaszinoAct">
 
     <TextView
         android:id="@+id/textView"
@@ -21,6 +21,7 @@
         android:layout_height="46dp"
         android:background="#00FFFFFF"
         android:text="Póker"
+        android:onClick="ButtonPoker"
         tools:layout_editor_absoluteX="84dp"
         tools:layout_editor_absoluteY="222dp" />
 
@@ -30,6 +31,7 @@
         android:layout_height="46dp"
         android:background="#00FFFFFF"
         android:text="Rulett"
+        android:onClick="ButtonRulett"
         tools:layout_editor_absoluteX="84dp"
         tools:layout_editor_absoluteY="342dp" />
 
@@ -39,6 +41,7 @@
         android:layout_height="46dp"
         android:background="#00FFFFFF"
         android:text="Black Jack"
+        android:onClick="ButtonJack"
         tools:layout_editor_absoluteX="84dp"
         tools:layout_editor_absoluteY="462dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

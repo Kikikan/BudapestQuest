@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".harc_act" />
+        <activity android:name=".HarcAct"></activity>
+        <activity android:name=".KaszinoAct"></activity>
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"

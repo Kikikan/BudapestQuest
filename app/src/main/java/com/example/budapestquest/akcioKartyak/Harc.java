@@ -9,7 +9,7 @@ public class Harc {
 
 
     //TODO: Kiírni a harc logot
-    public void SortKiir(String str){
+    public static void SortKiir(String str){
         return;
     }
 
@@ -17,7 +17,7 @@ public class Harc {
      * Leszimulál egy kört.
      * Visszaadja, hogy a támadó mekkora sebzést vitt be a védekezőnek
      * */
-    public int SimulateKor(Karakter tamado, Karakter vedekezo, Random rand, int kor){
+    public static int SimulateKor(Karakter tamado, Karakter vedekezo, Random rand, int kor){
         SortKiir(kor + ". kör, " + tamado.Name + " támad:");
 
         if (rand.nextDouble() < vedekezo.DO) {
@@ -34,12 +34,13 @@ public class Harc {
     }
 
     // Visszaadja, hogy győztünk-e
-    public boolean Fight(Karakter enemy, boolean enkezdek){
+    public static boolean Fight(Karakter enemy, boolean enkezdek){
         Karakter en = GameController.En;
 
         double HPen = en.HP, HPenemy = enemy.HP;
         int kor = 1;
 
+        // Közös random
         Random rand = new Random(en.RandFactor ^ enemy.RandFactor);
         en.RandFactor = new Random().nextInt();
 

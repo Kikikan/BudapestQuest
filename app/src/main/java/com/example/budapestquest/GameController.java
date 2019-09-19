@@ -6,13 +6,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent;
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.budapestquest.Karakterek.Buda;
 import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.Karakterek.Pest;
-import com.example.budapestquest.Targyak.Targy;
 import com.example.budapestquest.akcioKartyak.HuzottKartyak;
 import com.example.budapestquest.akcioKartyak.Kaszino;
+import com.example.budapestquest.Targyak.Targy;
 import com.google.zxing.WriterException;
 
 import java.io.BufferedReader;
@@ -60,7 +63,7 @@ public class GameController {
         crText.setText("Kritikus Sebzés Esélye: " + En.CR + "%");
         doText.setText("Kivédés Esélye: " + En.DO + "%");
         try {
-            Bitmap bitmap = QRManager.TextToImageEncode('0',En.Serialize());
+            Bitmap bitmap = QRManager.TextToImageEncode(QRManager.QR_HARC1,En.Serialize());
             qrView.setImageBitmap(bitmap);
         }
         catch (WriterException e) {
@@ -68,6 +71,7 @@ public class GameController {
         }
     }
 
+    //TODO: mentés / betöltés
     public static Karakter Load(File fp, String fn) {
         try {
             File file = new File(fp, fn);
@@ -142,32 +146,15 @@ public class GameController {
         switch (valaszt)
         {
             case 0:
-                kaszinoPoker(osszeg);
+                Kaszino.poker(osszeg);
                 break;
             case 1:
-                kaszinoRulett(osszeg);
+                Kaszino.rulett(osszeg);
                 break;
             case 2:
-                kaszinoBlackj(osszeg);
+                Kaszino.blackJack(osszeg);
                 break;
         }
-    }
-
-    //Azért vannak ezek lentebb, hogy ha akarunk neki külön felületett szebben szét legyen szedve
-
-    public void kaszinoPoker (int osszeg)
-    {
-        Kaszino.poker(osszeg);
-    }
-
-    public void kaszinoRulett (int osszeg)
-    {
-        Kaszino.rulett(osszeg);
-    }
-
-    public void kaszinoBlackj (int osszeg)
-    {
-        Kaszino.blackJack(osszeg);
     }
 
 //-------------------------------------------------
@@ -203,9 +190,8 @@ public class GameController {
 //--------------------------------------------------
 
 
-//--------------------------------------------------
+    //--------------------------------------------------
 //kartyahuzas
-    //az akciókártyákat húz ami fizikai és qr-ből ide jön
     public void kartyahuzas(String data)
     {
         switch (data)
@@ -262,57 +248,66 @@ public class GameController {
         }
     }
 
-
     // Context csak a Toast miatt jön, totál ideiglenes
     protected void HandleQR(char method, String version, String data, Context v) throws Exception{
+        Intent intent;
         switch (method){
             // Aréna
             case QRManager.QR_HARC1:
+            case QRManager.QR_HARC2:
                 if (!version.equals(Version))
                     throw new Exception("Különböző játékverzió. ( beolvasott: "+version+" != mienk: "+Version+" )");
 
-                Karakter enemy = Karakter.Deserialize(data);
-                Toast.makeText(v, "Beolvasott karakter:" + enemy.Name + " ("+ Karakter.EgyetemIDToString(enemy.UNI) +")", Toast.LENGTH_LONG).show();
+                /*Karakter enemy = Karakter.Deserialize(data);
+                if(enemy == null)
+                    throw new Exception("Hiba a karakter beolvasásánál.");*/
 
-                break;
+                //Toast.makeText(v, "Beolvasott karakter:" + enemy.Name + " ("+ Karakter.EgyetemIDToString(enemy.UNI) +") Kezd: " + (method == QRManager.QR_HARC1 ? "én" : "ő"), Toast.LENGTH_LONG).show();
+                //Fight(this, enemy, method == QRManager.QR_HARC1);
 
-            case QRManager.QR_HARC2:
+                intent = new Intent(v, HarcAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("ENKEZD", method == QRManager.QR_HARC1);
+                intent.putExtra("ENEMY", data);
+                v.startActivity(intent);
                 break;
 
             // Akciókártyák
             //TODO: Panelek megnyitása
             case QRManager.QR_BOLT://bolt (felhasználó választja ki mit vásárol)
-                Toast.makeText(v, "BOLT", Toast.LENGTH_LONG).show();
+                intent = new Intent(v, KaszinoAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                v.startActivity(intent);
                 break;
             case QRManager.QR_KONDI://kondi (felhasználó választja ki mit akar edzeni/ data: 0 erőnléti, 1 kondi)
-                Toast.makeText(v, "KONDI", Toast.LENGTH_LONG).show();
-                edzes();
-                break;
-            case QRManager.QR_AUTOMATA://automata (felhasználó választja ki mennyit akar venni)
-                Toast.makeText(v, "AUTOMATA", Toast.LENGTH_LONG).show();
-                jegyVasarlas();
+                intent = new Intent(v, KaszinoAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                v.startActivity(intent);
                 break;
             case QRManager.QR_KASZINO://kaszinó (felhasználó választja ki mit akar játszani)
-                Toast.makeText(v, "KASZINÓ", Toast.LENGTH_LONG).show();
-                kaszino();
+                intent = new Intent(v, KaszinoAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                v.startActivity(intent);
                 break;
             case QRManager.QR_LEPES://lepes(data tárolja: 1 használ jegyet, 0 nem használ jegyet)
-                Toast.makeText(v, "LEPES", Toast.LENGTH_LONG).show();
-                lepes(data);
+                intent = new Intent(v, KaszinoAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                v.startActivity(intent);
                 break;
             case QRManager.QR_AKCIOK://akciókártya húzása(data tárolja: 0 penz+, 1 penz-, 2 targy+) (azért nincs targy- mert tul nagy hátrány)
-                Toast.makeText(v, "KARTYAHUZAS", Toast.LENGTH_LONG).show();
-                kartyahuzas(data);
+                intent = new Intent(v, KaszinoAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                v.startActivity(intent);
                 break;
             case QRManager.QR_MUNKA://munka (majd a felhasználó választja ki mennyit akar dolgozni)
-                Toast.makeText(v, "MUNKA", Toast.LENGTH_LONG).show();
+                intent = new Intent(v, KaszinoAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                v.startActivity(intent);
                 munka();
                 break;
-
-
             default:
                 throw new Exception("Ismeretlen QR kód utasítás.");
         }
+        Update();
     }
-
 }

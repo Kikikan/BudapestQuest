@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".harc_act">
+    tools:context=".HarcAct">
 
     <TextView
         android:id="@+id/nyertesIndikator"
@@ -37,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Szimuláció Indítása"
+        android:onClick="startFight"
         tools:layout_editor_absoluteX="119dp"
         tools:layout_editor_absoluteY="517dp" />
 
