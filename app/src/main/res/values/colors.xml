@@ -6,4 +6,6 @@
     <color name="qrbutton">#ffffff</color>
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
+    <color name="red">#9b1c31</color>
+    <color name="green">#0b6623</color>
 </resources>
