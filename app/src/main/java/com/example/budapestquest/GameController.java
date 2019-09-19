@@ -62,13 +62,8 @@ public class GameController {
         depText.setText("Védekezési Pont: " + En.DeP);
         crText.setText("Kritikus Sebzés Esélye: " + En.CR + "%");
         doText.setText("Kivédés Esélye: " + En.DO + "%");
-        try {
-            Bitmap bitmap = QRManager.TextToImageEncode(QRManager.QR_HARC1,En.Serialize());
-            qrView.setImageBitmap(bitmap);
-        }
-        catch (WriterException e) {
-            e.printStackTrace();
-        }
+        Bitmap bitmap = QRManager.TextToImageEncode(QRManager.QR_HARC1, En.Serialize());
+        qrView.setImageBitmap(bitmap);
     }
 
     //TODO: mentés / betöltés

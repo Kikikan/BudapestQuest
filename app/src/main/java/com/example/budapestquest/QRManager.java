@@ -33,7 +33,7 @@ public class QRManager {
     *
     * */
 
-    public static Bitmap TextToImageEncode(char method, String data) throws WriterException {
+    public static Bitmap TextToImageEncode(char method, String data) {
         BitMatrix bitMatrix;
         try {
             bitMatrix = new MultiFormatWriter().encode(
@@ -41,7 +41,7 @@ public class QRManager {
                     BarcodeFormat.DATA_MATRIX.QR_CODE,
                     QRcodeWidth, QRcodeWidth, null
             );
-        } catch (IllegalArgumentException Illegalargumentexception) {
+        } catch (Exception e) {
             return null;
         }
 
