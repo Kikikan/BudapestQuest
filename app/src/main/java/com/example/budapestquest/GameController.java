@@ -160,7 +160,7 @@ public class GameController {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 v.startActivity(intent);
                 break;
-            case QRManager.QR_AUTOMATA: // kaszinó (felhasználó választja ki mit akar játszani)
+            case QRManager.QR_AUTOMATA: // AUTOMATA JEGYET VESZ
                 intent = new Intent(v, AutomataAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 v.startActivity(intent);
@@ -185,9 +185,9 @@ public class GameController {
                 v.startActivity(intent);
                 break;
             case QRManager.QR_LEPES: // lepes(data tárolja: 1 használ jegyet, 0 nem használ jegyet)
-                if(data == "")
+                if(data.equals(""))
                     throw new Exception("Nincs paraméter.");
-                int lepes = data.charAt(0) - '0';
+                int lepes = data.charAt(0) - '0';//TODO ?
                 if(lepes < 0 || lepes > 1)
                     throw new Exception("Ismeretlen lépés típus ( " + lepes + " ).");
 
@@ -197,9 +197,9 @@ public class GameController {
                 v.startActivity(intent);
                 break;
             case QRManager.QR_AKCIOK: // akciókártya húzása(data tárolja: 0 penz+, 1 penz-, 2 targy+) (azért nincs targy- mert tul nagy hátrány)
-                if(data == "")
+                if(data.equals(""))
                     throw new Exception("Nincs paraméter.");
-                int akcio = data.charAt(0) - '0';
+                int akcio = data.charAt(0) - '0';//TODO ?
                 if(akcio < 0 || akcio > 2)
                     throw new Exception("Ismeretlen akció típus ( " + akcio + " ).");
 

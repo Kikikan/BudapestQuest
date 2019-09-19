@@ -3,7 +3,9 @@ package com.example.budapestquest.ActionCards;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
+import android.widget.EditText;
 
 import com.example.budapestquest.GameController;
 import com.example.budapestquest.R;
@@ -29,7 +31,11 @@ public class KaszinoAct extends AppCompatActivity {
     }
 
     public int GetOsszeg(){
-        return 10;
+        //TODO azt a edittextből kikérni az adatot ami benne van
+        EditText edit = null;//(EditText) findViewById(R.id.);
+        Editable editable = edit.getText();
+        String allTheText = editable.toString();
+        return Integer.parseInt(allTheText);
     }
 
     public void ButtonPoker(View v) {

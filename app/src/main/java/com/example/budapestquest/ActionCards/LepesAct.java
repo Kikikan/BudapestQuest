@@ -1,6 +1,8 @@
 package com.example.budapestquest.ActionCards;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.budapestquest.GameController;
 import com.example.budapestquest.R;
 
 import android.os.Bundle;
@@ -16,9 +18,11 @@ public class LepesAct extends AppCompatActivity {
         switch (getIntent().getIntExtra("LEPES", 0)){
             case 0:
                 Toast.makeText(getApplicationContext(), "Bliccelés.", Toast.LENGTH_LONG).show();
+                GameController.En.lepes(false);
                 break;
             case 1:
                 Toast.makeText(getApplicationContext(), "Lyukasztás.", Toast.LENGTH_LONG).show();
+                GameController.En.lepes(true);
                 break;
         }
     }
