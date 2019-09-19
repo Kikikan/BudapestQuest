@@ -20,16 +20,33 @@
         android:layout_width="220dp"
         android:layout_height="150dp"
         android:gravity="center"
-        android:textColor="@colors/green"
+        android:textColor="@color/green"
         tools:layout_editor_absoluteX="95dp"
-        tools:layout_editor_absoluteY="290dp" />
+        tools:layout_editor_absoluteY="140dp" />
 
     <TextView
         android:id="@+id/vesztesIndikator"
         android:layout_width="220dp"
         android:layout_height="150dp"
         android:gravity="center"
-        android:textColor="@colors/red"
+        android:textColor="@color/red"
         tools:layout_editor_absoluteX="95dp"
-        tools:layout_editor_absoluteY="290dp" />
+        tools:layout_editor_absoluteY="140dp" />
+
+    <ImageView
+        android:id="@+id/qrView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_delete"
+        tools:layout_editor_absoluteX="3dp"
+        tools:layout_editor_absoluteY="370dp" />
+
+    <Button
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Szimuláció Indítása"
+        tools:layout_editor_absoluteX="119dp"
+        tools:layout_editor_absoluteY="517dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
