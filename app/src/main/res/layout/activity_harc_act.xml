@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".harc_act">
 
-    <Button
-        android:id="@+id/vissza"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#00FFFFFF"
-        android:text="Vissza"
-        tools:layout_editor_absoluteX="3dp"
-        tools:layout_editor_absoluteY="2dp" />
-
     <TextView
         android:id="@+id/nyertesIndikator"
         android:layout_width="220dp"
