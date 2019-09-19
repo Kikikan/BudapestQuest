@@ -186,7 +186,7 @@ public class Karakter {
 
         FT -= belepo;
 
-        DMG += 2;
+        DMG += 2*10;
         DaP += 2;
         CR += 2;
     }
@@ -196,7 +196,8 @@ public class Karakter {
         int belepo = 160;
 
         FT -= belepo;
-        HP += 2;
+
+        HP += 2*100;
         DeP += 2;
         DO += 2;
     }
