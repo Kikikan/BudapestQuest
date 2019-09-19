@@ -34,7 +34,6 @@ public class AkcioAct extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Arena Bajnok", Toast.LENGTH_LONG).show();
                 GameController.En.arenaBajnok();
                 break;
-
         }
     }
 }
