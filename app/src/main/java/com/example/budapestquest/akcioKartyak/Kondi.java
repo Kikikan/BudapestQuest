@@ -9,7 +9,7 @@ public class Kondi{
     private static final int belepo_harci = 160;
     private static final int belepo_kardio = 160;
 
-    public void harciEdzes() {
+    public static void harciEdzes() {
         GameController.En.FT -= belepo_harci;
 
         GameController.En.DMG += 2*10;
@@ -17,7 +17,7 @@ public class Kondi{
         GameController.En.CR += 2;
     }
 
-    public void kardioEdzes() {
+    public static void kardioEdzes() {
         GameController.En.FT -= belepo_kardio;
 
         GameController.En.HP += 2*100;

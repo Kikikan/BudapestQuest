@@ -15,8 +15,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HarcAct"></activity>
-        <activity android:name=".KaszinoAct"></activity>
+        <activity android:name=".ActionCards.AkcioAct"></activity>
+        <activity android:name=".ActionCards.LepesAct" />
+        <activity android:name=".ActionCards.AutomataAct" />
+        <activity android:name=".ActionCards.MunkaAct" />
+        <activity android:name=".ActionCards.BoltAct" />
+        <activity android:name=".ActionCards.HarcAct" />
+        <activity android:name=".ActionCards.KaszinoAct" />
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"

@@ -56,19 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, QR_READER_CODE);
             }
         });
-
-        // Ha "ébredünk", töltsük be magunkat a cacheből, már ha ott vagyunk
-        if(savedInstanceState != null){
-            gameController.En = GameController.Load(getApplicationContext().getCacheDir(), "player.dat");
-        }
-    }
-
-    // Ha az Android megölné az applikációnkat erőforráshiány miatt, itt definiálhatjuk, mit mentsen el
-    //TODO: Ezt ellenőrizni, és kicsit kicsinosítani
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        gameController.Save(getApplicationContext().getCacheDir(), "player.dat");
     }
 
     //TODO: Csak akkor lehessen továbbmenni a többi panelre, ha ez sikerrel járt.
