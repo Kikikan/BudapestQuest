@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,4 +21,16 @@ public class Tab2 extends Fragment {
         gameController.Initialize(v);
         return v;
     }
+
+    ImageView kep = findViewById(R.id.profpict);
+
+    if(GameController.En.Name == "creeper"){
+        kep.setImageResource(R.drawable.creeper);
+    }
+    else if(GameController.En.Name == "pepe"){
+        kep.setImageResource(R.drawable.pepe);
+    }
+    else{
+        kep.setImageResource(R.drawable.face);
+]
 }
