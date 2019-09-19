@@ -5,18 +5,23 @@ import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.content.Intent;
-import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.Toast;
 
+import com.example.budapestquest.ActionCards.BoltAct;
+import com.example.budapestquest.ActionCards.HarcAct;
+import com.example.budapestquest.ActionCards.KaszinoAct;
+import com.example.budapestquest.ActionCards.LepesAct;
+import com.example.budapestquest.ActionCards.MunkaAct;
+import com.example.budapestquest.ActionCards.AutomataAct;
 import com.example.budapestquest.Karakterek.Buda;
 import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.Karakterek.Pest;
 import com.example.budapestquest.akcioKartyak.HuzottKartyak;
 import com.example.budapestquest.akcioKartyak.Kaszino;
 import com.example.budapestquest.Targyak.Targy;
-import com.google.zxing.WriterException;
+import com.example.budapestquest.akcioKartyak.Kondi;
+
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -66,30 +71,6 @@ public class GameController {
         qrView.setImageBitmap(bitmap);
     }
 
-    //TODO: mentés / betöltés
-    public static Karakter Load(File fp, String fn) {
-        try {
-            File file = new File(fp, fn);
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            char[] data = new char[(int) file.length()];
-            br.read(data);
-            return Karakter.Deserialize(new String(data));
-        }catch (Exception e){
-            return null;
-        }
-    }
-
-    public boolean Save(File fp, String fn){
-        try{
-            BufferedWriter bw = new BufferedWriter(new FileWriter(new File(fp, fn).getAbsoluteFile()));
-            bw.write(En.Serialize());
-            bw.flush();
-            return true;
-        }catch (Exception e){
-            return false;
-        }
-    }
-
     public void CreateChar(String name, int kasztId, int uniId) {
         switch (kasztId) {
             case 0:
@@ -109,63 +90,6 @@ public class GameController {
     }
 
     //Bí adta hozzá:
-//-----------------------------------------
-//EDZÉS
-
-    //TODO frontend-el összekötni és ott tudjon választani melyiket szeretne
-    public void edzes()
-    {
-        int valaszt = 0;
-
-        switch(valaszt)
-        {
-            case 0: //harciEdzés
-                En.harciEdzes();
-                break;
-            case 1: //kardioEdzés
-                En.kardioEdzes();
-                break;
-        }
-    }
-
-//-------------------------------------------------
-//KASZINÓ
-
-    //TODO valaszt és osszegnek megkell adni az erteket frontendről
-    public void kaszino()
-    {
-        int valaszt = 0;
-
-        int osszeg = 0;
-
-        switch (valaszt)
-        {
-            case 0:
-                Kaszino.poker(osszeg);
-                break;
-            case 1:
-                Kaszino.rulett(osszeg);
-                break;
-            case 2:
-                Kaszino.blackJack(osszeg);
-                break;
-        }
-    }
-
-//-------------------------------------------------
-
-//-----------------------------------------------
-//AUTOMATA
-
-    //TODO darabjegynek frontendről kapja meg az adatott
-    public void jegyVasarlas()
-    {
-        int darabjegy = 0;
-
-        En.jegyvasarlas(darabjegy);
-    }
-
-//-------------------------------------------------
 
 //-------------------------------------------------
 //LEPES
@@ -204,42 +128,12 @@ public class GameController {
             case "2"://targy+
                 Targy talat = HuzottKartyak.talaltTargy();
                 //TODO frontend, hogy vállaszon melyik kell neki
-                itamCsere(talat);
+                //itamCsere(talat);
                 break;
                 //azért nincsen targy-, mert túl nagy veszteség
             case "3"://aréna győzelem
                 En.arenaBajnok();
                 break;
-        }
-    }
-
-//--------------------------------------------------
-
-//--------------------------------------------------
-//munka
-
-    //TODO db-t megadni frontendről
-    //lehet munkát válalni és a db jelezi, hány kört akarsz kimaradni
-    public void munka()
-    {
-        int db = 0;
-
-        En.munka(db);
-    }
-
-//--------------------------------------------------
-
-    //TODO összehozni, hogy tudjon választani a felhasználó, hogy akar cserélni
-    //azért van, hogy ha boltba is kell tudjuk használni, hogy a felhasználónak egy felületet kell lene
-    //feldoni, hogy akarod ezt az itemet (true) vagy inkább megtartod (false) amid van
-    //valtozoban akarcserelni eltárolni ideiglenes)
-    public void itamCsere (Targy targy)
-    {
-        boolean akarcserelni = true;
-
-        if(akarcserelni)
-        {
-            En.targyCsere(targy);
         }
     }
 
@@ -269,36 +163,63 @@ public class GameController {
 
             // Akciókártyák
             //TODO: Panelek megnyitása
-            case QRManager.QR_BOLT://bolt (felhasználó választja ki mit vásárol)
+            case QRManager.QR_BOLT: // bolt (felhasználó választja ki mit vásárol)
+                intent = new Intent(v, BoltAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                v.startActivity(intent);
+                break;
+            case QRManager.QR_AUTOMATA: // kaszinó (felhasználó választja ki mit akar játszani)
+                intent = new Intent(v, AutomataAct.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                v.startActivity(intent);
+                break;
+            case QRManager.QR_KONDI: // kondi (felhasználó választja ki mit akar edzeni/ data: 0 erőnléti, 1 kardio)
+                switch (data.charAt(0)){
+                    case '0':
+                        Toast.makeText(v, "Erőnléti edzés", Toast.LENGTH_LONG).show();
+                        Kondi.harciEdzes();
+                        break;
+                    case '1':
+                        Toast.makeText(v, "Kardio edzés", Toast.LENGTH_LONG).show();
+                        Kondi.kardioEdzes();
+                        break;
+                    default:
+                        throw new Exception("Ismeretlen edzés típus.");
+                }
+                break;
+            case QRManager.QR_KASZINO: // kaszinó (felhasználó választja ki mit akar játszani)
                 intent = new Intent(v, KaszinoAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 v.startActivity(intent);
                 break;
-            case QRManager.QR_KONDI://kondi (felhasználó választja ki mit akar edzeni/ data: 0 erőnléti, 1 kondi)
-                intent = new Intent(v, KaszinoAct.class);
+            case QRManager.QR_LEPES: // lepes(data tárolja: 1 használ jegyet, 0 nem használ jegyet)
+                if(data == "")
+                    throw new Exception("Nincs paraméter.");
+                int lepes = data.charAt(0) - '0';
+                if(lepes < 0 || lepes > 1)
+                    throw new Exception("Ismeretlen lépés típus ( " + lepes + " ).");
+
+                intent = new Intent(v, LepesAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("LEPES", lepes);
                 v.startActivity(intent);
                 break;
-            case QRManager.QR_KASZINO://kaszinó (felhasználó választja ki mit akar játszani)
-                intent = new Intent(v, KaszinoAct.class);
+            case QRManager.QR_AKCIOK: // akciókártya húzása(data tárolja: 0 penz+, 1 penz-, 2 targy+) (azért nincs targy- mert tul nagy hátrány)
+                if(data == "")
+                    throw new Exception("Nincs paraméter.");
+                int akcio = data.charAt(0) - '0';
+                if(akcio < 0 || akcio > 2)
+                    throw new Exception("Ismeretlen akció típus ( " + akcio + " ).");
+
+                intent = new Intent(v, AutomataAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("AKCIO", akcio);
                 v.startActivity(intent);
                 break;
-            case QRManager.QR_LEPES://lepes(data tárolja: 1 használ jegyet, 0 nem használ jegyet)
-                intent = new Intent(v, KaszinoAct.class);
+            case QRManager.QR_MUNKA: // munka (majd a felhasználó választja ki mennyit akar dolgozni)
+                intent = new Intent(v, MunkaAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 v.startActivity(intent);
-                break;
-            case QRManager.QR_AKCIOK://akciókártya húzása(data tárolja: 0 penz+, 1 penz-, 2 targy+) (azért nincs targy- mert tul nagy hátrány)
-                intent = new Intent(v, KaszinoAct.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                v.startActivity(intent);
-                break;
-            case QRManager.QR_MUNKA://munka (majd a felhasználó választja ki mennyit akar dolgozni)
-                intent = new Intent(v, KaszinoAct.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                v.startActivity(intent);
-                munka();
                 break;
             default:
                 throw new Exception("Ismeretlen QR kód utasítás.");

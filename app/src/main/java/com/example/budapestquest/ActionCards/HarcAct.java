@@ -1,4 +1,4 @@
-package com.example.budapestquest;
+package com.example.budapestquest.ActionCards;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,7 +10,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View;
 
+import com.example.budapestquest.GameController;
 import com.example.budapestquest.Karakterek.Karakter;
+import com.example.budapestquest.QRManager;
+import com.example.budapestquest.R;
 import com.google.zxing.WriterException;
 
 import java.util.Random;

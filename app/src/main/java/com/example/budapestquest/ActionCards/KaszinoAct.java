@@ -1,9 +1,12 @@
-package com.example.budapestquest;
+package com.example.budapestquest.ActionCards;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.budapestquest.GameController;
+import com.example.budapestquest.R;
 
 import java.util.Random;
 
