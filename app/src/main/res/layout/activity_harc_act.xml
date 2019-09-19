@@ -34,7 +34,7 @@
         tools:layout_editor_absoluteY="140dp" />
 
     <ImageView
-        android:id="@+id/qrView"
+        android:id="@+id/qrView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/ic_delete"

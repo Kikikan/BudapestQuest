@@ -8,7 +8,7 @@
         android:id="@+id/nevText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="36sp" />
+        android:textSize="30sp" />
 
     <ScrollView
         android:layout_width="match_parent"
