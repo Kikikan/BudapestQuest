@@ -13,10 +13,10 @@
 
         <TextView
             android:id="@+id/bliccsiker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="32dp"
+            android:layout_width="302dp"
+            android:layout_height="421dp"
             android:layout_gravity="center"
-            android:layout_margin="150dp"/>
+            android:layout_margin="150dp"
+            android:textSize="16dp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -87,14 +87,6 @@
                 android:layout_height="wrap_content"
                 app:srcCompat="@android:drawable/ic_delete" />
 
-            <Button
-                android:layout_marginTop="50px"
-                android:id="@+id/genrndit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="RandItemGen"
-                android:text="Generate Random Item" />
-
         </LinearLayout>
     </ScrollView>
 

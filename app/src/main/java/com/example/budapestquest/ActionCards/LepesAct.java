@@ -3,6 +3,7 @@ package com.example.budapestquest.ActionCards;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.budapestquest.GameController;
+import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.R;
 
 import android.os.Bundle;
@@ -21,14 +22,14 @@ public class LepesAct extends AppCompatActivity {
         switch (getIntent().getIntExtra("LEPES", 0)){
             case 0:
                 Toast.makeText(getApplicationContext(), "Bliccelés.", Toast.LENGTH_LONG).show();
-                if(GameController.En.lepes(false)){
-                    //SIKERES BLITZ
-                    blicc.setText("Sikerült! Nincs olyan ellenőr aki elbánhatna veled!;)");
-                }
-                else
-                {
-                    //SIKERTELEN BLITZ
-                    blicc.setText("Megpróbáltál elmenekülni, de a rendőrök elkaptak! ");
+                if(GameController.En.lepes(false)) {
+                    if (GameController.En.elkaptakBlicceles()) {
+                        //SIKERES BLITZ
+                        blicc.setText("Sikerült! Nincs olyan ellenőr aki elbánhatna veled!;)");
+                    } else {
+                        //SIKERTELEN BLITZ
+                        blicc.setText("Megpróbáltál elmenekülni, de a rendőrök elkaptak! ");
+                    }
                 }
                 break;
             case 1:
