@@ -194,7 +194,7 @@ public class Karakter extends Stats{
         {
             int random = new Random().nextInt(100+1);
 
-            if(random <= 25)
+            if(random <= (UNI == ELTE_ID ? 12.5 : 25))
             {
                 if(FT >= 60)
                 {
