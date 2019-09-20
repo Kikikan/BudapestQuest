@@ -12,8 +12,10 @@ import android.view.View;
 
 import com.example.budapestquest.GameController;
 import com.example.budapestquest.Karakterek.Karakter;
+import com.example.budapestquest.Karakterek.Stats;
 import com.example.budapestquest.QRManager;
 import com.example.budapestquest.R;
+import com.example.budapestquest.Targyak.Targy;
 import com.google.zxing.WriterException;
 
 import java.util.Random;
@@ -58,7 +60,7 @@ public class HarcAct extends AppCompatActivity {
     }
 
     public void startFight(View v){
-        nyertes.setText((GameController.En.RandFactor ^ enemy.RandFactor) + "\n" + (GameController.En.RandFactor ^ enemy.RandFactor) + Fight(enemy, enkezd));
+        //nyertes.setText((GameController.En.RandFactor ^ enemy.RandFactor) + "\n" + (GameController.En.RandFactor ^ enemy.RandFactor) + Fight(enemy, enkezd));
         //Toast.makeText(getApplicationContext(), "FIGHT START. Nyert: " + Fight(enemy, enkezd) + " Random: " + (GameController.En.RandFactor ^ enemy.RandFactor), Toast.LENGTH_LONG).show();
     }
 
@@ -78,32 +80,29 @@ public class HarcAct extends AppCompatActivity {
         } else {
             if (rand.nextDouble() < tamado.CR) {
                 SortKiir(">>>> " + tamado.Name + " kritelt");
-                return (int) (((100 - vedekezo.DeP) / 100) * ((100 + tamado.DMG) / 100) * 2 * tamado.DMG);
+                return (int) (((100 - vedekezo.DeP) / 100) * ((100 + tamado.DaP) / 100) * 2 * tamado.DMG);
             } else {
-                return (int) (((100 - vedekezo.DeP) / 100) * ((100 + tamado.DMG) / 100) * tamado.DMG);
+                return (int) (((100 - vedekezo.DeP) / 100) * ((100 + tamado.DaP) / 100) * tamado.DMG);
             }
         }
         return 0; 
     }
 
     // Visszaadja, hogy győztünk-e
-    public boolean Fight(Karakter enemy, boolean enkezdek){
+    public boolean Fight() {
         Karakter en = GameController.En;
 
-        // TÖRÖLD KI HA SIKERÜLT QR KÓDDAL MEGNYITNI AZ ACTIVITYT
-        boolean debug = true;
-        boolean debug_vesztett = true;
-        //IDÁIG
-
-
-        double HPen = en.HP, HPenemy = enemy.HP;
+        Stats stat_en = en.SumStats(), stat_enemy = enemy.SumStats();
         int kor = 1;
 
+
+        Targy t1 = Targy.Generate(Targy.FEGYVER_ID, Targy.TIER_1);
+        GameController.En.Felszereles[Targy.FEGYVER_ID] = t1;
 
         en.RandFactor = new Random().nextInt();
 
         // TÖRÖLD KI HA SIKERÜLT QR KÓDDAL MEGNYITNI AZ ACTIVITYT
-        if(debug){
+       /* if(debug){
             if(debug_vesztett){
                 vesztes.setText("Vesztettél!");
             }
@@ -127,7 +126,9 @@ public class HarcAct extends AppCompatActivity {
                 nyertes.setText("Nyertél!");
                 return true;
             }
-        }
+        }*/
+
+       return false;
 
     }
 }
