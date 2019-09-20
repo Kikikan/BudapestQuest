@@ -230,11 +230,13 @@ public class GameController {
 
                     case 0:
                         amount = PenzRandom(true);
-                        Toast.makeText(context, "Nyertél " + amount + " forintot!", Toast.LENGTH_LONG).show();
+                        En.FT += amount;
+                        Toast.makeText(context, "Találtál " + amount + " forintot a földön! Nyílván van eszed és zsebre tetted.", Toast.LENGTH_LONG).show();
                         break;
                     case 1:
                         amount = PenzRandom(false);
-                        Toast.makeText(context, "Vesztettél " + amount + " forintot!", Toast.LENGTH_LONG).show();
+                        En.FT -= amount;
+                        Toast.makeText(context, "Elloptak tőled " + amount + " forintot! Többet kéne edzened...", Toast.LENGTH_LONG).show();
                         break;
                 }
 
