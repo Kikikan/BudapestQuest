@@ -204,6 +204,8 @@ public class Karakter {
     public void munka (int db)
     {
         korbolKimaradas += db;
+        if (UNI == BME_ID)
+            korbolKimaradas--;
 
         FT += 15 * db;
     }
