@@ -19,9 +19,10 @@
         android:id="@+id/osszeg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Mennyit akarsz feltenni?"
         android:layout_gravity="center_horizontal"
-        />
+        android:hint="Mennyit akarsz feltenni?"
+        android:inputType="number"
+        android:singleLine="false" />
 
     <Button
         android:id="@+id/pokergomb"
