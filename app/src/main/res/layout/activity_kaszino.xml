@@ -15,6 +15,14 @@
         android:text="KASZINÓ"
         android:textSize="30dp" />
 
+    <EditText
+        android:id="@+id/osszeg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mennyit akarsz feltenni?"
+        android:layout_gravity="center_horizontal"
+        />
+
     <Button
         android:id="@+id/pokergomb"
         android:layout_marginTop="10dp"
@@ -22,9 +30,7 @@
         android:layout_height="wrap_content"
         android:background="#00FFFFFF"
         android:text="Póker"
-        android:onClick="ButtonPoker"
-        tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="222dp" />
+        android:onClick="ButtonPoker"/>
 
     <Button
         android:id="@+id/rulettgomb"
@@ -33,9 +39,7 @@
         android:layout_height="wrap_content"
         android:background="#00FFFFFF"
         android:text="Rulett"
-        android:onClick="ButtonRulett"
-        tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="342dp" />
+        android:onClick="ButtonRulett"/>
 
     <Button
         android:id="@+id/blackjackgomb"
@@ -45,6 +49,5 @@
         android:background="#00FFFFFF"
         android:text="Black Jack"
         android:onClick="ButtonJack"
-        tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="462dp" />
+        />
 </LinearLayout>
