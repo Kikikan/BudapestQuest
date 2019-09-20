@@ -51,6 +51,7 @@
             android:layout_column="3"
             android:layout_gravity="center"
             android:layout_margin="25dp"
+            android:onClick="ButtonAutomataBuy"
             android:text="Vétel" />
 
     </LinearLayout>
