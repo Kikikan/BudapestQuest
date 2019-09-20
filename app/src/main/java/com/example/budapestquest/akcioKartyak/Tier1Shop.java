@@ -25,7 +25,7 @@ public  class Tier1Shop {
            GameController.En.FT -= actualPrice;
            GameController.En.Felszereles[index] = targyak[index];
        }
-    
+
 
   }
 
