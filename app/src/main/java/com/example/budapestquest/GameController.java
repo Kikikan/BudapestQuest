@@ -22,10 +22,14 @@ import com.example.budapestquest.akcioKartyak.HuzottKartyak;
 import com.example.budapestquest.Targyak.Targy;
 import com.example.budapestquest.akcioKartyak.Kondi;
 
+import java.util.Random;
+
 public class GameController {
     public static final String Version = "1000";
 
     public static Karakter En = null;
+
+    public static Context context;
 
     private TextView nameText;
     private TextView hpText;
@@ -39,6 +43,10 @@ public class GameController {
     private ImageView qrView;
 
     private ImageView kep;
+
+    public GameController(Context c) {
+        context = c;
+    }
 
     protected void Initialize(View v) {
         nameText = v.findViewById(R.id.nevText);
@@ -215,6 +223,21 @@ public class GameController {
                 if(akcio < 0 || akcio > 2)
                     throw new Exception("Ismeretlen akció típus ( " + akcio + " ).");
 
+                int amount = 0;
+                switch(akcio) {
+
+                    case 0:
+                        amount = PenzRandom(true);
+                        Toast.makeText(context, "Nyertél " + amount + " forintot!", Toast.LENGTH_LONG).show();
+                        break;
+                    case 1:
+                        amount = PenzRandom(false);
+                        Toast.makeText(context, "Vesztettél " + amount + " forintot!", Toast.LENGTH_LONG).show();
+                        break;
+                }
+
+
+
                 intent = new Intent(v, AkcioAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("AKCIO", akcio);
@@ -228,5 +251,16 @@ public class GameController {
             default:
                 throw new Exception("Ismeretlen QR kód utasítás.");
         }
+    }
+
+    private int PenzRandom(boolean nyer) {
+        int nyerMin = 15;
+        int nyerMax = 30;
+        int vesztMin = 5;
+        int vesztMax = 20;
+
+        Random r = new Random();
+        int amount = r.nextInt((nyer ? nyerMax - nyerMin : vesztMax - vesztMin)) + (nyer ? nyerMin : vesztMin) + 1;
+        return amount;
     }
 }
