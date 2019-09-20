@@ -22,4 +22,17 @@ public class Tab2 extends Fragment {
 
         return v;
     }
+
+/*    ImageView kep = findViewById(R.id.profpict);
+
+    if(GameController.En.Name == "creeper"){
+        kep.setImageResource(R.drawable.creeper);
+    }
+    else if(GameController.En.Name == "pepe"){
+        kep.setImageResource(R.drawable.pepe);
+    }
+    else
+    {
+        kep.setImageResource(R.drawable.face);
+    }*/
 }

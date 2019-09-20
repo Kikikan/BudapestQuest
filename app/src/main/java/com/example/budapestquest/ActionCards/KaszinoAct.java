@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.budapestquest.GameController;
+import com.example.budapestquest.MainActivity;
 import com.example.budapestquest.R;
 
 import java.util.Random;
@@ -31,47 +33,32 @@ public class KaszinoAct extends AppCompatActivity {
     }
 
     public int GetOsszeg(){
-        //TODO azt a edittextből kikérni az adatot ami benne van
-        EditText edit = null;//(EditText) findViewById(R.id.);
-        Editable editable = edit.getText();
-        String allTheText = editable.toString();
-        return Integer.parseInt(allTheText);
+        return Integer.parseInt(((EditText)findViewById(R.id.osszeg)).getText().toString());
+    }
+
+    public void Game(int szint, double odds){
+        int osszeg = GetOsszeg();
+        if(GameController.En.PenztKolt(osszeg) || isNyer(szint)) {
+            int nyer = (int) (osszeg * odds);
+            GameController.En.FT += nyer;
+            Toast.makeText(getApplicationContext(), "Nyertél " + nyer + " FT-t!", Toast.LENGTH_LONG).show();
+            MainActivity.gameController.Update();
+            finish();
+        }
+        else
+            Toast.makeText(getApplicationContext(), "Nincs elég pénzed.", Toast.LENGTH_LONG).show();
     }
 
     public void ButtonPoker(View v) {
-        int osszeg = GetOsszeg();
-        if(isNyer(pokerszint)) {
-            GameController.En.FT += (int) (osszeg * pokerodds);
-            //Toast.makeText(getApplicationContext(), "Nyert", 2);
-        }
-        else {
-            GameController.En.FT -= osszeg;
-            //Toast.makeText(getApplicationContext(), "Vesztett", 2);
-        }
+        Game(pokerszint, pokerodds);
     }
 
     public void ButtonRulett(View v) {
-        int osszeg = GetOsszeg();
-        if(isNyer(ruletszint)) {
-            GameController.En.FT += (int) (osszeg * ruletodds);
-            //Toast.makeText(getApplicationContext(), "Nyert", 2);
-        }
-        else {
-            GameController.En.FT -= osszeg;
-            //Toast.makeText(getApplicationContext(), "Vesztett", 2);
-        }
+        Game(ruletszint, ruletodds);
     }
 
     public void ButtonJack(View v) {
-        int osszeg = GetOsszeg();
-        if(isNyer(blackszint)) {
-            GameController.En.FT += (int) (osszeg * blackodds);
-            //Toast.makeText(getApplicationContext(), "Nyert", 2);
-        }
-        else {
-            GameController.En.FT -= osszeg;
-            //Toast.makeText(getApplicationContext(), "Vesztett", 2);
-        }
+        Game(blackszint, blackodds);
     }
 
     private static boolean isNyer(int meddig) {

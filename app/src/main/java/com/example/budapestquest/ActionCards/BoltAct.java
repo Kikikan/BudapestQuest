@@ -7,9 +7,14 @@ import android.os.Bundle;
 
 public class BoltAct extends AppCompatActivity {
 
+    int Tier;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bolt);
+
+        Tier = getIntent().getIntExtra("TIER", 0);
+
     }
 }

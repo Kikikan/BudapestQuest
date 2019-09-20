@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.example.budapestquest.ActionCards.AkcioAct;
 import com.example.budapestquest.ActionCards.BoltAct;
 import com.example.budapestquest.ActionCards.HarcAct;
 import com.example.budapestquest.ActionCards.KaszinoAct;
@@ -54,7 +55,7 @@ public class GameController {
         kep = v.findViewById(R.id.profpict);
     }
 
-    protected void Update() {
+    public void Update() {
         hpText.setText("HP: " + En.HP);
         ftText.setText("Pénz: " + En.FT + " Ft");
         xpText.setText("XP: " + En.XP);
@@ -150,13 +151,6 @@ public class GameController {
                 if (!version.equals(Version))
                     throw new Exception("Különböző játékverzió. ( beolvasott: "+version+" != mienk: "+Version+" )");
 
-                /*Karakter enemy = Karakter.Deserialize(data);
-                if(enemy == null)
-                    throw new Exception("Hiba a karakter beolvasásánál.");*/
-
-                //Toast.makeText(v, "Beolvasott karakter:" + enemy.Name + " ("+ Karakter.EgyetemIDToString(enemy.UNI) +") Kezd: " + (method == QRManager.QR_HARC1 ? "én" : "ő"), Toast.LENGTH_LONG).show();
-                //Fight(this, enemy, method == QRManager.QR_HARC1);
-
                 intent = new Intent(v, HarcAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("ENKEZD", method == QRManager.QR_HARC1);
@@ -167,8 +161,15 @@ public class GameController {
             // Akciókártyák
             //TODO: Panelek megnyitása
             case QRManager.QR_BOLT: // bolt (felhasználó választja ki mit vásárol)
+                if(data.equals(""))
+                    throw new Exception("Nincs paraméter.");
+                int tier = data.charAt(0) - '0';//TODO ?
+                if(tier < 0 || tier > 2)
+                    throw new Exception("Ismeretlen bolt típus ( " + tier + " ).");
+
                 intent = new Intent(v, BoltAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("TIER", tier);
                 v.startActivity(intent);
                 break;
             case QRManager.QR_AUTOMATA: // AUTOMATA JEGYET VESZ
@@ -214,7 +215,7 @@ public class GameController {
                 if(akcio < 0 || akcio > 2)
                     throw new Exception("Ismeretlen akció típus ( " + akcio + " ).");
 
-                intent = new Intent(v, AutomataAct.class);
+                intent = new Intent(v, AkcioAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("AKCIO", akcio);
                 v.startActivity(intent);
@@ -227,6 +228,5 @@ public class GameController {
             default:
                 throw new Exception("Ismeretlen QR kód utasítás.");
         }
-        Update();
     }
 }
