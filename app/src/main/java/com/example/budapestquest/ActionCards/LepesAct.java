@@ -16,7 +16,7 @@ public class LepesAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lepes);
 
-        private TextView blicc;
+        TextView blicc;
         blicc = findViewById(R.id.bliccsiker);
         switch (getIntent().getIntExtra("LEPES", 0)){
             case 0:
