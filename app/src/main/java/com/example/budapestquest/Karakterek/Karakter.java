@@ -177,6 +177,7 @@ public class Karakter extends Stats{
     }
 
 
+
     public boolean lepes(boolean vonaljegyHasznalata)
     {
         if(korbolKimaradas != 0)
