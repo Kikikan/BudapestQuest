@@ -23,6 +23,83 @@ public class Tab2 extends Fragment {
         return v;
     }
 
+    public void levelUPHP()
+    {
+        if(GameController.En.XP >= 1)
+        {
+            GameController.En.HP += 1*100;
+            GameController.En.XP -= 1;
+        }
+        else
+        {
+            //NINCS ELÉG XP-éd
+        }
+    }
+
+    public void levelUPDMG()
+    {
+        if(GameController.En.XP >= 1)
+        {
+            GameController.En.DMG += 1*10;
+            GameController.En.XP -= 1;
+        }
+        else
+        {
+            //NINCS ELÉG XP-éd
+        }
+    }
+
+    public void levelUPDaP()
+    {
+        if(GameController.En.XP >= 1)
+        {
+            GameController.En.DaP += 1;
+            GameController.En.XP -= 1;
+        }
+        else
+        {
+            //NINCS ELÉG XP-éd
+        }
+    }
+
+    public void levelUPDeP()
+    {
+        if(GameController.En.XP >= 1)
+        {
+            GameController.En.DeP += 1;
+            GameController.En.XP -= 1;
+        }
+        else
+        {
+            //NINCS ELÉG XP-éd
+        }
+    }
+
+    public void levelUPCR()
+    {
+        if(GameController.En.XP >= 1)
+        {
+            GameController.En.CR += 1;
+            GameController.En.XP -= 1;
+        }
+        else
+        {
+            //NINCS ELÉG XP-éd
+        }
+    }
+
+    public void levelUPDO()
+    {
+        if(GameController.En.XP >= 1)
+        {
+            GameController.En.DO += 1;
+            GameController.En.XP -= 1;
+        }
+        else
+        {
+            //NINCS ELÉG XP-éd
+        }
+    }
 /*    ImageView kep = findViewById(R.id.profpict);
 
     if(GameController.En.Name == "creeper"){

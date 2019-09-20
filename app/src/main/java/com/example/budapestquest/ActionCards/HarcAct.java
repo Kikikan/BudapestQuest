@@ -35,8 +35,8 @@ public class HarcAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_harc);
 
-        nyertes = findViewById(R.id.nyertesIndikator);
-        vesztes = findViewById(R.id.vesztesIndikator);
+        //nyertes = findViewById(R.id.nyertesIndikator);
+        //vesztes = findViewById(R.id.vesztesIndikator);
         qrkod = findViewById(R.id.qrView2);
 
         if((enemy = Karakter.Deserialize(getIntent().getStringExtra("ENEMY"))) == null) {
