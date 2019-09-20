@@ -6,4 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ActionCards.LepesAct">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/bliccsiker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="32dp"
+            android:layout_gravity="center"
+            android:layout_margin="150dp"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
