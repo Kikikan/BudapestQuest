@@ -1,64 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ActionCards.KaszinoAct">
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="223dp"
-        android:layout_height="39dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:text="KASZINÓ"
-        tools:layout_editor_absoluteX="94dp"
-        tools:layout_editor_absoluteY="16dp" />
-
-    <Button
-        android:id="@+id/pokergomb"
-        android:layout_width="243dp"
-        android:layout_height="46dp"
-        android:background="#00FFFFFF"
-        android:text="Póker"
-        android:onClick="ButtonPoker"
-        tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="222dp" />
-
-    <Button
-        android:id="@+id/rulettgomb"
-        android:layout_width="243dp"
-        android:layout_height="46dp"
-        android:background="#00FFFFFF"
-        android:text="Rulett"
-        android:onClick="ButtonRulett"
-        tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="342dp" />
-
-    <Button
-        android:id="@+id/blackjackgomb"
-        android:layout_width="243dp"
-        android:layout_height="46dp"
-        android:background="#00FFFFFF"
-        android:text="Black Jack"
-        android:onClick="ButtonJack"
-        tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="462dp" />
+        android:textSize="30dp" />
 
     <EditText
         android:id="@+id/osszeg"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        tools:layout_editor_absoluteX="96dp"
-        tools:layout_editor_absoluteY="158dp" />
+        android:hint="Mennyit akarsz feltenni?"
+        android:layout_gravity="center_horizontal"
+        />
 
-    <TextView
-        android:id="@+id/ANYA"
-        android:layout_width="201dp"
-        android:layout_height="38dp"
-        android:text="Mennyit teszel fel?"
-        tools:layout_editor_absoluteX="98dp"
-        tools:layout_editor_absoluteY="111dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/pokergomb"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:text="Póker"
+        android:onClick="ButtonPoker"/>
+
+    <Button
+        android:id="@+id/rulettgomb"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:text="Rulett"
+        android:onClick="ButtonRulett"/>
+
+    <Button
+        android:id="@+id/blackjackgomb"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:text="Black Jack"
+        android:onClick="ButtonJack"
+        />
+</LinearLayout>

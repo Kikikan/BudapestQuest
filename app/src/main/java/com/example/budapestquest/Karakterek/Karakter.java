@@ -10,7 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 import java.util.Random;
 
-public class Karakter {
+public class Karakter extends Stats{
     public static final int ELTE_ID = 0;
     public static final int BME_ID = 1;
     public static final int CORVINUS_ID = 2;
@@ -36,19 +36,30 @@ public class Karakter {
     public int      Vonaljegy = 0;
     public int      korbolKimaradas = 0;
 
-    // Statok
-    public double   HP = 100;
-    public double   DMG = 10;
-    public double   DaP = 0;
-    public double   DeP = 0;
-    public double   CR = 0.05;
-    public double   DO = 0.05;
-
     public int      RandFactor = new Random().nextInt();
 
     public Targy[] Felszereles = new Targy[4];
 
     //TODO: Az itemek statjait mikor és hogy adjuk hozzá a karakterünkéhez? Erre szükség van 1) harcnál 2) stat nézetben 3) esetleg boltban
+
+    public Stats SumStats(){
+        Stats s = new Stats();
+        s.HP  = HP;
+        s.DMG = DMG;
+        s.DaP = DaP;
+        s.DeP = DeP;
+        s.CR  = CR;
+        s.DO  = DO;
+
+        for(int i = 0; i < 4; i++){
+            s.HP  += Felszereles[i].item.HP  + Felszereles[i].modifier.HP;
+            s.DMG += Felszereles[i].item.DMG + Felszereles[i].modifier.DMG;
+            s.DaP += Felszereles[i].item.DaP + Felszereles[i].modifier.DaP;
+            s.DeP += Felszereles[i].item.DeP + Felszereles[i].modifier.DeP;
+        }
+
+        return s;
+    }
 
     /*
     *   A beolvasott, serializált adatot konvertálja át egy karakter objektummá.
@@ -139,10 +150,32 @@ public class Karakter {
     }
 
     public boolean PenztKolt(int osszeg){
-        if(FT  < osszeg) return false;
+        if((FT  < osszeg) || (osszeg < 0)) return false;
         FT -= osszeg;
         return true;
     }
+
+    public boolean elkaptakBlicceles()
+    {
+        int random = new Random().nextInt(100+1);
+
+        if(random <= 25)
+        {
+            if(FT >= 60)
+            {
+                FT -= 60;
+                return true;
+            }
+            else
+            {
+                korbolKimaradas -= 1;
+                return false;
+            }
+        }
+
+        return false;
+    }
+
 
     public boolean lepes(boolean vonaljegyHasznalata)
     {
@@ -161,7 +194,7 @@ public class Karakter {
         {
             int random = new Random().nextInt(100+1);
 
-            if(random <= 25)
+            if(random <= (UNI == ELTE_ID ? 12.5 : 25))
             {
                 if(FT >= 60)
                 {
@@ -204,6 +237,8 @@ public class Karakter {
     public void munka (int db)
     {
         korbolKimaradas += db;
+        if (UNI == BME_ID)
+            korbolKimaradas--;
 
         FT += 15 * db;
     }

@@ -1,44 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ActionCards.HarcAct">
 
+        <TextView
+            android:id="@+id/harc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="HARC"
+            android:textSize="36dp"
+            android:textColor="@color/red" />
+
+        <ImageView
+            android:id="@+id/qrView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_delete" />
+
+        <Button
+            android:id="@+id/start"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="startFight"
+            android:layout_gravity="center"
+            android:text="Szimuláció Indítása" />
+
+        <TextView
+            android:id="@+id/log"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:gravity="center_horizontal"
+
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/vesztesIndikator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:textSize="30dp"
+            android:layout_gravity="center_horizontal" />
     <TextView
         android:id="@+id/nyertesIndikator"
-        android:layout_width="220dp"
-        android:layout_height="150dp"
-        android:gravity="center"
-        android:textColor="@color/green"
-        tools:layout_editor_absoluteX="95dp"
-        tools:layout_editor_absoluteY="140dp" />
-
-    <TextView
-        android:id="@+id/vesztesIndikator"
-        android:layout_width="220dp"
-        android:layout_height="150dp"
-        android:gravity="center"
-        android:textColor="@color/red"
-        tools:layout_editor_absoluteX="95dp"
-        tools:layout_editor_absoluteY="140dp" />
-
-    <ImageView
-        android:id="@+id/qrView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_delete"
-        tools:layout_editor_absoluteX="3dp"
-        tools:layout_editor_absoluteY="370dp" />
-
-    <Button
-        android:id="@+id/start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Szimuláció Indítása"
-        android:onClick="startFight"
-        tools:layout_editor_absoluteX="119dp"
-        tools:layout_editor_absoluteY="517dp" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:textColor="@color/green"
+        android:textSize="30dp"
+        android:layout_gravity="center_horizontal" />
+</LinearLayout>
