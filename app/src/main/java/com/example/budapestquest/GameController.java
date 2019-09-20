@@ -238,10 +238,10 @@ public class GameController {
 
 
 
-                intent = new Intent(v, AkcioAct.class);
+                /*intent = new Intent(v, AkcioAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("AKCIO", akcio);
-                v.startActivity(intent);
+                v.startActivity(intent);*/
                 break;
             case QRManager.QR_MUNKA: // munka (majd a felhasználó választja ki mennyit akar dolgozni)
                 intent = new Intent(v, MunkaAct.class);
