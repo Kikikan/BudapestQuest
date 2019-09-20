@@ -237,6 +237,8 @@ public class Karakter extends Stats{
     public void munka (int db)
     {
         korbolKimaradas += db;
+        if (UNI == BME_ID)
+            korbolKimaradas--;
 
         FT += 15 * db;
     }
