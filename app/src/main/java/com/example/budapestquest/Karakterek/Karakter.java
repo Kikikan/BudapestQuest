@@ -138,11 +138,10 @@ public class Karakter {
         }
     }
 
-    public void jegyvasarlas (int db)
-    {
-        int vonaljegyara = 50;
-        FT -= vonaljegyara * db;
-        Vonaljegy += db;
+    public boolean PenztKolt(int osszeg){
+        if(FT  < osszeg) return false;
+        FT -= osszeg;
+        return true;
     }
 
     public boolean lepes(boolean vonaljegyHasznalata)
