@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.example.budapestquest.ActionCards.AkcioAct;
 import com.example.budapestquest.ActionCards.BoltAct;
 import com.example.budapestquest.ActionCards.HarcAct;
 import com.example.budapestquest.ActionCards.KaszinoAct;
@@ -50,7 +51,7 @@ public class GameController {
         qrView = v.findViewById(R.id.qrView);
     }
 
-    protected void Update() {
+    public void Update() {
         hpText.setText("HP: " + En.HP);
         ftText.setText("Pénz: " + En.FT + " Ft");
         xpText.setText("XP: " + En.XP);
@@ -203,7 +204,7 @@ public class GameController {
                 if(akcio < 0 || akcio > 2)
                     throw new Exception("Ismeretlen akció típus ( " + akcio + " ).");
 
-                intent = new Intent(v, AutomataAct.class);
+                intent = new Intent(v, AkcioAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("AKCIO", akcio);
                 v.startActivity(intent);
@@ -216,6 +217,5 @@ public class GameController {
             default:
                 throw new Exception("Ismeretlen QR kód utasítás.");
         }
-        Update();
     }
 }

@@ -6,4 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".ActionCards.AutomataAct">
 
+    <EditText
+        android:id="@+id/AutomataDB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        tools:layout_editor_absoluteX="79dp"
+        tools:layout_editor_absoluteY="117dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hány darabot vesszel?"
+        tools:layout_editor_absoluteX="135dp"
+        tools:layout_editor_absoluteY="68dp" />
+
+    <Button
+        android:id="@+id/AutomataBuy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vétel"
+        tools:layout_editor_absoluteX="128dp"
+        tools:layout_editor_absoluteY="218dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jegy 50Ft/DB"
+        tools:layout_editor_absoluteX="128dp"
+        tools:layout_editor_absoluteY="187dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

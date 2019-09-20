@@ -13,7 +13,7 @@
         android:gravity="center"
         android:text="KASZINÓ"
         tools:layout_editor_absoluteX="94dp"
-        tools:layout_editor_absoluteY="105dp" />
+        tools:layout_editor_absoluteY="16dp" />
 
     <Button
         android:id="@+id/pokergomb"
@@ -44,4 +44,21 @@
         android:onClick="ButtonJack"
         tools:layout_editor_absoluteX="84dp"
         tools:layout_editor_absoluteY="462dp" />
+
+    <EditText
+        android:id="@+id/osszeg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        tools:layout_editor_absoluteX="96dp"
+        tools:layout_editor_absoluteY="158dp" />
+
+    <TextView
+        android:id="@+id/ANYA"
+        android:layout_width="201dp"
+        android:layout_height="38dp"
+        android:text="Mennyit teszel fel?"
+        tools:layout_editor_absoluteX="98dp"
+        tools:layout_editor_absoluteY="111dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

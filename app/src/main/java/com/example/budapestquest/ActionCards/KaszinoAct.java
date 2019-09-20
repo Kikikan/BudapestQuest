@@ -31,11 +31,7 @@ public class KaszinoAct extends AppCompatActivity {
     }
 
     public int GetOsszeg(){
-        //TODO azt a edittextből kikérni az adatot ami benne van
-        EditText edit = null;//(EditText) findViewById(R.id.);
-        Editable editable = edit.getText();
-        String allTheText = editable.toString();
-        return Integer.parseInt(allTheText);
+        return Integer.parseInt(((EditText)findViewById(R.id.osszeg)).getText().toString());
     }
 
     public void ButtonPoker(View v) {

@@ -22,7 +22,7 @@ public class Tab2 extends Fragment {
         return v;
     }
 
-    ImageView kep = findViewById(R.id.profpict);
+/*    ImageView kep = findViewById(R.id.profpict);
 
     if(GameController.En.Name == "creeper"){
         kep.setImageResource(R.drawable.creeper);
@@ -30,7 +30,8 @@ public class Tab2 extends Fragment {
     else if(GameController.En.Name == "pepe"){
         kep.setImageResource(R.drawable.pepe);
     }
-    else{
+    else
+    {
         kep.setImageResource(R.drawable.face);
-]
+    }*/
 }

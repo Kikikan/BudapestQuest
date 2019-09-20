@@ -3,6 +3,7 @@ package com.example.budapestquest.ActionCards;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.budapestquest.GameController;
+import com.example.budapestquest.MainActivity;
 import com.example.budapestquest.R;
 
 import android.os.Bundle;
@@ -18,15 +19,12 @@ public class AutomataAct extends AppCompatActivity {
     }
 
     public int getDB(){
-        //TODO azt a edittextből kikérni az adatot ami benne van
-        EditText edit = null;//(EditText) findViewById(R.id.);
-        Editable editable = edit.getText();
-        String allTheText = editable.toString();
-        return Integer.parseInt(allTheText);
+        return Integer.parseInt(((EditText)findViewById(R.id.AutomataDB)).getText().toString());
     }
 
-    public void ButtonAutomataBuy ()
-    {
+    public void ButtonAutomataBuy () {
         GameController.En.jegyvasarlas(getDB());
+        MainActivity.gameController.Update();
+        this.finish();
     }
 }

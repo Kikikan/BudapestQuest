@@ -58,7 +58,8 @@ public class HarcAct extends AppCompatActivity {
     }
 
     public void startFight(View v){
-        Toast.makeText(getApplicationContext(), "FIGHT START. Nyert: " + Fight(enemy, enkezd) + " Random: " + (GameController.En.RandFactor ^ enemy.RandFactor), Toast.LENGTH_LONG).show();
+        nyertes.setText((GameController.En.RandFactor ^ enemy.RandFactor) + "\n" + (GameController.En.RandFactor ^ enemy.RandFactor) + Fight(enemy, enkezd));
+        //Toast.makeText(getApplicationContext(), "FIGHT START. Nyert: " + Fight(enemy, enkezd) + " Random: " + (GameController.En.RandFactor ^ enemy.RandFactor), Toast.LENGTH_LONG).show();
     }
 
     public void SortKiir(String str){
