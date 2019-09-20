@@ -19,12 +19,13 @@ public  class Tier1Shop {
       }
   }
 //Megvesz a 4 item közül egyet
-  public void vasarlas(int rosszIndex){
-       double actualPrice = targyak[rosszIndex-1].item.Price*targyak[rosszIndex-1].modifier.PriceWeight;
-       if(GameController.En.FT >= actualPrice)
+  public void vasarlas(int index){
+       double actualPrice = targyak[index].item.Price*targyak[index].modifier.PriceWeight;
+       if(GameController.En.FT >= actualPrice) {
            GameController.En.FT -= actualPrice;
-
-
+           GameController.En.Felszereles[index] = targyak[index];
+       }
+    
 
   }
 
