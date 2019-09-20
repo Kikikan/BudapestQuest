@@ -19,18 +19,7 @@ public class Tab2 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab2, container, false);
         gameController.Initialize(v);
+
         return v;
     }
-
-    ImageView kep = findViewById(R.id.profpict);
-
-    if(GameController.En.Name == "creeper"){
-        kep.setImageResource(R.drawable.creeper);
-    }
-    else if(GameController.En.Name == "pepe"){
-        kep.setImageResource(R.drawable.pepe);
-    }
-    else{
-        kep.setImageResource(R.drawable.face);
-]
 }

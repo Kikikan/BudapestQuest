@@ -32,6 +32,8 @@ public class Tab3 extends Fragment {
             @Override
             public void onClick(View v)
             {
+                if (GameController.En == null)
+                    return;
                 Random r = new Random();
                 TextView tv = view.findViewById(R.id.doboTextView);
                 int result;

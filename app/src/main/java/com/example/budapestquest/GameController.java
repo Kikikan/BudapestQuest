@@ -37,6 +37,8 @@ public class GameController {
     private TextView doText;
     private ImageView qrView;
 
+    private ImageView kep;
+
     protected void Initialize(View v) {
         nameText = v.findViewById(R.id.nevText);
         hpText = v.findViewById(R.id.hpText);
@@ -48,6 +50,8 @@ public class GameController {
         crText = v.findViewById(R.id.crText);
         doText = v.findViewById(R.id.doText);
         qrView = v.findViewById(R.id.qrView);
+
+        kep = v.findViewById(R.id.profpict);
     }
 
     protected void Update() {
@@ -75,9 +79,16 @@ public class GameController {
                 En = new Karakter();
                 break;
         }
+
         nameText.setText(name + " (" + Karakter.EgyetemIDToString(uniId) + ")");
         En.Name = name;
         En.UNI = uniId;
+        if(GameController.En.Name.toLowerCase().equals("creeper"))
+            kep.setImageResource(R.drawable.creeper);
+        else if(GameController.En.Name.toLowerCase().equals("pepe"))
+            kep.setImageResource(R.drawable.pepe);
+        else
+            kep.setImageResource(R.drawable.face);
         Update();
     }
 
