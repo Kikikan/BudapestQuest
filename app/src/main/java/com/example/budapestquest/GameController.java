@@ -96,6 +96,8 @@ public class GameController {
             kep.setImageResource(R.drawable.creeper);
         else if(GameController.En.Name.toLowerCase().equals("pepe"))
             kep.setImageResource(R.drawable.pepe);
+        else if(GameController.En.Name.toLowerCase().equals("patrik"))
+            kep.setImageResource(R.drawable.patrik);
         else
             kep.setImageResource(R.drawable.face);
         Update();
