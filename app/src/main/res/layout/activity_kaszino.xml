@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:hint="Mennyit akarsz feltenni?"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:singleLine="false" />
 
     <Button
