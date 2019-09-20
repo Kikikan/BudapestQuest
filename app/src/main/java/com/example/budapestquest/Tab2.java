@@ -19,6 +19,7 @@ public class Tab2 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab2, container, false);
         gameController.Initialize(v);
+
         return v;
     }
 
