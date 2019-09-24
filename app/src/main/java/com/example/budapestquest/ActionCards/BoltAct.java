@@ -3,6 +3,7 @@ package com.example.budapestquest.ActionCards;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.budapestquest.GameController;
+import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.MainActivity;
 import com.example.budapestquest.R;
 import com.example.budapestquest.Targyak.Targy;
@@ -36,7 +37,7 @@ public class BoltAct extends AppCompatActivity {
         RadioGroup slotGroup = findViewById(R.id.unigroup); //TODO: radiogroup
         int slotId = slotGroup.indexOfChild(slotGroup.findViewById(slotGroup.getCheckedRadioButtonId()));
 
-        int actualPrice = (int) (targyak[slotId].item.Price * targyak[slotId].modifier.PriceWeight);
+        int actualPrice = (int) (targyak[slotId].item.Price * targyak[slotId].modifier.PriceWeight * (GameController.En.UNI == Karakter.CORVINUS_ID ? 0.8 : 1.0));
         if (GameController.En.PenztKolt(actualPrice)) {
             GameController.En.Felszereles[slotId] = targyak[slotId];
             MainActivity.gameController.Update();

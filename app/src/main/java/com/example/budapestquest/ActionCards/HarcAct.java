@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import android.view.View;
 import com.example.budapestquest.GameController;
 import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.Karakterek.Stats;
+import com.example.budapestquest.MainActivity;
 import com.example.budapestquest.QRManager;
 import com.example.budapestquest.R;
 import com.example.budapestquest.Targyak.Targy;
@@ -53,16 +55,11 @@ public class HarcAct extends AppCompatActivity {
         stat_en = GameController.En.SumStats();
         stat_enemy = enemy.SumStats();
 
-        Bitmap bitmap = QRManager.TextToImageEncode(QRManager.QR_HARC2, GameController.En.Serialize());
-        qrkod.setImageBitmap(bitmap);
-
-        /*if(enkezd) {
+        if(enkezd) {
             Bitmap bitmap = QRManager.TextToImageEncode(QRManager.QR_HARC2, GameController.En.Serialize());
             qrkod.setImageBitmap(bitmap);
         }else
             qrkod.setVisibility(View.INVISIBLE);
-
-         */
 
     }
 
@@ -70,9 +67,15 @@ public class HarcAct extends AppCompatActivity {
         if(lement){
             MainActivity.gameController.Update();
             finish();
+        }else {
+            if(Fight()) {
+                Toast.makeText(getApplicationContext(), "NYERTÉL!", Toast.LENGTH_LONG).show();
+                GameController.En.FT += 30;
+            }else{
+                Toast.makeText(getApplicationContext(), "VESZTETTÉL!", Toast.LENGTH_LONG).show();
+            }
+            btn.setText("Kilépés");
         }
-        Fight();
-        btn.setText("Kilépés");
     }
 
     public void SortKiir(String str){
@@ -83,14 +86,12 @@ public class HarcAct extends AppCompatActivity {
      * Leszimulál egy kört.
      * Visszaadja, hogy a támadó mekkora sebzést vitt be a védekezőnek
      * */
-    public int SimulateKor(Stats tamado, Stats vedekezo, int kor){
-        SortKiir(kor + ". kör, " + tamado.Name + " támad:");
-
+    public int SimulateKor(Stats tamado, Stats vedekezo){
         if (rand.nextDouble() < vedekezo.DO) {
-            SortKiir(">>>>>>" + vedekezo.Name + " dodge-olt.");
+            SortKiir(">>>>>> Dodge.");
         } else {
             if (rand.nextDouble() < tamado.CR) {
-                SortKiir(">>>> " + tamado.Name + " kritelt");
+                SortKiir(">>>> Kritikus találat!");
                 return (int) (((100 - vedekezo.DeP) / 100) * ((100 + tamado.DaP) / 100) * 2 * tamado.DMG);
             } else {
                 return (int) (((100 - vedekezo.DeP) / 100) * ((100 + tamado.DaP) / 100) * tamado.DMG);
@@ -102,17 +103,20 @@ public class HarcAct extends AppCompatActivity {
     // Visszaadja, hogy győztünk-e
     public boolean Fight() {
         lement = true;
+        GameController.En.RandFactor = new Random().nextInt();
 
         Stats stat_en = GameController.En.SumStats(), stat_enemy = enemy.SumStats();
         int kor = 1;
 
-        GameController.En.RandFactor = new Random().nextInt();
-
-        if(enkezd)
-            if((stat_enemy.HP -= SimulateKor()) <= 0) return true;
+        if(enkezd) {
+            SortKiir((kor++) + ". kör, " + GameController.En.Name + " támad:");
+            if ((stat_enemy.HP -= SimulateKor(GameController.En, enemy)) <= 0) return true;
+        }
         while(true){
-            if((stat_en.HP -= SimulateKor()) <= 0) return false;
-            if((stat_enemy.HP -= SimulateKor()) <= 0) return true;
+            SortKiir((kor++) + ". kör, " + enemy.Name + " támad:");
+            if((stat_en.HP -= SimulateKor(enemy, GameController.En)) <= 0) return false;
+            SortKiir((kor++) + ". kör, " + GameController.En.Name + " támad:");
+            if((stat_enemy.HP -= SimulateKor(GameController.En, enemy)) <= 0) return true;
         }
     }
 }

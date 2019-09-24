@@ -22,6 +22,8 @@ import com.example.budapestquest.akcioKartyak.HuzottKartyak;
 import com.example.budapestquest.Targyak.Targy;
 import com.example.budapestquest.akcioKartyak.Kondi;
 
+import java.util.Random;
+
 public class GameController {
     public static final String Version = "1000";
 
@@ -90,6 +92,7 @@ public class GameController {
             kep.setImageResource(R.drawable.pepe);
         else
             kep.setImageResource(R.drawable.face);
+        En.RandFactor = new Random().nextInt();
         Update();
     }
 
@@ -212,7 +215,7 @@ public class GameController {
                 if(data.equals(""))
                     throw new Exception("Nincs paraméter.");
                 int akcio = data.charAt(0) - '0';//TODO ?
-                if(akcio < 0 || akcio > 2)
+                if(akcio < 0 || akcio > 3)
                     throw new Exception("Ismeretlen akció típus ( " + akcio + " ).");
 
                 intent = new Intent(v, AkcioAct.class);

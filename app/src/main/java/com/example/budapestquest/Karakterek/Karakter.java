@@ -36,7 +36,7 @@ public class Karakter extends Stats{
     public int      Vonaljegy = 0;
     public int      korbolKimaradas = 0;
 
-    public int      RandFactor = new Random().nextInt();
+    public int      RandFactor = 0;
 
     public Targy[] Felszereles = new Targy[4];
 
@@ -52,6 +52,7 @@ public class Karakter extends Stats{
         s.DO  = DO;
 
         for(int i = 0; i < 4; i++){
+            if(Felszereles[i] == null) continue;
             s.HP  += Felszereles[i].item.HP  + Felszereles[i].modifier.HP;
             s.DMG += Felszereles[i].item.DMG + Felszereles[i].modifier.DMG;
             s.DaP += Felszereles[i].item.DaP + Felszereles[i].modifier.DaP;
