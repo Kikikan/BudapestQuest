@@ -23,7 +23,7 @@ public class Tab2 extends Fragment {
         return v;
     }
 
-    public void levelUPHP()
+    public void levelUPHP(View v)
     {
         if(GameController.En.XP >= 1)
         {

@@ -29,6 +29,8 @@ public class GameController {
 
     public static Karakter En = null;
 
+    public static Context context;
+
     private TextView nameText;
     private TextView hpText;
     private TextView ftText;
@@ -41,6 +43,10 @@ public class GameController {
     private ImageView qrView;
 
     private ImageView kep;
+
+    public GameController(Context c) {
+        context = c;
+    }
 
     protected void Initialize(View v) {
         nameText = v.findViewById(R.id.nevText);
@@ -90,6 +96,8 @@ public class GameController {
             kep.setImageResource(R.drawable.creeper);
         else if(GameController.En.Name.toLowerCase().equals("pepe"))
             kep.setImageResource(R.drawable.pepe);
+        else if(GameController.En.Name.toLowerCase().equals("patrik"))
+            kep.setImageResource(R.drawable.patrik);
         else
             kep.setImageResource(R.drawable.face);
         En.RandFactor = new Random().nextInt();
@@ -218,10 +226,27 @@ public class GameController {
                 if(akcio < 0 || akcio > 3)
                     throw new Exception("Ismeretlen akció típus ( " + akcio + " ).");
 
-                intent = new Intent(v, AkcioAct.class);
+                int amount = 0;
+                switch(akcio) {
+
+                    case 0:
+                        amount = PenzRandom(true);
+                        En.FT += amount;
+                        Toast.makeText(context, "Találtál " + amount + " forintot a földön! Nyílván van eszed és zsebre tetted.", Toast.LENGTH_LONG).show();
+                        break;
+                    case 1:
+                        amount = PenzRandom(false);
+                        En.FT -= amount;
+                        Toast.makeText(context, "Elloptak tőled " + amount + " forintot! Többet kéne edzened...", Toast.LENGTH_LONG).show();
+                        break;
+                }
+
+
+
+                /*intent = new Intent(v, AkcioAct.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("AKCIO", akcio);
-                v.startActivity(intent);
+                v.startActivity(intent);*/
                 break;
             case QRManager.QR_MUNKA: // munka (majd a felhasználó választja ki mennyit akar dolgozni)
                 intent = new Intent(v, MunkaAct.class);
@@ -231,5 +256,16 @@ public class GameController {
             default:
                 throw new Exception("Ismeretlen QR kód utasítás.");
         }
+    }
+
+    private int PenzRandom(boolean nyer) {
+        int nyerMin = 15;
+        int nyerMax = 30;
+        int vesztMin = 5;
+        int vesztMax = 20;
+
+        Random r = new Random();
+        int amount = r.nextInt((nyer ? nyerMax - nyerMin : vesztMax - vesztMin)) + (nyer ? nyerMin : vesztMin) + 1;
+        return amount;
     }
 }
