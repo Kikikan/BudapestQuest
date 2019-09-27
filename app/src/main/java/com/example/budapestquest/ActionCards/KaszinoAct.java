@@ -26,10 +26,14 @@ public class KaszinoAct extends AppCompatActivity {
 
     public static final Random rand = new Random();
 
+    private GameController gc;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kaszino);
+
+        gc = GameController.GetInstance();
     }
 
     public int GetOsszeg(){
@@ -38,11 +42,11 @@ public class KaszinoAct extends AppCompatActivity {
 
     public void Game(int szint, double odds){
         int osszeg = GetOsszeg();
-        if(GameController.En.PenztKolt(osszeg) || isNyer(szint)) {
+        if(gc.PenztKolt(osszeg) || isNyer(szint)) {
             int nyer = (int) (osszeg * odds);
-            GameController.En.FT += nyer;
+            gc.En.FT += nyer;
             Toast.makeText(getApplicationContext(), "Nyertél " + nyer + " FT-t!", Toast.LENGTH_LONG).show();
-            MainActivity.gameController.Update();
+            gc.tabStats.Update();
             finish();
         }
         else

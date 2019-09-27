@@ -10,32 +10,39 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Random;
+
 public class LepesAct extends AppCompatActivity {
+
+    public static final int bliccbirsag = 60;
+
+    private GameController gc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lepes);
 
+        gc = GameController.GetInstance();
+
         TextView blicc;
         blicc = findViewById(R.id.bliccsiker);
-        switch (getIntent().getIntExtra("LEPES", 0)){
-            case 0:
-                Toast.makeText(getApplicationContext(), "Bliccelés.", Toast.LENGTH_LONG).show();
-                if(GameController.En.lepes(false)) {
-                    if (GameController.En.elkaptakBlicceles()) {
-                        //SIKERES BLITZ
-                        blicc.setText("Sikerült! Nincs olyan ellenőr aki elbánhatna veled!;)");
-                    } else {
-                        //SIKERTELEN BLITZ
-                        blicc.setText("Megpróbáltál elmenekülni, de a rendőrök elkaptak! ");
-                    }
+        String outtext = "";
+
+        switch (getIntent().getIntExtra("LEPES", 0)) {
+            case 1: {
+                gc.vonaljegy--;
+                outtext = "Lyukasztottál, egyel kevesebb jegyed van.";
+            }break;
+            case 0: {
+                if (gc.rand.nextDouble() < (gc.En.UNI == Karakter.ELTE_ID ? 12.5 : 25)) {
+                    outtext = "Jött az ellenőr, és megbírságolt " + bliccbirsag + " FT-ra, " + (gc.PenztKolt(bliccbirsag) ? "melyet kifizettél." : "viszont nem volt nálad ennyi, tehát bevágtak böribe.");
+                } else {
+                    outtext = "Sikerült! Nincs olyan ellenőr aki elbánhatna veled!;)";
                 }
-                break;
-            case 1:
-                Toast.makeText(getApplicationContext(), "Lyukasztás.", Toast.LENGTH_LONG).show();
-                GameController.En.lepes(true);
-                break;
+            }
+            break;
         }
+        blicc.setText(outtext);
     }
 }

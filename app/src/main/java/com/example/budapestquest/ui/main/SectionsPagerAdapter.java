@@ -8,20 +8,21 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.budapestquest.MainActivity;
+import com.example.budapestquest.GameController;
 import com.example.budapestquest.R;
-import com.example.budapestquest.Tab1;
-import com.example.budapestquest.Tab2;
-import com.example.budapestquest.Tab3;
+import com.example.budapestquest.TabStats;
+import com.example.budapestquest.TabInventory;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2, R.string.tab_text_3};
+    public static final int TAB_STATS = 0;
+    public static final int TAB_INVENTORY = 1;
+
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -35,14 +36,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // Return a PlaceholderFragment (defined as a static inner class below).
         Fragment fragment = null;
         switch (position) {
-            case 0:
-                fragment = new Tab1();
+            case TAB_STATS:
+                fragment = new TabStats();
+                GameController.GetInstance().tabStats = (TabStats)fragment;
                 break;
-            case 1:
-                fragment = new Tab2();
-                break;
-            case 2:
-                fragment = new Tab3();
+            case TAB_INVENTORY:
+                fragment = new TabInventory();
+                GameController.GetInstance().tabInventory = (TabInventory)fragment;
                 break;
         }
         return fragment;
@@ -56,7 +56,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // Show 2 total pages.
-        return 3;
+        return 2;
     }
 }

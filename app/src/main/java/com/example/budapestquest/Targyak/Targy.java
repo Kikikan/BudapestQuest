@@ -1,5 +1,7 @@
 package com.example.budapestquest.Targyak;
 
+import com.example.budapestquest.Karakterek.KarakterStats;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;

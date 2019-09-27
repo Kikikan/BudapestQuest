@@ -8,35 +8,32 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.budapestquest.GameController;
+import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.R;
 
 public class MunkaAct extends AppCompatActivity {
 
-    EditText kor;
+    public static final int munkaber = 15;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_munka);
-        kor = findViewById(R.id.korEditText);
-        Button button = findViewById(R.id.munkaButton);
-        button.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                ButtonMunka();
-            }
-        });
-
     }
 
-    public int getDB(){
-        return Integer.parseInt(kor.getText().toString());
+    public int getDB() {
+        return Integer.parseInt(((EditText)findViewById(R.id.korEditText)).getText().toString());
     }
 
-    public void ButtonMunka()
-    {
-        GameController.En.munka(getDB());
+    public void ButtonMunka(View v) {
+        GameController gc = GameController.GetInstance();
+
+        int db = getDB();
+
+        gc.kimaradas += db;
+        if (gc.En.UNI == Karakter.BME_ID)
+            gc.kimaradas--;
+
+        gc.En.FT += munkaber * db;
     }
 }

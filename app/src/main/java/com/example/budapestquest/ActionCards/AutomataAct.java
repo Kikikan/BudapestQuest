@@ -15,11 +15,14 @@ import android.widget.Toast;
 public class AutomataAct extends AppCompatActivity {
 
     public static final int vonaljegyar = 50;
+    private GameController gc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_automata);
+
+        gc = GameController.GetInstance();
     }
 
     public int GetDB(){
@@ -28,9 +31,9 @@ public class AutomataAct extends AppCompatActivity {
 
     public void ButtonAutomataBuy (View v) {
         int darab = GetDB(), osszeg = darab * vonaljegyar;
-        if(GameController.En.PenztKolt(osszeg)) {
-            GameController.En.Vonaljegy += darab;
-            MainActivity.gameController.Update();
+        if(gc.PenztKolt(osszeg)) {
+            gc.vonaljegy += darab;
+            gc.tabStats.Update();
             finish();
         }else
             Toast.makeText(getApplicationContext(), "Nincs elég pénzed ennyi jegyre.", Toast.LENGTH_LONG).show();

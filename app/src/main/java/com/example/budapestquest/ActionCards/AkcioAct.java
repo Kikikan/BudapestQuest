@@ -16,23 +16,26 @@ public class AkcioAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_akcio);
 
+        GameController gc = GameController.GetInstance();
+
         switch (getIntent().getIntExtra("AKCIO", 0)){
             case 0:
                 Toast.makeText(getApplicationContext(), "Pénz+", Toast.LENGTH_LONG).show();
                 int nyert = HuzottKartyak.talalVagyVeszitPenzt();
-                GameController.En.FT += nyert;
+                gc.En.FT += nyert;
                 break;
             case 1:
                 Toast.makeText(getApplicationContext(), "Pénz-", Toast.LENGTH_LONG).show();
                 int veszit = HuzottKartyak.talalVagyVeszitPenzt();
-                GameController.En.FT -= veszit;
+                if((gc.En.FT -= veszit) < 0)
+                    gc.En.FT = 0;
                 break;
             case 2: //KELL EZ? MERT SOKAT KELLENE VELE KÓDOLNI
                 Toast.makeText(getApplicationContext(), "Targy+", Toast.LENGTH_LONG).show();
                 break;
             case 3:
                 Toast.makeText(getApplicationContext(), "Arena Bajnok", Toast.LENGTH_LONG).show();
-                GameController.En.arenaBajnok();
+                //gc.En.arenaBajnok();
                 break;
         }
     }

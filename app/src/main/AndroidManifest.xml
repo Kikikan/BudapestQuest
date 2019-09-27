@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActionCards.AkcioAct"></activity>
+        <activity android:name=".ActionCards.AkcioAct"/>
         <activity android:name=".ActionCards.LepesAct" />
         <activity android:name=".ActionCards.AutomataAct" />
         <activity android:name=".ActionCards.MunkaAct" />
@@ -27,6 +27,7 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
 
+        <activity android:name=".CreateCharAct"/>
         <activity android:name=".barcode.BarcodeCaptureActivity" />
         <activity
             android:name=".MainActivity"

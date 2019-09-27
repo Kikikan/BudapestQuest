@@ -13,7 +13,7 @@ import android.view.View;
 
 import com.example.budapestquest.GameController;
 import com.example.budapestquest.Karakterek.Karakter;
-import com.example.budapestquest.Karakterek.Stats;
+import com.example.budapestquest.Karakterek.KarakterStats;
 import com.example.budapestquest.MainActivity;
 import com.example.budapestquest.QRManager;
 import com.example.budapestquest.R;
@@ -28,18 +28,22 @@ public class HarcAct extends AppCompatActivity {
     private ImageView qrkod;
     private Button btn;
 
-    Karakter enemy;
-    boolean enkezd;
-    Random rand;
+    private Karakter enemy;
+    private boolean enkezd;
+    private Random rand;
 
-    Stats stat_en, stat_enemy;
+    private KarakterStats stat_en, stat_enemy;
 
-    boolean lement = false;
+    private boolean lement = false;
+
+    private GameController gc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_harc);
+
+        gc = GameController.GetInstance();
 
         log = findViewById(R.id.log);
         qrkod = findViewById(R.id.qrView2);
@@ -50,13 +54,13 @@ public class HarcAct extends AppCompatActivity {
             this.finish();
         }
         enkezd = getIntent().getBooleanExtra("ENKEZD", false);
-        rand = new Random(GameController.En.RandFactor ^ enemy.RandFactor);
+        rand = new Random(gc.En.RandFactor ^ enemy.RandFactor);
 
-        stat_en = GameController.En.SumStats();
+        stat_en = gc.En.SumStats();
         stat_enemy = enemy.SumStats();
 
         if(enkezd) {
-            Bitmap bitmap = QRManager.TextToImageEncode(QRManager.QR_HARC2, GameController.En.Serialize());
+            Bitmap bitmap = QRManager.TextToImageEncode(QRManager.QR_HARC2, gc.En.Serialize());
             qrkod.setImageBitmap(bitmap);
         }else
             qrkod.setVisibility(View.INVISIBLE);
@@ -65,18 +69,20 @@ public class HarcAct extends AppCompatActivity {
 
     public void startFight(View v){
         if(lement){
-            MainActivity.gameController.Update();
+            gc.tabStats.Update();
             finish();
         }else {
             if(Fight()) {
                 Toast.makeText(getApplicationContext(), "NYERTÉL!", Toast.LENGTH_LONG).show();
-                GameController.En.FT += 30;
+                gc.En.FT += 30;
             }else{
                 Toast.makeText(getApplicationContext(), "VESZTETTÉL!", Toast.LENGTH_LONG).show();
             }
             btn.setText("Kilépés");
         }
     }
+
+    //TODO: SZÉP LOG
 
     public void SortKiir(String str){
         log.setText(log.getText() + str + "\n");
@@ -86,7 +92,7 @@ public class HarcAct extends AppCompatActivity {
      * Leszimulál egy kört.
      * Visszaadja, hogy a támadó mekkora sebzést vitt be a védekezőnek
      * */
-    public int SimulateKor(Stats tamado, Stats vedekezo){
+    public int SimulateKor(KarakterStats tamado, KarakterStats vedekezo){
         if (rand.nextDouble() < vedekezo.DO) {
             SortKiir(">>>>>> Dodge.");
         } else {
@@ -103,20 +109,19 @@ public class HarcAct extends AppCompatActivity {
     // Visszaadja, hogy győztünk-e
     public boolean Fight() {
         lement = true;
-        GameController.En.RandFactor = new Random().nextInt();
+        gc.En.RandFactor = new Random().nextInt();
 
-        Stats stat_en = GameController.En.SumStats(), stat_enemy = enemy.SumStats();
         int kor = 1;
 
         if(enkezd) {
-            SortKiir((kor++) + ". kör, " + GameController.En.Name + " támad:");
-            if ((stat_enemy.HP -= SimulateKor(GameController.En, enemy)) <= 0) return true;
+            SortKiir((kor++) + ". kör, " + gc.En.Name + " támad:");
+            if ((stat_enemy.HP -= SimulateKor(gc.En, enemy)) <= 0) return true;
         }
         while(true){
             SortKiir((kor++) + ". kör, " + enemy.Name + " támad:");
-            if((stat_en.HP -= SimulateKor(enemy, GameController.En)) <= 0) return false;
-            SortKiir((kor++) + ". kör, " + GameController.En.Name + " támad:");
-            if((stat_enemy.HP -= SimulateKor(GameController.En, enemy)) <= 0) return true;
+            if((stat_en.HP -= SimulateKor(enemy, gc.En)) <= 0) return false;
+            SortKiir((kor++) + ". kör, " + gc.En.Name + " támad:");
+            if((stat_enemy.HP -= SimulateKor(gc.En, enemy)) <= 0) return true;
         }
     }
 }

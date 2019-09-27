@@ -10,11 +10,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 import java.util.Random;
 
-public class Karakter extends Stats{
+public class Karakter extends KarakterStats{
     public static final int ELTE_ID = 0;
     public static final int BME_ID = 1;
     public static final int CORVINUS_ID = 2;
     public static final int TE_ID = 3;
+
+    public static final int BUDA_ID = 0;
+    public static final int PEST_ID = 1;
 
     public static String[] EgyetemNevek = new String[]{
             "ELTE",
@@ -29,27 +32,39 @@ public class Karakter extends Stats{
         return EgyetemNevek[id];
     }
 
-    public String   Name = "";
-    public int      UNI = 0;
-    public double   XP = 0;
+    public final String   Name;
+    public final int      UNI;
+    public final int      KASZT;
+
+    public Karakter(String _Name, int _UNI, int _KASZT, int _SEED){
+        Name = _Name;
+        UNI = _UNI;
+        KASZT = _KASZT;
+        RandFactor = _SEED;
+    }
+
     public int      FT = 100;
-    public int      Vonaljegy = 0;
-    public int      korbolKimaradas = 0;
+    public double   XP = 0;
 
     public int      RandFactor = 0;
-
-    public Targy[] Felszereles = new Targy[4];
+    public Targy[]  Felszereles = new Targy[4];
 
     //TODO: Az itemek statjait mikor és hogy adjuk hozzá a karakterünkéhez? Erre szükség van 1) harcnál 2) stat nézetben 3) esetleg boltban
+    public KarakterStats SumStats(){
+        KarakterStats s = SumItemStats();
 
-    public Stats SumStats(){
-        Stats s = new Stats();
-        s.HP  = HP;
-        s.DMG = DMG;
-        s.DaP = DaP;
-        s.DeP = DeP;
+        s.HP  += HP;
+        s.DMG += DMG;
+        s.DaP += DaP;
+        s.DeP += DeP;
         s.CR  = CR;
         s.DO  = DO;
+
+        return s;
+    }
+
+    public KarakterStats SumItemStats(){
+        KarakterStats s = new KarakterStats();
 
         for(int i = 0; i < 4; i++){
             if(Felszereles[i] == null) continue;
@@ -70,15 +85,20 @@ public class Karakter extends Stats{
             ByteArrayInputStream byteStream = new ByteArrayInputStream(Base64.decode(data.getBytes(), 0));
             ObjectInputStream objStream = new ObjectInputStream(byteStream);
 
-            Karakter k = new Karakter();
+            String Name;
+            int UNI, KASZT, SEED;
 
-            k.Name = objStream.readUTF();
-            k.RandFactor= objStream.readInt();
-            k.UNI = objStream.readInt();
+            // -Meta-
+            Name = objStream.readUTF();
+            UNI = objStream.readInt();
+            KASZT = objStream.readInt();
+            SEED = objStream.readInt();
 
-            //k.XP = objStream.readDouble();
-            //k.FT = objStream.readInt();
-            //k.Vonaljegy = objStream.readInt();
+            Karakter k = new Karakter(Name, UNI, KASZT, SEED);
+
+            // -Stats-
+            k.FT = objStream.readInt();
+            k.XP = objStream.readDouble();
 
             k.HP = objStream.readDouble();
             k.DMG = objStream.readDouble();
@@ -87,6 +107,7 @@ public class Karakter extends Stats{
             k.CR = objStream.readDouble();
             k.DO = objStream.readDouble();
 
+            // -Items-
             for (int i = 0; i < k.Felszereles.length; i++) {
                 int slot, tier, itemid, modifier;
                 if ((slot = objStream.readInt()) == -1) {
@@ -113,13 +134,17 @@ public class Karakter extends Stats{
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
             ObjectOutputStream objStream = new ObjectOutputStream(byteStream);
 
+            // -Meta-
             objStream.writeUTF(Name);
-            objStream.writeInt(RandFactor);
             objStream.writeInt(UNI);
+            objStream.writeInt(KASZT);
+            objStream.writeInt(RandFactor);
 
-            //objStream.writeDouble(XP);
-            //objStream.writeInt(FT);
-            //objStream.writeInt(Vonaljegy);
+            // -Stats-
+
+            //Ezek azért mennek át, mert esetlegesen késöbb lehetne őket használni csatában?
+            objStream.writeInt(FT);
+            objStream.writeDouble(XP);
 
             objStream.writeDouble(HP);
             objStream.writeDouble(DMG);
@@ -128,6 +153,7 @@ public class Karakter extends Stats{
             objStream.writeDouble(CR);
             objStream.writeDouble(DO);
 
+            // -Items-
             for(int i = 0; i < Felszereles.length; i++){
                 if(Felszereles[i] == null) {
                     objStream.writeInt(-1);
@@ -150,104 +176,10 @@ public class Karakter extends Stats{
         }
     }
 
-    public boolean PenztKolt(int osszeg){
-        if((FT  < osszeg) || (osszeg < 0)) return false;
-        FT -= osszeg;
-        return true;
-    }
-
-    public boolean elkaptakBlicceles()
-    {
-        int random = new Random().nextInt(100+1);
-
-        if(random <= 25)
-        {
-            if(FT >= 60)
-            {
-                FT -= 60;
-                return true;
-            }
-            else
-            {
-                korbolKimaradas -= 1;
-                return false;
-            }
-        }
-
-        return false;
-    }
-
-
-
-    public boolean lepes(boolean vonaljegyHasznalata)
-    {
-        if(korbolKimaradas != 0)
-        {
-            korbolKimaradas--;
-
-            return false;
-        }
-
-        if(vonaljegyHasznalata)
-        {
-            Vonaljegy--;
-        }
-        else
-        {
-            int random = new Random().nextInt(100+1);
-
-            if(random <= (UNI == ELTE_ID ? 12.5 : 25))
-            {
-                if(FT >= 60)
-                {
-                    FT -= 60;
-                }
-                else
-                {
-                    korbolKimaradas -= 1;
-                    return false;
-                }
-
-            }
-        }
-
-        return true;
-    }
-
-    public void  harciEdzes ()
-    {
-        int belepo = 160;
-
-        FT -= belepo;
-
-        DMG += 2*10;
-        DaP += 2;
-        CR += 2;
-    }
-
-    public void kardioEdzes ()
-    {
-        int belepo = 160;
-
-        FT -= belepo;
-
-        HP += 2*100;
-        DeP += 2;
-        DO += 2;
-    }
-
-    public void munka (int db)
-    {
-        korbolKimaradas += db;
-        if (UNI == BME_ID)
-            korbolKimaradas--;
-
-        FT += 15 * db;
-    }
-
     //Azt csinálja, hogy a meglévő tárgyat kicseréli arra a tárgyra amit váltózóként megadunk neki
     //I hope értehtő vagyok :D
     //Mindenkinek szép kódolást :D
+    /*
     public void targyCsere (Targy targy)
     {
         for(int i = 0; i < Felszereles.length; i++)
@@ -265,4 +197,5 @@ public class Karakter extends Stats{
         XP += 5;
         FT += 100;
     }
+    */
 }
