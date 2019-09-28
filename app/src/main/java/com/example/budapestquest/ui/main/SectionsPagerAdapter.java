@@ -18,31 +18,33 @@ import com.example.budapestquest.TabInventory;
  * one of the sections/tabs/pages.
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
-    @StringRes
+
     public static final int TAB_STATS = 0;
     public static final int TAB_INVENTORY = 1;
-
+    @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
     private final Context mContext;
+
+    private final TabStats tabStats;
+    private final TabInventory tabInventory;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
+        GameController.tabStats = tabStats = new TabStats();
+        GameController.tabInventory = tabInventory = new TabInventory();
     }
 
     @Override
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
         Fragment fragment = null;
         switch (position) {
             case TAB_STATS:
-                fragment = new TabStats();
-                GameController.GetInstance().tabStats = (TabStats)fragment;
+                fragment = tabStats;
                 break;
             case TAB_INVENTORY:
-                fragment = new TabInventory();
-                GameController.GetInstance().tabInventory = (TabInventory)fragment;
+                fragment = tabInventory;
                 break;
         }
         return fragment;

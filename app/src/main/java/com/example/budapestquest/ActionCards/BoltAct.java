@@ -7,6 +7,7 @@ import com.example.budapestquest.GameController;
 import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.MainActivity;
 import com.example.budapestquest.R;
+import com.example.budapestquest.TabInventory;
 import com.example.budapestquest.Targyak.Targy;
 
 import android.graphics.Color;
@@ -20,123 +21,122 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 public class BoltAct extends AppCompatActivity {
 
     static final int capacity = 4;
 
     private int Tier;
     private int Valasztott = -1;
-    private Targy[] targyak = new Targy[capacity];
 
-    private GameController gc;
+    private Targy[] targyak = new Targy[capacity];
+    private int[] arak = new int[capacity];
+
+    private TextView lecserel;
+    private View regiitem;
+
+    protected TextView MakeStat(String s, double v){
+        TextView stat = new TextView(this);
+        stat.setText(s + (v > 0 ? "+" : "")+v);
+        stat.setTextColor(v > 0 ? Color.GREEN : Color.RED);
+        return stat;
+    }
+
+    //TODO: kijelezni, hogy most milyen itemjeink vannak + statjaink
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bolt);
 
-        gc = GameController.GetInstance();
+        ((TextView)findViewById(R.id.statom)).setText("Pénzem: "+ GameController.En.FT + " Ft");
+
+        lecserel = findViewById(R.id.lecserel);
+        regiitem = findViewById(R.id.regiitem);
 
         Tier = getIntent().getIntExtra("TIER", 0);
+        ((TextView) findViewById(R.id.boltTierText)).setText("Tier " + (Tier + 1) + " Bolt");
 
-        try {
-            TableLayout tl = findViewById(R.id.boltTable);
-
-            for (int i = 0; i < capacity; i++) {
-                Targy t = Targy.Generate(i, Tier);
-                targyak[i] = t;
-
-                View itemrow = LayoutInflater.from(this).inflate(R.layout.activity_bolt_item,null,false);
-
-                TextView itemname =itemrow.findViewById(R.id.itemname);
-                itemname.setText(t.modifier.Name + " " + t.item.Name);
-
-                // Színes név az itemek ritkasága alapján, TODO: talán a modifier alapján színezni?
-                double rarity = t.GetRarity();
-                int color = 0xff476aa6;
-                if(rarity < 0.01)
-                    color = 0xffa8a620;
-                else if(rarity < 0.1)
-                    color = 0xff60b53c;
-                itemname.setTextColor(color);
-
-                ((TextView)itemrow.findViewById(R.id.itemdesc)).setText(t.item.Desc);
-                ((TextView)itemrow.findViewById(R.id.itemar)).setText((int) (t.item.Price * t.modifier.PriceWeight * (gc.En.UNI == Karakter.CORVINUS_ID ? 0.8 : 1.0)) + " Ft");
-
-                LinearLayout statok = itemrow.findViewById(R.id.itemstatok);
-                double k = t.item.HP + t.modifier.HP;
-                if(k != 0){
-                    TextView stat = new TextView(this);
-                    stat.setText("HP: " + (k > 0 ? "+" : "")+k);
-                    stat.setTextColor(k > 0 ? Color.GREEN : Color.RED);
-                    statok.addView(stat);
-                }
-                k = t.item.DMG + t.modifier.DMG;
-                if(k != 0){
-                    TextView stat = new TextView(this);
-                    stat.setText("DMG: " + (k > 0 ? "+" : "")+k);
-                    stat.setTextColor(k > 0 ? Color.GREEN : Color.RED);
-                    statok.addView(stat);
-                }
-                k = t.item.DaP + t.modifier.DaP;
-                if(k != 0){
-                    TextView stat = new TextView(this);
-                    stat.setText("DaP: " + (k > 0 ? "+" : "")+k);
-                    stat.setTextColor(k > 0 ? Color.GREEN : Color.RED);
-                    statok.addView(stat);
-                }
-                k = t.item.DeP + t.modifier.DeP;
-                if(k != 0){
-                    TextView stat = new TextView(this);
-                    stat.setText("DeP: " + (k > 0 ? "+" : "")+k);
-                    stat.setTextColor(k > 0 ? Color.GREEN : Color.RED);
-                    statok.addView(stat);
-                }
-
-                itemrow.setTag(i);
-                tl.addView(itemrow);
-            }
-
-
-            ((TextView) findViewById(R.id.boltTierText)).setText("Tier " + (Tier+1) + " Bolt");
-        }catch (Exception e){
-            Toast.makeText(getApplicationContext(), "Hiba: " + e.toString(), Toast.LENGTH_LONG).show();
-        }
         // Itemek generálása
+        TableLayout tl = findViewById(R.id.boltTable);
 
+        for (int i = 0; i < capacity; i++) {
+            Targy t = Targy.Generate(i, Tier);
+            int ar = (int) (t.item.Price * t.modifier.PriceWeight * (GameController.En.UNI == Karakter.CORVINUS_ID ? 0.8 : 1.0));
 
+            targyak[i] = t;
+            arak[i] = ar;
 
-        /*
-        for (int j = 0; j < capacity; j++) {
-            targyak[j] = Targy.Generate(j, Tier);
-        }*/
+            View itemrow = LayoutInflater.from(this).inflate(R.layout.activity_bolt_item, null, false);
+
+            TextView itemname = itemrow.findViewById(R.id.itemname);
+            itemname.setText(t.modifier.Name + " " + t.item.Name);
+
+            // Modifier adja a színét
+            itemname.setTextColor(t.modifier.Color);
+
+            ((TextView) itemrow.findViewById(R.id.itemdesc)).setText(t.item.Desc);
+            ((TextView) itemrow.findViewById(R.id.itemar)).setText(ar + " Ft");
+
+            // Statok kiírása
+            LinearLayout statok = itemrow.findViewById(R.id.itemstatok);
+            double k;
+            if ((k = t.SumHP()) != 0)
+                statok.addView(MakeStat("HP: ", k));
+            if ((k = t.SumDMG()) != 0)
+                statok.addView(MakeStat("DMG: ", k));
+            if ((k = t.SumDaP()) != 0)
+                statok.addView(MakeStat("DaP: ", k));
+            if ((k = t.SumDeP()) != 0)
+                statok.addView(MakeStat("DeP: ", k));
+
+            itemrow.setTag(i);
+            tl.addView(itemrow);
+        }
     }
 
+    //TODO: szebb select
     private View elozo = null;
     public void ButtonSelect(View v){
-        if(elozo != null)
-            elozo.setBackgroundColor(0xffffffff);
-        Valasztott = (int)v.getTag();
-        v.setBackgroundColor(0xffb3b3b3);
+        if(elozo != null) {
+            elozo.setBackgroundColor(0x00000000);
+        }
+        if(Valasztott != -1 && elozo == v) {
+            Valasztott = -1;
+            lecserel.setVisibility(View.GONE);
+            regiitem.setVisibility(View.GONE);
+        }else{
+            v.setBackgroundColor(0xffb3b3b3);
+            Valasztott = (int) v.getTag();
+            Targy t = GameController.En.Felszereles[targyak[Valasztott].Slot];
+            if(t != null) {
+                lecserel.setVisibility(View.VISIBLE);
+                regiitem.setVisibility(View.VISIBLE);
+                TabInventory.UpdateInventoryRow(regiitem, t);
+            }else{
+                lecserel.setVisibility(View.GONE);
+                regiitem.setVisibility(View.GONE);
+            }
+        }
         elozo = v;
-        //Toast.makeText(getApplicationContext(), "Választott: " + Valasztott, Toast.LENGTH_LONG).show();
     }
 
     public void ButtonVasarlas(View v) {
         if(Valasztott < 0){
-            Toast.makeText(getApplicationContext(), "Nem választottál semmit.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Nem választottál semmit.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         Targy t = targyak[Valasztott];
-        int actualPrice = (int) (t.item.Price * t.modifier.PriceWeight * (gc.En.UNI == Karakter.CORVINUS_ID ? 0.8 : 1.0));
-        if (gc.PenztKolt(actualPrice)) {
-            gc.En.Felszereles[t.Slot] = t;
-            gc.tabInventory.Update();
-            gc.tabStats.Update();
+        int actualPrice = arak[Valasztott];
+
+        if (GameController.En.PenztKolt(actualPrice)) {
+            GameController.En.Felszereles[t.Slot] = t;
+            GameController.UpdateStats();
             finish();
         }else
-            Toast.makeText(getApplicationContext(), "Nincs elég pénzed erre az itemre.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Nincs elég pénzed erre az itemre.", Toast.LENGTH_SHORT).show();
 
     }
 }

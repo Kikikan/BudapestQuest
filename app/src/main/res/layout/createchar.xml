@@ -7,7 +7,6 @@
     tools:context=".CreateCharAct">
 
     <TextView
-        android:id="@+id/newGameText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/tab_text_main"
@@ -15,75 +14,85 @@
         android:textSize="36sp"
         android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/nevEditText"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Név"
-        android:inputType="textPersonName" />
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <RadioGroup
-        android:layout_marginTop="50px"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/kasztgroup">
+            <EditText
+                android:id="@+id/nevEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Név"
+                android:inputType="textPersonName" />
 
-        <RadioButton
-            android:id="@+id/kaszt1"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/kaszt1"
-            android:checked="true"
-            />
-        <RadioButton
-            android:id="@+id/kaszt2"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/kaszt2"
-            />
+            <RadioGroup
+                android:layout_marginTop="50px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/kasztgroup">
 
-    </RadioGroup>
+                <RadioButton
+                    android:id="@+id/kaszt1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/kaszt1"
+                    android:checked="true"
+                    />
+                <RadioButton
+                    android:id="@+id/kaszt2"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/kaszt2"
+                    />
 
-    <RadioGroup
-        android:layout_marginTop="50px"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/unigroup">
+            </RadioGroup>
 
-        <RadioButton
-            android:id="@+id/uni1"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/uni1"
-            android:checked="true"
-            />
-        <RadioButton
-            android:id="@+id/uni2"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/uni2"
-            />
-        <RadioButton
-            android:id="@+id/uni3"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/uni3"
-            />
-        <RadioButton
-            android:id="@+id/uni4"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/uni4"
-            />
+            <RadioGroup
+                android:layout_marginTop="50px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/unigroup">
 
-    </RadioGroup>
+                <RadioButton
+                    android:id="@+id/uni1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/uni1"
+                    android:checked="true"
+                    />
+                <RadioButton
+                    android:id="@+id/uni2"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/uni2"
+                    />
+                <RadioButton
+                    android:id="@+id/uni3"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/uni3"
+                    />
+                <RadioButton
+                    android:id="@+id/uni4"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/uni4"
+                    />
 
-    <Button
-        android:layout_marginTop="50px"
-        android:id="@+id/createchar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="CreateButton"
-        android:text="Kész" />
+            </RadioGroup>
+
+            <Button
+                android:layout_marginTop="50px"
+                android:id="@+id/createchar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="CreateButton"
+                android:text="Kész" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,9 +19,11 @@ import androidx.fragment.app.Fragment;
 
 import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.Karakterek.KarakterStats;
+import com.example.budapestquest.Targyak.Targy;
 
 public class TabStats extends Fragment {
     private TextView nameText;
+    private ImageView kep;
 
     private TextView jegyText;
     private TextView ftText;
@@ -36,23 +40,19 @@ public class TabStats extends Fragment {
     private TextView dmgModText;
     private TextView dapModText;
     private TextView depModText;
-    private TextView crModText;
-    private TextView doModText;
 
     private ImageView qrView;
-    private ImageView kep;
 
-    private GameController gc;
-    //private View view;
+    private View kimaradasView;
 
+    //TODO: ez így nagyon undorító, kéne keresni valami szebb megoldást
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tabstats, container, false);
-        //view = v;
-        gc = GameController.GetInstance();
 
         nameText = v.findViewById(R.id.nevText);
+        kep = v.findViewById(R.id.profpict);
 
         jegyText = v.findViewById(R.id.statJegy_Base);
         ftText = v.findViewById(R.id.statPenz_Base);
@@ -74,147 +74,61 @@ public class TabStats extends Fragment {
         doText = v.findViewById(R.id.statDO_Base);
 
         qrView = v.findViewById(R.id.qrView);
-        kep = v.findViewById(R.id.profpict);
 
-        try {
-            // A név garantált nem változik miután elkészült a karakterünk.
-            nameText.setText(gc.En.Name + " (" + Karakter.EgyetemIDToString(gc.En.UNI) + ")");
+        kimaradasView = v.findViewById(R.id.statKimaradas);
 
-            int resid;
-            switch (gc.En.Name){
-                case "creeper": resid = R.drawable.creeper; break;
-                case "pepe": resid = R.drawable.pepe; break;
-                case "patrik": resid = R.drawable.patrik; break;
-                default: resid = R.drawable.face; break;
-            }
-            kep.setImageResource(resid);
+        // A név garantáltan nem változik miután elkészült a karakterünk.
+        nameText.setText(GameController.En.Name + "\n(" + GameController.En.KasztToString() + ", " + GameController.En.EgyetemToString() + ")");
 
-        }catch (Exception e){
-            Toast.makeText(v.getContext(), "Hiba: " + e.toString(), Toast.LENGTH_LONG).show();
+        int resid;
+        switch (GameController.En.Name){
+            case "creeper": resid = R.drawable.creeper; break;
+            case "pepe": resid = R.drawable.pepe; break;
+            case "patrik": resid = R.drawable.patrik; break;
+            default: resid = R.drawable.face; break;
         }
+        kep.setImageResource(resid);
+
         Update();
 
         return v;
     }
 
+    protected void SetStat(TextView first, TextView mod, double vf, double vm){
+        first.setText(String.valueOf(vf));
+        if(vm != 0) {
+            mod.setText(" (" + (vm > 0 ? "+" : "") + vm + ")");
+            mod.setTextColor(vm > 0 ? Color.GREEN : Color.RED);
+        }
+        else
+            mod.setText("");
+    }
+
     public void Update() {
-        Karakter en = gc.En;
-        KarakterStats ks = en.SumItemStats();
+        KarakterStats ks = GameController.En.SumItemStats();
 
-        jegyText.setText(   gc.vonaljegy + " db");
-        ftText.setText(     en.FT + " Ft");
-        xpText.setText(     String.valueOf(en.XP));
+        jegyText.setText(GameController.En.vonaljegy + " db");
+        ftText.setText(GameController.En.FT + " Ft");
+        xpText.setText(String.valueOf(GameController.En.XP));
 
-        hpText.setText(    String.valueOf(en.HP));
-        if(ks.HP != 0) {
-            hpModText.setText(" (" + (ks.HP > 0 ? "+" : "") + ks.HP + ")");
-            hpModText.setTextColor(ks.HP > 0 ? Color.GREEN : Color.RED);
-        }else hpModText.setText("");
+        SetStat(hpText, hpModText, GameController.En.HP, ks.HP);
+        SetStat(dmgText, dmgModText, GameController.En.DMG, ks.DMG);
+        SetStat(dapText, dapModText, GameController.En.DaP, ks.DaP);
+        SetStat(depText, depModText, GameController.En.DeP, ks.DeP);
 
-        dmgText.setText(    String.valueOf(en.DMG));
-        if(ks.DMG != 0) {
-            dmgModText.setText(" (" + (ks.DMG > 0 ? "+" : "") + ks.DMG + ")");
-            dmgModText.setTextColor(ks.DMG > 0 ? Color.GREEN : Color.RED);
-        }else dmgModText.setText("");
+        crText.setText(String.valueOf(GameController.En.CR));
+        doText.setText(String.valueOf(GameController.En.DO));
 
-        dapText.setText(    String.valueOf(en.DaP));
-        if(ks.DaP != 0) {
-            dapModText.setText(" (" + (ks.DaP > 0 ? "+" : "") + ks.DaP + ")");
-            dapModText.setTextColor(ks.DaP > 0 ? Color.GREEN : Color.RED);
-        }else dapModText.setText("");
-
-        depText.setText(    String.valueOf(en.DeP));
-        if(ks.DeP != 0) {
-            depModText.setText(" (" + (ks.DeP > 0 ? "+" : "") + ks.DeP + ")");
-            depModText.setTextColor(ks.DeP > 0 ? Color.GREEN : Color.RED);
-        }else depModText.setText("");
-
-        crText.setText(     String.valueOf(en.CR));
-        doText.setText(     String.valueOf(en.DO));
-
-        Bitmap bitmap = QRManager.TextToImageEncode(QRManager.QR_HARC1, en.Serialize());
-        qrView.setImageBitmap(bitmap);
-    }
-
-    // Zsolt kérdi: Ez miért itt van?
-    /*
-
-    public void levelUPHP(View v)
-    {
-        if(GameController.En.XP >= 1)
-        {
-            GameController.En.HP += 1*100;
-            GameController.En.XP -= 1;
-        }
-        else
-        {
-            //NINCS ELÉG XP-éd
+        // Ha van kimaradásunk, akkor azt írjuk ki a QR kód rajzolása helyett.
+        if(GameController.En.kimaradas > 0) {
+            kimaradasView.setVisibility(View.VISIBLE);
+            qrView.setVisibility(View.GONE);
+            ((TextView)kimaradasView.findViewById(R.id.statKimaradas_Base)).setText(String.valueOf(GameController.En.kimaradas));
+        }else {
+            kimaradasView.setVisibility(View.GONE);
+            qrView.setVisibility(View.VISIBLE);
+            Bitmap bitmap = QRManager.TextToImageEncode(QRManager.QR_HARC1, GameController.En.Serialize());
+            qrView.setImageBitmap(bitmap);
         }
     }
-
-    public void levelUPDMG()
-    {
-        if(GameController.En.XP >= 1)
-        {
-            GameController.En.DMG += 1*10;
-            GameController.En.XP -= 1;
-        }
-        else
-        {
-            //NINCS ELÉG XP-éd
-        }
-    }
-
-    public void levelUPDaP()
-    {
-        if(GameController.En.XP >= 1)
-        {
-            GameController.En.DaP += 1;
-            GameController.En.XP -= 1;
-        }
-        else
-        {
-            //NINCS ELÉG XP-éd
-        }
-    }
-
-    public void levelUPDeP()
-    {
-        if(GameController.En.XP >= 1)
-        {
-            GameController.En.DeP += 1;
-            GameController.En.XP -= 1;
-        }
-        else
-        {
-            //NINCS ELÉG XP-éd
-        }
-    }
-
-    public void levelUPCR()
-    {
-        if(GameController.En.XP >= 1)
-        {
-            GameController.En.CR += 1;
-            GameController.En.XP -= 1;
-        }
-        else
-        {
-            //NINCS ELÉG XP-éd
-        }
-    }
-
-    public void levelUPDO()
-    {
-        if(GameController.En.XP >= 1)
-        {
-            GameController.En.DO += 1;
-            GameController.En.XP -= 1;
-        }
-        else
-        {
-            //NINCS ELÉG XP-éd
-        }
-    }
-    */
 }

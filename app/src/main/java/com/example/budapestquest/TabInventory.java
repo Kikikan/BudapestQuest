@@ -1,6 +1,6 @@
 package com.example.budapestquest;
 
-import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,52 +10,67 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.budapestquest.ActionCards.BoltAct;
-import com.example.budapestquest.Karakterek.Karakter;
-
-import java.util.Random;
+import com.example.budapestquest.Targyak.Targy;
 
 
 public class TabInventory extends Fragment {
 
-    View view;
+    private View item0Row;
+    private View item1Row;
+    private View item2Row;
+    private View item3Row;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tabinventory, container, false);
-        view = v;
-        Button button = (Button) view.findViewById(R.id.doboButton);
-        button.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                /*if (GameController.Instance.En == null)
-                    return;
-                Random r = new Random();
-                TextView tv = view.findViewById(R.id.doboTextView);
-                int result;
-                if (GameController.Instance.En.UNI == Karakter.TE_ID)
-                    result = r.nextInt(8) + 1;
-                else
-                    result = r.nextInt(6) + 1;
-                tv.setText(String.valueOf(result));*/
 
-                Intent intent = new Intent(getContext(), BoltAct.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("TIER", 1);
-                getContext().startActivity(intent);
-            }
-        });
+        item0Row = v.findViewById(R.id.item0);
+        item1Row = v.findViewById(R.id.item1);
+        item2Row = v.findViewById(R.id.item2);
+        item3Row = v.findViewById(R.id.item3);
+
+        Update();
 
         return v;
     }
 
-    public void Update(){
-
+    public static void MakeStat(TextView stat, String s, double v){
+        if(v == 0){
+            stat.setVisibility(View.GONE);
+            return;
+        }
+        stat.setVisibility(View.VISIBLE);
+        stat.setText(s + (v > 0 ? "+" : "")+v);
+        stat.setTextColor(v > 0 ? Color.GREEN : Color.RED);
     }
+
+    public static void UpdateInventoryRow(View row, Targy targy){
+        TextView itemname = row.findViewById(R.id.itemname);
+        if(targy == null){
+            itemname.setText(" - ");
+            return;
+        }
+        itemname.setText(targy.modifier.Name + " " + targy.item.Name);
+        itemname.setTextColor(targy.modifier.Color);
+
+        ((TextView)row.findViewById(R.id.itemdesc)).setText(targy.item.Desc);
+
+        LinearLayout statok = row.findViewById(R.id.itemstatok);
+        MakeStat((TextView) statok.findViewById(R.id.itemstatHP), "HP: ", targy.SumHP());
+        MakeStat((TextView) statok.findViewById(R.id.itemstatDMG), "DMG: ", targy.SumDMG());
+        MakeStat((TextView) statok.findViewById(R.id.itemstatDaP), "DaP: ", targy.SumDaP());
+        MakeStat((TextView) statok.findViewById(R.id.itemstatDeP), "DeP: ", targy.SumDeP());
+    }
+
+    public void Update(){
+        UpdateInventoryRow(item0Row, GameController.En.Felszereles[Targy.FEJ_ID]);
+        UpdateInventoryRow(item1Row, GameController.En.Felszereles[Targy.MELLKAS_ID]);
+        UpdateInventoryRow(item2Row, GameController.En.Felszereles[Targy.LAB_ID]);
+        UpdateInventoryRow(item3Row, GameController.En.Felszereles[Targy.FEGYVER_ID]);
+    }
+
 }

@@ -1,6 +1,9 @@
 package com.example.budapestquest.Targyak;
 
+import android.content.res.Resources;
+
 import com.example.budapestquest.Karakterek.KarakterStats;
+import com.example.budapestquest.R;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -42,6 +45,11 @@ public class Targy {
         if((modifier = GetModifier(Slot, ModifierID)) == null)
             throw new IllegalArgumentException("Nem létező Modifier.");
     }
+
+    public double SumHP(){ return item.HP + modifier.HP; }
+    public double SumDMG(){ return item.DMG + modifier.DMG; }
+    public double SumDaP(){ return item.DaP + modifier.DaP; }
+    public double SumDeP(){ return item.DeP + modifier.DeP; }
 
     public static WeightedContainer<Item> GetItemContainer(int Slot, int Tier){
         if((Slot < 0 || Slot > 3) || (Tier< 0 || Tier > 2))
@@ -156,24 +164,25 @@ public class Targy {
             }
     };
 
+    //TODO: Színeket resourceból
     public static final WeightedContainer<Modifier>[] Modifiers = (WeightedContainer<Modifier>[])new WeightedContainer[]{
             /* RUHÁRA */
             new WeightedContainer<>(new Modifier[]{
-                    new Modifier("Szakadt", 2.0f, 0.6f, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("Rongyos", 5.0f, 0.8f, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("Átlagos", 12.0f, 1.0f, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("H&M-es", 5.0f, 1.3f, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("Epikus", 1.0f, 1.8f, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("Legendás", 0.5f, 2.2f, 0.0f, 0.0f,0.0f,0.0f),
+                    new Modifier("Szakadt", 2.0f, 0.6f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
+                    new Modifier("Rongyos", 5.0f, 0.8f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
+                    new Modifier("Átlagos", 12.0f, 1.0f,0xff005500, 0.0f, 0.0f,0.0f,0.0f),
+                    new Modifier("H&M-es", 5.0f, 1.3f, 0xff005500,0.0f, 0.0f,0.0f,0.0f),
+                    new Modifier("Epikus", 1.0f, 1.8f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
+                    new Modifier("Legendás", 0.5f, 2.2f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
             }),
             /* FEGYVERRE */
             new WeightedContainer<>(new Modifier[]{
-                    new Modifier("Borzalmas", 2.0f, 0.6f, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("Törött", 5.0f, 0.8f, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("Átlagos", 12.0f, 1.0f, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("Nagyon klassz", 5.0f, 1.3f, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("Epikus", 1.0f, 1.8f, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("Legendás", 0.5f, 2.2f, 0.0f, 0.0f,0.0f,0.0f),
+                    new Modifier("Borzalmas", 2.0f, 0.6f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
+                    new Modifier("Törött", 5.0f, 0.8f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
+                    new Modifier("Átlagos", 12.0f, 1.0f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
+                    new Modifier("Nagyon klassz", 5.0f, 1.3f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
+                    new Modifier("Epikus", 1.0f, 1.8f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
+                    new Modifier("Legendás", 0.5f, 2.2f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
             })
     };
 

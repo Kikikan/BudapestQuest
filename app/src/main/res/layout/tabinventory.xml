@@ -1,34 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".TabInventory">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Dobókocka"
-        android:textSize="36sp" />
-
-    <TextView
-        android:id="@+id/doboTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="0"
-        android:textAlignment="gravity"
-        android:textSize="30sp" />
-
-    <Button
-        android:id="@+id/doboButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Dobás!"
-        android:textSize="18sp" />
-
+        android:layout_height="match_parent">
+        <TableLayout
+            android:id="@+id/statInv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="80dp"
+                android:weightSum="9.5">
+                <TextView
+                    android:text="KÉP"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:text="ITEM"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:text="STAT"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3.5"
+                    android:textStyle="bold"/>
+            </TableRow>
+            <include layout="@layout/tabstats_item" android:id="@+id/item0" />
+            <include layout="@layout/tabstats_item" android:id="@+id/item1" />
+            <include layout="@layout/tabstats_item" android:id="@+id/item2" />
+            <include layout="@layout/tabstats_item" android:id="@+id/item3" />
+        </TableLayout>
+    </ScrollView>
 </LinearLayout>

@@ -8,18 +8,26 @@
     tools:context=".ActionCards.KaszinoAct">
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="KASZINÓ"
-        android:textSize="30dp" />
+        android:gravity="center_horizontal"
+        android:textSize="36dp"
+        android:layout_marginBottom="30dp"
+        android:text="Kaszinó" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
     <EditText
         android:id="@+id/osszeg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:hint="Mennyit akarsz feltenni?"
         android:inputType="numberDecimal"
         android:singleLine="false" />
@@ -29,7 +37,6 @@
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00FFFFFF"
         android:text="Póker"
         android:onClick="ButtonPoker"/>
 
@@ -38,7 +45,6 @@
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00FFFFFF"
         android:text="Rulett"
         android:onClick="ButtonRulett"/>
 
@@ -47,8 +53,17 @@
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#00FFFFFF"
         android:text="Black Jack"
         android:onClick="ButtonJack"
         />
+
+    <TextView
+        android:id="@+id/statom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="16dp"
+        android:layout_marginBottom="5dp" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

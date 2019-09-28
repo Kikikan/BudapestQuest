@@ -19,6 +19,7 @@ public class Karakter extends KarakterStats{
     public static final int BUDA_ID = 0;
     public static final int PEST_ID = 1;
 
+    //TODO: enum
     public static String[] EgyetemNevek = new String[]{
             "ELTE",
             "BME",
@@ -27,9 +28,28 @@ public class Karakter extends KarakterStats{
     };
 
     public static String EgyetemIDToString(int id){
-        if(id < 0 || id > 3)
+        if(id < 0 || id > EgyetemNevek.length - 1)
             throw new IllegalArgumentException("Ismeretlen egyetem.");
         return EgyetemNevek[id];
+    }
+
+    public String EgyetemToString(){
+        return EgyetemIDToString(UNI);
+    }
+
+    public static String[] KasztNevek = new String[]{
+            "Buda",
+            "Pest"
+    };
+
+    public static String KasztIDToString(int id){
+        if(id < 0 || id > KasztNevek.length - 1)
+            throw new IllegalArgumentException("Ismeretlen kaszt.");
+        return KasztNevek[id];
+    }
+
+    public String KasztToString(){
+        return KasztIDToString(UNI);
     }
 
     public final String   Name;
@@ -57,8 +77,15 @@ public class Karakter extends KarakterStats{
         s.DMG += DMG;
         s.DaP += DaP;
         s.DeP += DeP;
-        s.CR  = CR;
-        s.DO  = DO;
+        s.CR = Math.max(Math.min(CR, 1), 0.0);
+        s.DO = Math.max(Math.min(DO, 1), 0.0);
+
+        // Megadjuk a statok korlátjait
+        //TODO: szebben
+        s.HP = Math.max(s.HP, 100.0);
+        s.DMG = Math.max(s.DMG, 0.0);
+        s.DaP = Math.max(Math.min(s.DaP, 5000.0), 0.0);
+        s.DeP = Math.max(Math.min(s.DeP, 5000.0), 0.0);
 
         return s;
     }
@@ -68,10 +95,10 @@ public class Karakter extends KarakterStats{
 
         for(int i = 0; i < 4; i++){
             if(Felszereles[i] == null) continue;
-            s.HP  += Felszereles[i].item.HP  + Felszereles[i].modifier.HP;
-            s.DMG += Felszereles[i].item.DMG + Felszereles[i].modifier.DMG;
-            s.DaP += Felszereles[i].item.DaP + Felszereles[i].modifier.DaP;
-            s.DeP += Felszereles[i].item.DeP + Felszereles[i].modifier.DeP;
+            s.HP  += Felszereles[i].SumHP();
+            s.DMG += Felszereles[i].SumDMG();
+            s.DaP += Felszereles[i].SumDaP();
+            s.DeP += Felszereles[i].SumDeP();
         }
 
         return s;

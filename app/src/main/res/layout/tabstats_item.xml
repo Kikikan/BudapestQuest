@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:onClick="ButtonSelect"
     android:layout_width="fill_parent"
     android:layout_height="80dp"
     android:weightSum="9.5">
@@ -34,13 +33,23 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_column="2"
-        android:layout_weight="2"
+        android:layout_weight="3.5"
         android:orientation="vertical">
+        <TextView
+            android:id="@+id/itemstatHP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/itemstatDMG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/itemstatDaP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/itemstatDeP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
-    <TextView
-        android:id="@+id/itemar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.5"
-        android:layout_column="3" />
 </TableRow>

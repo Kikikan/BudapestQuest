@@ -17,48 +17,75 @@
         android:textSize="36sp"
         android:textStyle="bold" />
 
-    <TableLayout
-        android:id="@+id/boltTable"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="80dp"
-            android:layout_weight="9.5">
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TableLayout
+                android:id="@+id/boltTable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="80dp"
+                    android:weightSum="9.5">
+                    <TextView
+                        android:text="KÉP"
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:text="ITEM"
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:text="STAT"
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:text="ÁR"
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.5"
+                        android:textStyle="bold"/>
+                </TableRow>
+            </TableLayout>
             <TextView
-                android:text="KÉP"
-                android:layout_width="0dp"
+                android:id="@+id/lecserel"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textStyle="bold"/>
+                android:gravity="center_horizontal"
+                android:textSize="16dp"
+                android:text="Ezt cseréled le vele:"
+                android:visibility="gone"
+                android:layout_marginBottom="5dp" />
+            <include layout="@layout/tabstats_item" android:id="@+id/regiitem" android:visibility="gone" />
+            <Button
+                android:layout_marginTop="50px"
+                android:id="@+id/createchar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="ButtonVasarlas"
+                android:text="Vásárlás" />
             <TextView
-                android:text="ITEM"
-                android:layout_width="0dp"
+                android:id="@+id/statom"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:textStyle="bold"/>
-            <TextView
-                android:text="STAT"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:textStyle="bold"/>
-            <TextView
-                android:text="ÁR"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:textStyle="bold"/>
-        </TableRow>
-
-    </TableLayout>
-
-    <Button
-        android:layout_marginTop="50px"
-        android:id="@+id/createchar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="ButtonVasarlas"
-        android:text="Vásárlás" />
+                android:gravity="center_horizontal"
+                android:textSize="16dp"
+                android:layout_marginBottom="5dp" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

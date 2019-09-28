@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ActionCards.LepesAct">
+    tools:context=".ActionCards.KondiAct">
 
     <TextView
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:gravity="center_horizontal"
         android:textSize="36dp"
         android:layout_marginBottom="30dp"
-        android:text="Lépés" />
+        android:text="Kondi" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,28 +22,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/lepes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textSize="25dp"
-                android:layout_marginBottom="5dp" />
-
             <Button
+                android:id="@+id/HarciButton"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bliccelés"
-                android:onClick="ButtonBlicc"/>
-
+                android:onClick="ButtonHarci"/>
             <Button
-                android:id="@+id/LyukasztasButton"
+                android:id="@+id/KardioButton"
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Lyukasztás"
-                android:onClick="ButtonLyukasztas"/>
+                android:onClick="ButtonKardio"/>
 
             <TextView
                 android:id="@+id/statom"

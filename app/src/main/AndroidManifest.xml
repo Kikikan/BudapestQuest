@@ -15,24 +15,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActionCards.AkcioAct"/>
-        <activity android:name=".ActionCards.LepesAct" />
-        <activity android:name=".ActionCards.AutomataAct" />
-        <activity android:name=".ActionCards.MunkaAct" />
-        <activity android:name=".ActionCards.BoltAct" />
-        <activity android:name=".ActionCards.HarcAct" />
-        <activity android:name=".ActionCards.KaszinoAct" />
+        <activity android:name=".ActionCards.AkcioAct" android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".ActionCards.LepesAct" android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".ActionCards.AutomataAct" android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".ActionCards.MunkaAct" android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".ActionCards.BoltAct" android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".ActionCards.HarcAct" android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".ActionCards.KondiAct" android:configChanges="orientation|screenSize|keyboardHidden"/>
+        <activity android:name=".ActionCards.KaszinoAct" android:configChanges="orientation|screenSize|keyboardHidden"/>
 
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
 
-        <activity android:name=".CreateCharAct"/>
+        <activity android:name=".CreateCharAct" android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity android:name=".barcode.BarcodeCaptureActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

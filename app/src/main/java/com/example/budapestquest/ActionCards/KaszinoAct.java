@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.budapestquest.GameController;
@@ -24,33 +25,35 @@ public class KaszinoAct extends AppCompatActivity {
     private static final int blackszint = 40;
     public static final double blackodds = 0.35;
 
-    public static final Random rand = new Random();
-
-    private GameController gc;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kaszino);
 
-        gc = GameController.GetInstance();
+        ((TextView)findViewById(R.id.statom)).setText("Pénzem: "+ GameController.En.FT + " Ft");
     }
 
-    public int GetOsszeg(){
-        return Integer.parseInt(((EditText)findViewById(R.id.osszeg)).getText().toString());
-    }
+    //TODO: az algo hibás volt, pénzt vesztettél. Most "javítva van", nem vesztesz pénzt, de a súlyokat stb kérem hogy valaki állítsa be.
 
     public void Game(int szint, double odds){
-        int osszeg = GetOsszeg();
-        if(gc.PenztKolt(osszeg) || isNyer(szint)) {
-            int nyer = (int) (osszeg * odds);
-            gc.En.FT += nyer;
-            Toast.makeText(getApplicationContext(), "Nyertél " + nyer + " FT-t!", Toast.LENGTH_LONG).show();
-            gc.tabStats.Update();
-            finish();
+        try {
+            int osszeg = Integer.parseInt(((EditText) findViewById(R.id.osszeg)).getText().toString());
+            if(osszeg <= 0) {
+                Toast.makeText(getApplicationContext(), "Minimum 1 forintot fel kell tenned. Ha nem akarsz játszani, akkor lépj vissza a vissza gombbal.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if(GameController.En.PenztKolt(osszeg) || isNyer(odds)) {
+                int nyer = (osszeg * 2);
+                GameController.En.FT += nyer;
+                Toast.makeText(getApplicationContext(), "Nyertél " + nyer + " FT-t!", Toast.LENGTH_LONG).show();
+                GameController.tabStats.Update();
+                finish();
+            }
+            else
+                Toast.makeText(getApplicationContext(), "Nincs elég pénzed.", Toast.LENGTH_LONG).show();
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(), "Pozitív egész számot írj be.", Toast.LENGTH_LONG).show();
         }
-        else
-            Toast.makeText(getApplicationContext(), "Nincs elég pénzed.", Toast.LENGTH_LONG).show();
     }
 
     public void ButtonPoker(View v) {
@@ -65,7 +68,7 @@ public class KaszinoAct extends AppCompatActivity {
         Game(blackszint, blackodds);
     }
 
-    private static boolean isNyer(int meddig) {
-        return rand.nextInt(100+1) > meddig;
+    private static boolean isNyer(double odds) {
+        return GameController.rand.nextDouble() < odds;
     }
 }
