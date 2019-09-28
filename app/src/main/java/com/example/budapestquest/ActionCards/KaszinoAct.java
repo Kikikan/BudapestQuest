@@ -42,10 +42,13 @@ public class KaszinoAct extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Minimum 1 forintot fel kell tenned. Ha nem akarsz játszani, akkor lépj vissza a vissza gombbal.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(GameController.En.PenztKolt(osszeg) || isNyer(odds)) {
-                int nyer = (osszeg * 2);
-                GameController.En.FT += nyer;
-                Toast.makeText(getApplicationContext(), "Nyertél " + nyer + " FT-t!", Toast.LENGTH_LONG).show();
+            if(GameController.En.PenztKolt(osszeg)) {
+                if(isNyer(odds)) {
+                    int nyer = (osszeg * 2);
+                    GameController.En.FT += nyer;
+                    Toast.makeText(getApplicationContext(), "Nyertél " + nyer + " Ft-t!", Toast.LENGTH_LONG).show();
+                }else
+                    Toast.makeText(getApplicationContext(), "Vesztettél!", Toast.LENGTH_LONG).show();
                 GameController.tabStats.Update();
                 finish();
             }

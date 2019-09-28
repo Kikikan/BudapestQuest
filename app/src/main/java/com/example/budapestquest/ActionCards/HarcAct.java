@@ -67,6 +67,12 @@ public class HarcAct extends AppCompatActivity {
 
     }
 
+    // Ne lehessen visszalépni, ezzel megúszva a csatát
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
     public void startFight(View v){
         if(lement){
             GameController.UpdateStats();

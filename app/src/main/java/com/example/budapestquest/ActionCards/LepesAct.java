@@ -37,6 +37,11 @@ public class LepesAct extends AppCompatActivity {
         }
     }
 
+    // Ne lehessen visszalépni, ezzel megúszva a lyukasztást
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 
     public void ButtonBlicc(View v){
         if (GameController.rand.nextDouble() < (GameController.En.UNI == Karakter.ELTE_ID ? 0.125 : 0.25)) {
