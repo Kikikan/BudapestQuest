@@ -28,7 +28,7 @@ public class LepesAct extends AppCompatActivity {
         lepes = findViewById(R.id.lepes);
 
         ((TextView)findViewById(R.id.statom)).setText("Jegyeim: "+ GameController.En.vonaljegy + " db");
-        ((TextView)findViewById(R.id.lepes)).setText("Hányat: "+ (GameController.rand.nextInt((GameController.En.UNI == Karakter.TE_ID ? 8 : 6)) + 1) + " db");
+        ((TextView)findViewById(R.id.lepes)).setText("Hányat: "+ (GameController.rand.nextInt((GameController.En.UNI == Karakter.TE_ID ? 8 : 6)) + 1));
 
         Button LyukasztasButton = findViewById(R.id.LyukasztasButton);
         if(GameController.En.vonaljegy == 0) {
@@ -44,8 +44,10 @@ public class LepesAct extends AppCompatActivity {
             GameController.En.kimaradas = 3;
             GameController.tabStats.Update();
             finish();
-        } else
+        } else {
             Toast.makeText(getApplicationContext(), "Sikerült! Nincs olyan ellenőr aki elbánhatna veled!;)", Toast.LENGTH_LONG).show();
+            finish();
+        }
     }
 
     public void ButtonLyukasztas(View v){
