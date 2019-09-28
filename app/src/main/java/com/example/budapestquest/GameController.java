@@ -47,8 +47,8 @@ public class GameController {
     *   Létrehozza a karaktert, egyfajta lateinit.
     * */
     //TODO: a kasztbónuszt lehetne a Karakternél hozzáadni maybe
-    public static void CreateKarakter(String name, int kasztId, int uniId) {
-        En = new LocalKarakter(name, kasztId, uniId);
+    public static void CreateKarakter(String name, int uniId, int kasztId) {
+        En = new LocalKarakter(name, uniId, kasztId);
 
         En.HP = 100;
         En.DMG = 10;

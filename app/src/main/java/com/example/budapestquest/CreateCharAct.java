@@ -39,7 +39,7 @@ public class CreateCharAct extends AppCompatActivity {
             RadioGroup uniGroup = findViewById(R.id.unigroup);
             int uniId = uniGroup.indexOfChild(uniGroup.findViewById(uniGroup.getCheckedRadioButtonId()));
 
-            GameController.CreateKarakter(name, kasztId, uniId);
+            GameController.CreateKarakter(name, uniId, kasztId);
 
             setResult(CommonStatusCodes.SUCCESS);
             finish();

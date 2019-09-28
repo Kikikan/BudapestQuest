@@ -49,7 +49,7 @@ public class Karakter extends KarakterStats{
     }
 
     public String KasztToString(){
-        return KasztIDToString(UNI);
+        return KasztIDToString(KASZT);
     }
 
     public final String   Name;

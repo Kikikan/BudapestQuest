@@ -28,7 +28,7 @@ public class AkcioAct extends AppCompatActivity {
             "Betévedtél a város egyik hírhedten rossz nyegyedébe, és kiraboltak. Ennyit vittek el tőled:\n"
     };
 
-    public static final String[] itemplusz = new String[]{
+    public static final String[] itemPlusz = new String[]{
             "Egy aluljáróban bóklászva hirtelen valami csillogásra lettél figyelmes a földön. Közelebb mentél, és döbbenve láttad, hogy találtál egy: ",
             "Az utcán sétálva egyszer csak egy katonai konvoj süvített el, és az egyik teherautó platójáról valami pont a lábad elé esett: "
     };
@@ -59,7 +59,7 @@ public class AkcioAct extends AppCompatActivity {
                 GameController.En.FT -= veszit;
             }break;
             case 2: {
-                msg.setText(itemplusz[GameController.rand.nextInt(itemplusz.length)]);
+                msg.setText(itemPlusz[GameController.rand.nextInt(itemPlusz.length)]);
                 targy = Targy.Generate(GameController.rand.nextInt(4), GameController.rand.nextInt(3));
 
                 // Ugly hack, TODO: szebbre
