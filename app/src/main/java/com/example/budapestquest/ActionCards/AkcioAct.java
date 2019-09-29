@@ -8,13 +8,10 @@ import com.example.budapestquest.TabInventory;
 import com.example.budapestquest.Targyak.Targy;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.Random;
 
 public class AkcioAct extends AppCompatActivity {
 
@@ -34,7 +31,7 @@ public class AkcioAct extends AppCompatActivity {
     };
 
     private Targy targy;
-    private int action;
+    private boolean itemtalalat = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,48 +42,50 @@ public class AkcioAct extends AppCompatActivity {
         Button RendbenButton = findViewById(R.id.RendbenButton);
         Button MegsemButton = findViewById(R.id.MegsemButton);
 
-        action = getIntent().getIntExtra("AKCIO", 0);
+        int o1 = getIntent().getIntExtra("ODDS_PENZ+", 0);
+        int o2 = o1 + getIntent().getIntExtra("ODDS_PENZ-", 0);
+        int o3 = o2 + getIntent().getIntExtra("ODDS_TARGY+", 0);
 
-        switch (action){
-            case 0: {
-                int nyert = GameController.rand.nextInt(penzPluszMax - penzPluszMin) + penzPluszMin;
-                msg.setText(penzPlusz[GameController.rand.nextInt(penzPlusz.length)] + nyert + " Ft");
-                GameController.En.FT += nyert;
-            }break;
-            case 1: {
-                int veszit = Math.min(GameController.rand.nextInt(penzMinuszMax - penzMinuszMin) + penzMinuszMin, GameController.En.FT);
-                msg.setText(penzMinusz[GameController.rand.nextInt(penzMinusz.length)] + veszit + " Ft");
-                GameController.En.FT -= veszit;
-            }break;
-            case 2: {
-                msg.setText(itemPlusz[GameController.rand.nextInt(itemPlusz.length)]);
-                targy = Targy.Generate(GameController.rand.nextInt(4), GameController.rand.nextInt(3));
+        int rnd = GameController.rand.nextInt(o3);
 
-                // Ugly hack, TODO: szebbre
-                RendbenButton.setText("Lecserélem");
+        if(rnd < o1) {
+            int nyert = GameController.rand.nextInt(penzPluszMax - penzPluszMin) + penzPluszMin;
+            msg.setText(penzPlusz[GameController.rand.nextInt(penzPlusz.length)] + nyert + " Ft");
+            GameController.En.FT += nyert;
+        }else if(rnd < o2) {
+            int veszit = Math.min(GameController.rand.nextInt(penzMinuszMax - penzMinuszMin) + penzMinuszMin, GameController.En.FT);
+            msg.setText(penzMinusz[GameController.rand.nextInt(penzMinusz.length)] + veszit + " Ft");
+            GameController.En.FT -= veszit;
+        }else {
+            itemtalalat = true;
+            msg.setText(itemPlusz[GameController.rand.nextInt(itemPlusz.length)]);
+            targy = Targy.Generate(GameController.rand.nextInt(4), GameController.rand.nextInt(3));
 
-                View newitem = findViewById(R.id.newitem);
-                newitem.setVisibility(View.VISIBLE);
-                TabInventory.UpdateInventoryRow(newitem, targy);
-                findViewById(R.id.regiitem).setVisibility(View.VISIBLE);
+            // Ugly hack, TODO: szebbre
+            RendbenButton.setText("Lecserélem");
 
-                View olditem = findViewById(R.id.olditem);
-                olditem.setVisibility(View.VISIBLE);
-                TabInventory.UpdateInventoryRow(olditem, GameController.En.Felszereles[targy.Slot]);
+            View newitem = findViewById(R.id.newitem);
+            newitem.setVisibility(View.VISIBLE);
+            TabInventory.UpdateInventoryRow(newitem, targy);
+            findViewById(R.id.regiitem).setVisibility(View.VISIBLE);
 
-                MegsemButton.setVisibility(View.VISIBLE);
-            }break;
-            case 3: { //TODO: Zsolt kéri, hogy ezt akkor tisztázzuk le, mi, miért, hogy, és valaki álljon elő egy KONKRÉT algoritmussal erre
-                Toast.makeText(getApplicationContext(), "Arena Bajnok", Toast.LENGTH_LONG).show();
-                //gc.En.arenaBajnok();
-            }break;
+            View olditem = findViewById(R.id.olditem);
+            olditem.setVisibility(View.VISIBLE);
+            TabInventory.UpdateInventoryRow(olditem, GameController.En.Felszereles[targy.Slot]);
+
+            MegsemButton.setVisibility(View.VISIBLE);
         }
+
+        /*
+        * //TODO: Zsolt kéri, hogy ezt akkor tisztázzuk le, mi, miért, hogy, és valaki álljon elő egy KONKRÉT algoritmussal erre
+          Toast.makeText(getApplicationContext(), "Arena Bajnok", Toast.LENGTH_LONG).show();
+          //gc.En.arenaBajnok();
+        * */
     }
 
     public void ButtonRendben(View v){
-        if(action == 2){
+        if(itemtalalat)
             GameController.En.Felszereles[targy.Slot] = targy;
-        }
         GameController.UpdateStats();
         finish();
     }

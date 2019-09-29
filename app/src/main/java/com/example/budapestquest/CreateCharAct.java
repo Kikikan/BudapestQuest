@@ -1,9 +1,7 @@
 package com.example.budapestquest;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -33,12 +31,15 @@ public class CreateCharAct extends AppCompatActivity {
                 return;
             }
 
+            // Melyik kaszt
             RadioGroup kasztGroup = findViewById(R.id.kasztgroup);
             int kasztId = kasztGroup.indexOfChild(kasztGroup.findViewById(kasztGroup.getCheckedRadioButtonId()));
 
+            // Melyik egyetem
             RadioGroup uniGroup = findViewById(R.id.unigroup);
             int uniId = uniGroup.indexOfChild(uniGroup.findViewById(uniGroup.getCheckedRadioButtonId()));
 
+            // Kreáljuk meg
             GameController.CreateKarakter(name, uniId, kasztId);
 
             setResult(CommonStatusCodes.SUCCESS);

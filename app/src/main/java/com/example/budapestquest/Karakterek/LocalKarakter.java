@@ -2,12 +2,19 @@ package com.example.budapestquest.Karakterek;
 
 import com.example.budapestquest.GameController;
 
+import java.io.IOException;
+
 public class LocalKarakter extends Karakter {
     public int vonaljegy = 0;
     public int kimaradas = 0;
 
     public LocalKarakter(String _Name, int _UNI, int _KASZT){
         super(_Name, _UNI, _KASZT, GameController.rand.nextInt());
+    }
+
+    //TODO: ez így eléggé össze lett gányolva általam (Zsolt)
+    public LocalKarakter(String serializaltData) throws IOException {
+        super(serializaltData);
     }
 
     /*

@@ -2,9 +2,8 @@ package com.example.budapestquest;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.widget.Toast;
-
-import androidx.fragment.app.Fragment;
 
 import com.example.budapestquest.ActionCards.AkcioAct;
 import com.example.budapestquest.ActionCards.BoltAct;
@@ -22,25 +21,63 @@ import java.util.Random;
 
 public class GameController {
     public static final String Version = "1001";
-
-    /*
-        Ez mindenhogy debil volt, sry...
-        Most legalább már fix, hogy 1 instance lesz belőle, elvégre minek több? Meg minek lenne MainActivityben? Meg minek lenne a class fele static?
-    */
+    public static final String SaveLocation = "com.example.budapestquest.SaveGame";
 
     public static LocalKarakter En = null;
 
+    // Lehetőleg mindenhol ezt a randomot használjuk, hogy pörgessük.
     public static Random rand = new Random();
 
     // MainActivity "tölti ki"
-    public static SectionsPagerAdapter sectionsPagerAdapter = null;
     public static TabStats tabStats = null;
     public static TabInventory tabInventory = null;
     public static Context context = null;
 
+    /*
+    *   Frissíti az "Én" és az "Inventory" tabot is
+    * */
     public static void UpdateStats(){
         tabStats.Update();
         tabInventory.Update();
+    }
+
+    /*
+    *   Elmenti a játékállást.
+    * */
+    public static boolean SaveGame(){
+        try {
+            SharedPreferences sp = context.getSharedPreferences(SaveLocation, Context.MODE_PRIVATE);
+            SharedPreferences.Editor spe = sp.edit();
+            spe.putString("karakter", En.Serialize());
+            spe.putInt("vonaljegy", En.vonaljegy);
+            spe.putInt("kimaradas", En.kimaradas);
+            spe.apply();
+        }catch (Exception e){
+            return false;
+        }
+        return true;
+    }
+
+    /*
+    *   Betölti a játékállást.
+    * */
+    public static boolean LoadGame(){
+        try {
+            SharedPreferences sp = context.getSharedPreferences(SaveLocation, Context.MODE_PRIVATE);
+
+            String k = sp.getString("karakter", "");
+            int vj = sp.getInt("vonaljegy", -1);
+            int km = sp.getInt("kimaradas", -1);
+
+            if (k.isEmpty() || vj == -1 || km == -1) return false;
+
+            En = new LocalKarakter(k);
+            En.vonaljegy = vj;
+            En.kimaradas = km;
+        }catch (Exception e){
+            return false;
+        }
+        return true;
     }
 
     /*
@@ -50,6 +87,7 @@ public class GameController {
     public static void CreateKarakter(String name, int uniId, int kasztId) {
         En = new LocalKarakter(name, uniId, kasztId);
 
+        //TODO: Kezdő statok
         En.HP = 100;
         En.DMG = 10;
         En.DaP = 0;
@@ -57,13 +95,15 @@ public class GameController {
         En.CR = 0.05;
         En.DO = 0.05;
 
+        //TODO: Kaszt bónuszok
         switch (kasztId) {
             case Karakter.BUDA_ID: En.DeP += 3; break;
             case Karakter.PEST_ID: En.DaP += 3; break;
         }
 
         // Csalás
-        if(name.equals("Programozo69")){
+        //TODO: végleges verzióból kivenni
+        if(name.startsWith("5vos")){
             En.FT = 2000;
             En.vonaljegy = 3;
         }
@@ -81,7 +121,7 @@ public class GameController {
         }
         else {
             switch (method) {
-                // Aréna
+                // Aréna / Harc (data: serializált enemy)
                 case QRManager.QR_HARC1:
                 case QRManager.QR_HARC2: {
                     if (!version.equals(Version))
@@ -96,10 +136,10 @@ public class GameController {
                 break;
 
                 // Akciókártyák
-                case QRManager.QR_BOLT: { // bolt (felhasználó választja ki mit vásárol)
+                case QRManager.QR_BOLT: { // Bolt (data: 0 tier1, 1 tier2, 2 tier3) (felhasználó választja ki mit vásárol)
                     if (data.equals(""))
                         throw new Exception("Nincs paraméter.");
-                    int tier = data.charAt(0) - '0';//TODO ?
+                    int tier = data.charAt(0) - '0';
                     if (tier < 0 || tier > 2)
                         throw new Exception("Ismeretlen bolt típus ( " + tier + " ).");
 
@@ -109,19 +149,19 @@ public class GameController {
                     context.startActivity(intent);
                 }
                 break;
-                case QRManager.QR_AUTOMATA: { // AUTOMATA JEGYET VESZ
+                case QRManager.QR_AUTOMATA: { // Automata
                     intent = new Intent(context, AutomataAct.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
                 break;
-                case QRManager.QR_KONDI: { // Kondi
+                case QRManager.QR_KONDI: { // Kondi (felhasználó választja ki az edzéstípust)
                     intent = new Intent(context, KondiAct.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
                 break;
-                case QRManager.QR_KASZINO: { // kaszinó (felhasználó választja ki mit akar játszani)
+                case QRManager.QR_KASZINO: { // Kaszinó (felhasználó választja ki mit akar játszani)
                     intent = new Intent(context, KaszinoAct.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
@@ -140,20 +180,27 @@ public class GameController {
                     }
                 }
                 break;
-                case QRManager.QR_AKCIOK: { // akciókártya húzása(data tárolja: 0 penz+, 1 penz-, 2 targy+) (azért nincs targy- mert tul nagy hátrány)
-                    if (data.equals(""))
-                        throw new Exception("Nincs paraméter.");
-                    int akcio = data.charAt(0) - '0';//TODO ?
-                    if (akcio < 0 || akcio > 3)
-                        throw new Exception("Ismeretlen akció típus ( " + akcio + " ).");
+                case QRManager.QR_AKCIOK: { // Akciókártya Húzása (data: 0 penz+, 1 penz-, 2 targy+ RELATÍV ESÉLYEK) (azért nincs targy- mert tul nagy hátrány)
+                    if (data.length() != 3)
+                        throw new Exception("3 paraméter szükséges.");
+                    int o1 = data.charAt(0) - '0';
+                    int o2 = data.charAt(1) - '0';
+                    int o3 = data.charAt(2) - '0';
+
+                    if(o1 < 0 || o2 < 0 || o3 < 0)
+                        throw new Exception("Nem lehet negatív paraméter.");
+                    if(o1 == 0 && o2 == 0 && o3 == 0)
+                        throw new Exception("Nem lehet minden paraméter 0.");
 
                     intent = new Intent(context, AkcioAct.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("AKCIO", akcio);
+                    intent.putExtra("ODDS_PENZ+", o1);
+                    intent.putExtra("ODDS_PENZ-", o2);
+                    intent.putExtra("ODDS_TARGY+", o3);
                     context.startActivity(intent);
                 }
                 break;
-                case QRManager.QR_MUNKA: { // munka (majd a felhasználó választja ki mennyit akar dolgozni)
+                case QRManager.QR_MUNKA: { // Munka (majd a felhasználó választja ki mennyit akar dolgozni)
                     intent = new Intent(context, MunkaAct.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);

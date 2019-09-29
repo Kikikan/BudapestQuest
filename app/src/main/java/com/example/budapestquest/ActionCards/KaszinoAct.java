@@ -3,17 +3,13 @@ package com.example.budapestquest.ActionCards;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.budapestquest.GameController;
-import com.example.budapestquest.MainActivity;
 import com.example.budapestquest.R;
-
-import java.util.Random;
 
 public class KaszinoAct extends AppCompatActivity {
     private static final int pokerszint = 50;
@@ -43,7 +39,7 @@ public class KaszinoAct extends AppCompatActivity {
                 return;
             }
             if(GameController.En.PenztKolt(osszeg)) {
-                if(isNyer(odds)) {
+                if(GameController.rand.nextDouble() < odds) {
                     int nyer = (osszeg * 2);
                     GameController.En.FT += nyer;
                     Toast.makeText(getApplicationContext(), "Nyertél " + nyer + " Ft-t!", Toast.LENGTH_LONG).show();
@@ -69,9 +65,5 @@ public class KaszinoAct extends AppCompatActivity {
 
     public void ButtonJack(View v) {
         Game(blackszint, blackodds);
-    }
-
-    private static boolean isNyer(double odds) {
-        return GameController.rand.nextDouble() < odds;
     }
 }

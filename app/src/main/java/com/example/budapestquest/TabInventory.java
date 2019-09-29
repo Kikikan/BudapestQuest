@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.example.budapestquest.Targyak.Targy;
 
-
 public class TabInventory extends Fragment {
 
     private View item0Row;
@@ -50,22 +49,32 @@ public class TabInventory extends Fragment {
 
     public static void UpdateInventoryRow(View row, Targy targy){
         TextView itemname = row.findViewById(R.id.itemname);
+        TextView itemdesc = row.findViewById(R.id.itemdesc);
+        LinearLayout statok = row.findViewById(R.id.itemstatok);
+
+        //TODO: ez megint csak egy ugly hack
         if(targy == null){
             itemname.setText(" - ");
+            itemdesc.setVisibility(View.GONE);
+            statok.setVisibility(View.GONE);
             return;
         }
+        itemdesc.setVisibility(View.VISIBLE);
+        statok.setVisibility(View.VISIBLE);
+
         itemname.setText(targy.modifier.Name + " " + targy.item.Name);
         itemname.setTextColor(targy.modifier.Color);
+        itemdesc.setText(targy.item.Desc);
 
-        ((TextView)row.findViewById(R.id.itemdesc)).setText(targy.item.Desc);
-
-        LinearLayout statok = row.findViewById(R.id.itemstatok);
         MakeStat((TextView) statok.findViewById(R.id.itemstatHP), "HP: ", targy.SumHP());
         MakeStat((TextView) statok.findViewById(R.id.itemstatDMG), "DMG: ", targy.SumDMG());
         MakeStat((TextView) statok.findViewById(R.id.itemstatDaP), "DaP: ", targy.SumDaP());
         MakeStat((TextView) statok.findViewById(R.id.itemstatDeP), "DeP: ", targy.SumDeP());
     }
 
+    /*
+     *   Frissíti a tabon lévő itemeket.
+     * */
     public void Update(){
         UpdateInventoryRow(item0Row, GameController.En.Felszereles[Targy.FEJ_ID]);
         UpdateInventoryRow(item1Row, GameController.En.Felszereles[Targy.MELLKAS_ID]);

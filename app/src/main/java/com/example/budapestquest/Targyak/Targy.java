@@ -1,14 +1,5 @@
 package com.example.budapestquest.Targyak;
 
-import android.content.res.Resources;
-
-import com.example.budapestquest.Karakterek.KarakterStats;
-import com.example.budapestquest.R;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-
 public class Targy {
     public static final int FEJ_ID = 0;
     public static final int MELLKAS_ID = 1;
@@ -46,6 +37,9 @@ public class Targy {
             throw new IllegalArgumentException("Nem létező Modifier.");
     }
 
+    /*
+    *   Visszaadják a tárgy statjat
+    * */
     public double SumHP(){ return item.HP + modifier.HP; }
     public double SumDMG(){ return item.DMG + modifier.DMG; }
     public double SumDaP(){ return item.DaP + modifier.DaP; }
@@ -63,20 +57,32 @@ public class Targy {
         return Modifiers[(Slot / 3)];
     }
 
+    /*
+    *   Milyen ritka egy tárgy a többihez képest.
+    * */
     public double GetRarity(){
         return GetItemRarity() * GetModifierRarity();
     }
 
+    /*
+     *   Milyen ritka egy item a többihez képest.
+     * */
     public double GetItemRarity(){
         WeightedContainer<Item> t = GetItemContainer(Slot, Tier);
         return t.Items[ItemID].Weight / t.CalculatedWeight;
     }
 
+    /*
+     *   Milyen ritka egy modifier a többihez képest.
+     * */
     public double GetModifierRarity(){
         WeightedContainer<Modifier> m = GetModifierContainer(Slot);
         return m.Items[ModifierID].Weight / m.CalculatedWeight;
     }
 
+    /*
+     *   A Schema-ból visszaadja a Slot, Tier és ItemID-nek megfelelő itemet.
+     * */
     public static Item GetItem(int Slot, int Tier, int ItemID){
         WeightedContainer<Item> c = GetItemContainer(Slot, Tier);
         if(c == null)
@@ -86,6 +92,9 @@ public class Targy {
         return c.Items[ItemID];
     }
 
+    /*
+     *   A Schema-ból visszaadja a Slot és ModifierID-nek megfelelő modifiert.
+     * */
     public static Modifier GetModifier(int Slot, int ModifierID){
         WeightedContainer<Modifier> m = GetModifierContainer(Slot);
         if(m == null)
@@ -186,6 +195,9 @@ public class Targy {
             })
     };
 
+    /*
+    *   Generál egy random itemet a súlyok szerint az adott Slot-ból és Tier-ből.
+    * */
     public static Targy Generate(int Slot, int Tier){
         WeightedContainer<Item> c = GetItemContainer(Slot, Tier);
         WeightedContainer<Modifier> m = GetModifierContainer(Slot);

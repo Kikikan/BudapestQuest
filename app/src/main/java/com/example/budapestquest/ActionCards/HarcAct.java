@@ -2,7 +2,6 @@ package com.example.budapestquest.ActionCards;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.Button;
@@ -14,13 +13,9 @@ import android.view.View;
 import com.example.budapestquest.GameController;
 import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.Karakterek.KarakterStats;
-import com.example.budapestquest.MainActivity;
 import com.example.budapestquest.QRManager;
 import com.example.budapestquest.R;
-import com.example.budapestquest.Targyak.Targy;
-import com.google.zxing.WriterException;
 
-import java.io.FileWriter;
 import java.util.Random;
 
 public class HarcAct extends AppCompatActivity {
@@ -49,10 +44,14 @@ public class HarcAct extends AppCompatActivity {
         qrkod = findViewById(R.id.qrView2);
         btn = findViewById(R.id.start);
 
-        if((enemy = Karakter.Deserialize(getIntent().getStringExtra("ENEMY"))) == null) {
-            Toast.makeText(getApplicationContext(), "Hiba a karakter beolvasásnál.", Toast.LENGTH_LONG).show();
-            this.finish();
+        try {
+            enemy = new Karakter(getIntent().getStringExtra("ENEMY"));
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(), "Hiba a karakter beolvasásnál: " + e.toString(), Toast.LENGTH_LONG).show();
+            finish();
+            return;
         }
+
         enkezd = getIntent().getBooleanExtra("ENKEZD", false);
         rand = new Random(GameController.En.RandFactor ^ enemy.RandFactor);
 
@@ -85,6 +84,7 @@ public class HarcAct extends AppCompatActivity {
                 GameController.En.FT += 30;
             }else{
                 Toast.makeText(getApplicationContext(), "VESZTETTÉL!", Toast.LENGTH_LONG).show();
+                //GameController.En.kimaradas = 3;
             }
             SortKiir("A nyertes: " + (nyertem ? GameController.En.Name : enemy.Name));
             qrkod.setVisibility(View.GONE);
@@ -100,7 +100,7 @@ public class HarcAct extends AppCompatActivity {
 
     /*
      * Leszimulál egy kört.
-     * Visszaadja, hogy a támadó mekkora sebzést vitt be a védekezőnek
+     * Visszaadja, hogy a támadó mekkora sebzést vitt be a védekezőnek.
      * */
     public int SimulateKor(KarakterStats tamado, KarakterStats vedekezo){
         if (rand.nextDouble() < vedekezo.DO) {
@@ -116,7 +116,9 @@ public class HarcAct extends AppCompatActivity {
         return 0; 
     }
 
-    // Visszaadja, hogy győztünk-e
+    /*
+    *   Visszaadja, hogy győztünk-e.
+    * */
     public boolean Fight() {
         lement = true;
         GameController.En.RandFactor = new Random().nextInt();

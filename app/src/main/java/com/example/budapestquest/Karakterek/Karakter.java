@@ -4,11 +4,11 @@ import android.util.Base64;
 
 import com.example.budapestquest.Targyak.Targy;
 
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
-import java.util.Random;
 
 public class Karakter extends KarakterStats{
     public static final int ELTE_ID = 0;
@@ -69,6 +69,9 @@ public class Karakter extends KarakterStats{
     public int      RandFactor = 0;
     public Targy[]  Felszereles = new Targy[4];
 
+    /*
+    *   Visszaad egy KarakterStats objectet, ami tartalmazza a karakter, illetve a cuccok statjait összeadva.
+    * */
     //TODO: Az itemek statjait mikor és hogy adjuk hozzá a karakterünkéhez? Erre szükség van 1) harcnál 2) stat nézetben 3) esetleg boltban
     public KarakterStats SumStats(){
         KarakterStats s = SumItemStats();
@@ -90,6 +93,9 @@ public class Karakter extends KarakterStats{
         return s;
     }
 
+    /*
+    *   Visszaad egy KarakterStats objectet, ami csak az itemek statjat tartalmazza összeadva.
+    * */
     public KarakterStats SumItemStats(){
         KarakterStats s = new KarakterStats();
 
@@ -107,49 +113,38 @@ public class Karakter extends KarakterStats{
     /*
     *   A beolvasott, serializált adatot konvertálja át egy karakter objektummá.
     * */
-    public static Karakter Deserialize(String data){
-        try {
-            ByteArrayInputStream byteStream = new ByteArrayInputStream(Base64.decode(data.getBytes(), 0));
-            ObjectInputStream objStream = new ObjectInputStream(byteStream);
+    public Karakter(String serializaltData) throws IOException {
+        ByteArrayInputStream byteStream = new ByteArrayInputStream(Base64.decode(serializaltData.getBytes(), 0));
+        ObjectInputStream objStream = new ObjectInputStream(byteStream);
 
-            String Name;
-            int UNI, KASZT, SEED;
+        // -Meta-
+        Name = objStream.readUTF();
+        UNI = objStream.readInt();
+        KASZT = objStream.readInt();
+        RandFactor = objStream.readInt();
 
-            // -Meta-
-            Name = objStream.readUTF();
-            UNI = objStream.readInt();
-            KASZT = objStream.readInt();
-            SEED = objStream.readInt();
+        // -Stats-
+        FT = objStream.readInt();
+        XP = objStream.readDouble();
 
-            Karakter k = new Karakter(Name, UNI, KASZT, SEED);
+        HP = objStream.readDouble();
+        DMG = objStream.readDouble();
+        DaP = objStream.readDouble();
+        DeP = objStream.readDouble();
+        CR = objStream.readDouble();
+        DO = objStream.readDouble();
 
-            // -Stats-
-            k.FT = objStream.readInt();
-            k.XP = objStream.readDouble();
-
-            k.HP = objStream.readDouble();
-            k.DMG = objStream.readDouble();
-            k.DaP = objStream.readDouble();
-            k.DeP = objStream.readDouble();
-            k.CR = objStream.readDouble();
-            k.DO = objStream.readDouble();
-
-            // -Items-
-            for (int i = 0; i < k.Felszereles.length; i++) {
-                int slot, tier, itemid, modifier;
-                if ((slot = objStream.readInt()) == -1) {
-                    objStream.skipBytes(3);
-                    continue;
-                }
-                tier = objStream.readInt();
-                itemid = objStream.readInt();
-                modifier = objStream.readInt();
-                k.Felszereles[i] = new Targy(slot, tier, itemid, modifier);
+        // -Items-
+        for (int i = 0; i < Felszereles.length; i++) {
+            int slot, tier, itemid, modifier;
+            if ((slot = objStream.readInt()) == -1) {
+                objStream.skipBytes(3 * Integer.BYTES);
+                continue;
             }
-
-            return k;
-        }catch (Exception e){
-            return null;
+            tier = objStream.readInt();
+            itemid = objStream.readInt();
+            modifier = objStream.readInt();
+            Felszereles[i] = new Targy(slot, tier, itemid, modifier);
         }
     }
 
@@ -202,27 +197,4 @@ public class Karakter extends KarakterStats{
             return null;
         }
     }
-
-    //Azt csinálja, hogy a meglévő tárgyat kicseréli arra a tárgyra amit váltózóként megadunk neki
-    //I hope értehtő vagyok :D
-    //Mindenkinek szép kódolást :D
-    /*
-    public void targyCsere (Targy targy)
-    {
-        for(int i = 0; i < Felszereles.length; i++)
-        {
-            if(Felszereles[i].Slot == targy.Slot)
-            {
-                Felszereles[i] = targy;
-                break;
-            }
-        }
-    }
-
-    public void arenaBajnok()
-    {
-        XP += 5;
-        FT += 100;
-    }
-    */
 }

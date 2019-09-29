@@ -17,6 +17,7 @@ import android.widget.Toast;
 public class LepesAct extends AppCompatActivity {
 
     public static final int bliccbirsag = 60;
+    public static final int blicckorkimaradas = 3;
 
     private TextView lepes;
 
@@ -45,12 +46,16 @@ public class LepesAct extends AppCompatActivity {
 
     public void ButtonBlicc(View v){
         if (GameController.rand.nextDouble() < (GameController.En.UNI == Karakter.ELTE_ID ? 0.125 : 0.25)) {
-            Toast.makeText(getApplicationContext(), "Elkapott a kaller és bevágatott a böribe.", Toast.LENGTH_LONG).show();
-            GameController.En.kimaradas = 3;
+            if(GameController.En.PenztKolt(bliccbirsag)) {
+                Toast.makeText(getApplicationContext(), "Elkapott a kaller és megbírságolt téged " + bliccbirsag +" Ft-ra.", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(getApplicationContext(), "Elkapott a keller, viszont nem tudtad kifizetni a helyszíni bírságot ( " + bliccbirsag + " Ft ), ezért bevágtak téged a böribe " + blicckorkimaradas + " körre.", Toast.LENGTH_LONG).show();
+                GameController.En.kimaradas = blicckorkimaradas;
+            }
             GameController.tabStats.Update();
             finish();
         } else {
-            Toast.makeText(getApplicationContext(), "Sikerült! Nincs olyan ellenőr aki elbánhatna veled!;)", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Sikerült! Nincs olyan ellenőr aki elbánhatna veled! ;)", Toast.LENGTH_LONG).show();
             finish();
         }
     }

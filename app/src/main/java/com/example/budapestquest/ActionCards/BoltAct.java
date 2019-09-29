@@ -1,11 +1,9 @@
 package com.example.budapestquest.ActionCards;
 
-import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.budapestquest.GameController;
 import com.example.budapestquest.Karakterek.Karakter;
-import com.example.budapestquest.MainActivity;
 import com.example.budapestquest.R;
 import com.example.budapestquest.TabInventory;
 import com.example.budapestquest.Targyak.Targy;
@@ -15,13 +13,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 public class BoltAct extends AppCompatActivity {
 

@@ -6,20 +6,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.Karakterek.KarakterStats;
-import com.example.budapestquest.Targyak.Targy;
 
 public class TabStats extends Fragment {
     private TextView nameText;
@@ -77,7 +71,17 @@ public class TabStats extends Fragment {
 
         kimaradasView = v.findViewById(R.id.statKimaradas);
 
-        // A név garantáltan nem változik miután elkészült a karakterünk.
+        // A név garantáltan nem változik miután elkészült a karakterünk. (Kivéve persze ha új karaktert csinálunk)
+        UpdateMeta();
+        Update();
+
+        return v;
+    }
+
+    /*
+    *   Csak a nevet, kasztot, unit és a képet frissíti
+    * */
+    public void UpdateMeta(){
         nameText.setText(GameController.En.Name + "\n(" + GameController.En.KasztToString() + ", " + GameController.En.EgyetemToString() + ")");
 
         int resid;
@@ -88,10 +92,6 @@ public class TabStats extends Fragment {
             default: resid = R.drawable.face; break;
         }
         kep.setImageResource(resid);
-
-        Update();
-
-        return v;
     }
 
     protected void SetStat(TextView first, TextView mod, double vf, double vm){
@@ -104,6 +104,9 @@ public class TabStats extends Fragment {
             mod.setText("");
     }
 
+    /*
+    *   Frissíti a tabon lévő statokat.
+    * */
     public void Update() {
         KarakterStats ks = GameController.En.SumItemStats();
 
