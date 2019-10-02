@@ -3,10 +3,13 @@ package com.example.budapestquest.Karakterek;
 import com.example.budapestquest.GameController;
 
 import java.io.IOException;
+import android.view.View;
 
 public class LocalKarakter extends Karakter {
     public int vonaljegy = 0;
     public int kimaradas = 0;
+
+    public double elkoltotXP = 0;
 
     public LocalKarakter(String _Name, int _UNI, int _KASZT){
         super(_Name, _UNI, _KASZT, GameController.rand.nextInt());
@@ -30,65 +33,60 @@ public class LocalKarakter extends Karakter {
     *   Megpróbál szintet léptetni az adott statból, visszaadja sikerült-e. Ha sikerült, akkor le is vonja az XP-t.
     * */
     public boolean XPtKolt(int mennyiseg){
-        if((XP < mennyiseg) || (mennyiseg < 0)) return false;
-        XP -= mennyiseg;
+        if(((XP-elkoltotXP) < mennyiseg) || (mennyiseg < 0)) return false;
+        elkoltotXP += mennyiseg;
         return true;
+
+    }
+
+
+
+    public void ButtonlvlUPHP(View v)
+    {
+        if(XPtKolt(1))
+        {
+            HP += 1*100;
+        }
+        else
+        {
+            //NINCS ELÉG XP-éd
+        }
+    }
+
+    public void ButtonlvlUPDMG(View v)
+    {
+        if(XPtKolt(1))
+        {
+            DMG += 1*10;
+        }
+        else
+        {
+            //NINCS ELÉG XP-éd
+        }
+    }
+
+    public void ButtonlvlUPDaP(View v)
+    {
+        if(XPtKolt(1))
+        {
+            DaP += 1;
+        }
+        else
+        {
+            //NINCS ELÉG XP-éd
+        }
+    }
+
+    public void ButtonlvlUPDeP(View v) {
+        if(XPtKolt(1)) {
+            DeP += 1;
+        }
+        else {
+            //NINCS ELÉG XP-éd
+        }
     }
 
     /*
-
-    public void levelUPHP(View v)
-    {
-        if(GameController.En.XP >= 1)
-        {
-            GameController.En.HP += 1*100;
-            GameController.En.XP -= 1;
-        }
-        else
-        {
-            //NINCS ELÉG XP-éd
-        }
-    }
-
-    public void levelUPDMG()
-    {
-        if(GameController.En.XP >= 1)
-        {
-            GameController.En.DMG += 1*10;
-            GameController.En.XP -= 1;
-        }
-        else
-        {
-            //NINCS ELÉG XP-éd
-        }
-    }
-
-    public void levelUPDaP()
-    {
-        if(GameController.En.XP >= 1)
-        {
-            GameController.En.DaP += 1;
-            GameController.En.XP -= 1;
-        }
-        else
-        {
-            //NINCS ELÉG XP-éd
-        }
-    }
-
-    public void levelUPDeP()
-    {
-        if(GameController.En.XP >= 1)
-        {
-            GameController.En.DeP += 1;
-            GameController.En.XP -= 1;
-        }
-        else
-        {
-            //NINCS ELÉG XP-éd
-        }
-    }
-
     public void levelUPCR()
     {
         if(GameController.En.XP >= 1)
@@ -113,6 +111,6 @@ public class LocalKarakter extends Karakter {
         {
             //NINCS ELÉG XP-éd
         }
-    }
-    */
+    }*/
+
 }

@@ -4,21 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <!--TODO valahova a programon belül összekötni és utána a gombokat hozzá kötni -->
+<!--    tools:context=".Karakterek.LacalKarakter"-->
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TableRow
-                android:layout_width="fill_parent">
+
+            <TableRow android:layout_width="fill_parent">
+
                 <ImageView
                     android:id="@+id/profpict"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_column="0"
                     android:layout_gravity="fill_vertical" />
+
                 <TextView
                     android:id="@+id/nevText"
                     android:layout_width="wrap_content"
@@ -26,219 +31,302 @@
                     android:layout_column="1"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="30dp"
-                    android:autoSizeTextType ="uniform"
+                    android:autoSizeTextType="uniform"
                     android:textSize="24sp" />
             </TableRow>
+
             <TableRow
                 android:layout_width="fill_parent"
                 android:weightSum="4">
+
                 <TextView
-                    android:text="Jegy:"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="0"
                     android:layout_weight="1"
-                    android:layout_column="0"/>
+                    android:text="Jegy:"
+                    android:textSize="@dimen/stat_name_size" />
+
                 <TextView
                     android:id="@+id/statJegy_Base"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="1"
                     android:layout_weight="3"
-                    android:layout_column="1"/>
+                    android:textSize="@dimen/stat_name_size" />
             </TableRow>
+
             <TableRow
                 android:layout_width="fill_parent"
                 android:weightSum="4">
+
                 <TextView
-                    android:text="Pénz:"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="0"
                     android:layout_weight="1"
-                    android:layout_column="0"/>
+                    android:text="Pénz:"
+                    android:textSize="@dimen/stat_name_size" />
+
                 <TextView
                     android:id="@+id/statPenz_Base"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="1"
                     android:layout_weight="3"
-                    android:layout_column="1"/>
+                    android:textSize="@dimen/stat_name_size" />
             </TableRow>
+
             <TableRow
                 android:layout_width="fill_parent"
                 android:weightSum="4">
+
                 <TextView
-                    android:text="XP:"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="0"
                     android:layout_weight="1"
-                    android:layout_column="0"/>
+                    android:text="XP:"
+                    android:textSize="@dimen/stat_name_size" />
+
                 <TextView
                     android:id="@+id/statXP_Base"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="1"
                     android:layout_weight="3"
-                    android:layout_column="1"/>
+                    android:textSize="@dimen/stat_name_size" />
             </TableRow>
+
             <TableRow
                 android:layout_width="fill_parent"
                 android:weightSum="4">
+
                 <TextView
-                    android:text="HP:"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="0"
                     android:layout_weight="1"
-                    android:layout_column="0"/>
+                    android:text="HP:"
+                    android:textSize="@dimen/stat_name_size" />
+
                 <TextView
                     android:id="@+id/statHP_Base"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="1"
                     android:layout_weight="1"
-                    android:layout_column="1"/>
+                    android:textSize="@dimen/stat_name_size" />
+
                 <TextView
                     android:id="@+id/statHP_Modif"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
-                    android:layout_weight="2"
-                    android:layout_column="2"/>
+                    android:layout_column="2"
+                    android:layout_weight="1.5"
+                    android:textSize="@dimen/stat_name_size" />
+
+                <Button
+                    android:id="@+id/HPUP"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_column="3"
+                    android:layout_gravity="start"
+                    android:layout_margin="0dp"
+                    android:layout_weight="0.5"
+                    android:padding="0dp"
+                    android:onClick="ButtonLvlHP"
+                    android:text="+"
+                    android:textSize="18sp" />
             </TableRow>
+
             <TableRow
                 android:layout_width="fill_parent"
                 android:weightSum="4">
+
                 <TextView
-                    android:text="DMG:"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="0"
                     android:layout_weight="1"
-                    android:layout_column="0"/>
+                    android:text="DMG:"
+                    android:textSize="@dimen/stat_name_size" />
+
                 <TextView
                     android:id="@+id/statDMG_Base"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="1"
                     android:layout_weight="1"
-                    android:layout_column="1"/>
+                    android:textSize="@dimen/stat_name_size" />
+
                 <TextView
                     android:id="@+id/statDMG_Modif"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
-                    android:layout_weight="2"
-                    android:layout_column="2"/>
+                    android:layout_column="2"
+                    android:layout_weight="1.5"
+                    android:textSize="@dimen/stat_name_size" />
+
+                <Button
+                    android:id="@+id/DMGUP"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_column="3"
+                    android:layout_gravity="start"
+                    android:layout_margin="0dp"
+                    android:layout_weight="0.5"
+                    android:padding="0dp"
+                    android:text="+"
+                    android:textSize="18sp" />
             </TableRow>
+
             <TableRow
                 android:layout_width="fill_parent"
                 android:weightSum="4">
+
                 <TextView
-                    android:text="DaP:"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="0"
                     android:layout_weight="1"
-                    android:layout_column="0"/>
+                    android:text="DaP:"
+                    android:textSize="@dimen/stat_name_size" />
+
                 <TextView
                     android:id="@+id/statDaP_Base"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="1"
                     android:layout_weight="1"
-                    android:layout_column="1"/>
+                    android:textSize="@dimen/stat_name_size" />
+
                 <TextView
                     android:id="@+id/statDaP_Modif"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
-                    android:layout_weight="2"
-                    android:layout_column="2"/>
+                    android:layout_column="2"
+                    android:layout_weight="1.5"
+                    android:textSize="@dimen/stat_name_size" />
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_column="3"
+                    android:layout_gravity="start"
+                    android:layout_margin="0dp"
+                    android:layout_weight="0.5"
+                    android:padding="0dp"
+                    android:text="+"
+                    android:textSize="18sp" />
+                    android:layout_width="0dp"
             </TableRow>
+
             <TableRow
                 android:layout_width="fill_parent"
                 android:weightSum="4">
+
                 <TextView
-                    android:text="DeP:"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="0"
                     android:layout_weight="1"
-                    android:layout_column="0"/>
+                    android:text="DeP:"
+                    android:textSize="@dimen/stat_name_size" />
+
                 <TextView
                     android:id="@+id/statDeP_Base"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="1"
                     android:layout_weight="1"
-                    android:layout_column="1"/>
+                    android:textSize="@dimen/stat_name_size" />
+
                 <TextView
                     android:id="@+id/statDeP_Modif"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
-                    android:layout_weight="2"
-                    android:layout_column="2"/>
+                    android:layout_column="2"
+                    android:layout_weight="1.5"
+                    android:textSize="@dimen/stat_name_size" />
+
+                <Button
+                    android:id="@+id/DePUP"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_column="3"
+                    android:layout_gravity="start"
+                    android:layout_margin="0dp"
+                    android:layout_weight="0.5"
+                    android:padding="0dp"
+                    android:text="+"
+                    android:textSize="18sp" />
             </TableRow>
+
             <TableRow
                 android:layout_width="fill_parent"
                 android:weightSum="4">
+
                 <TextView
-                    android:text="DO:"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="0"
                     android:layout_weight="1"
-                    android:layout_column="0"/>
+                    android:text="DO:"
+                    android:textSize="@dimen/stat_name_size" />
+
                 <TextView
                     android:id="@+id/statDO_Base"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="1"
                     android:layout_weight="3"
-                    android:layout_column="1"/>
+                    android:textSize="@dimen/stat_name_size" />
             </TableRow>
+
             <TableRow
                 android:layout_width="fill_parent"
                 android:weightSum="4">
+
                 <TextView
-                    android:text="CR:"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="0"
                     android:layout_weight="1"
-                    android:layout_column="0"/>
+                    android:text="CR:"
+                    android:textSize="@dimen/stat_name_size" />
+
                 <TextView
                     android:id="@+id/statCR_Base"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="1"
                     android:layout_weight="3"
-                    android:layout_column="1"/>
+                    android:textSize="@dimen/stat_name_size" />
             </TableRow>
+
             <TableRow
-                android:layout_width="fill_parent"
                 android:id="@+id/statKimaradas"
+                android:layout_width="fill_parent"
                 android:weightSum="4">
+
                 <TextView
-                    android:text="Kimaradás:"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="26sp"
-                    android:textStyle="bold"
+                    android:layout_column="0"
                     android:layout_weight="2"
-                    android:layout_column="0"/>
+                    android:text="Kimaradás:"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/statKimaradas_Base"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/stat_name_size"
+                    android:layout_column="1"
                     android:layout_weight="2"
-                    android:layout_column="1"/>
+                    android:textSize="@dimen/stat_name_size" />
             </TableRow>
+
             <ImageView
                 android:id="@+id/qrView"
                 android:layout_width="0dp"
