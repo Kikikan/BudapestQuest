@@ -82,6 +82,7 @@ public class HarcAct extends AppCompatActivity {
             if(nyertem) {
                 Toast.makeText(getApplicationContext(), "NYERTÉL!", Toast.LENGTH_LONG).show();
                 GameController.En.FT += 30;
+                GameController.En.arenaBajnokHarcolt = true;
             }else{
                 Toast.makeText(getApplicationContext(), "VESZTETTÉL!", Toast.LENGTH_LONG).show();
                 //GameController.En.kimaradas = 3;
@@ -95,8 +96,7 @@ public class HarcAct extends AppCompatActivity {
 
     //TODO: SZÉP LOG
 
-    public void SortKiir(String str){ logString += str + "\n";
-    }
+    public void SortKiir(String str){ logString += str + "\n"; }
 
     /*
      * Leszimulál egy kört.

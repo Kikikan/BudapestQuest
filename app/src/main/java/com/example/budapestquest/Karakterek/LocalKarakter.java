@@ -8,6 +8,7 @@ public class LocalKarakter extends Karakter {
     public int vonaljegy = 0;
     public int kimaradas = 0;
     public int elkolthetoXP = 0;
+    public boolean arenaBajnokHarcolt = true;
 
     public LocalKarakter(String _Name, int _UNI, int _KASZT){
         super(_Name, _UNI, _KASZT, GameController.rand.nextInt());
@@ -71,4 +72,11 @@ public class LocalKarakter extends Karakter {
             DeP += 1;
         }return success;
     }
+
+    public void arenaBajnokaLettem(){
+        arenaBajnokHarcolt = false;
+        XP += 5;
+        FT += 100;
+    }
+
 }

@@ -223,9 +223,25 @@ public class GameController {
                     context.startActivity(intent);
                 }
                 break;
+                case QRManager.QR_ARENABAJNOK: { // ARENABAJNOK (KAP XP-T és PENZT. Ha nem harcol addig, nem olvashatja be újra)
+                    if(En.arenaBajnokHarcolt)
+                    {
+                        En.arenaBajnokaLettem();
+                    }
+                    else
+                    {
+                        //Ki írni, hogy előtte harcolom kell hogy újra aréna bajnok lehessek
+                    }
+
+//                    intent = new Intent(context, MunkaAct.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    context.startActivity(intent);
+                }
+                break;
                 default:
                     throw new Exception("Ismeretlen QR kód utasítás.");
             }
         }
     }
 }
+
