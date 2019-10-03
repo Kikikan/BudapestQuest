@@ -1,6 +1,7 @@
 package com.example.budapestquest.ui.main;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -25,29 +26,20 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
     private final Context mContext;
 
-    private final TabStats tabStats;
-    private final TabInventory tabInventory;
-
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
-        GameController.tabStats = tabStats = new TabStats();
-        GameController.tabInventory = tabInventory = new TabInventory();
     }
 
     @Override
     public Fragment getItem(int position) {
-        // getItem is called to instantiate the fragment for the given page.
-        Fragment fragment = null;
         switch (position) {
             case TAB_STATS:
-                fragment = tabStats;
-                break;
+                return GameController.tabStats = new TabStats();
             case TAB_INVENTORY:
-                fragment = tabInventory;
-                break;
+                return GameController.tabInventory = new TabInventory();
         }
-        return fragment;
+        return null;
     }
 
     @Nullable

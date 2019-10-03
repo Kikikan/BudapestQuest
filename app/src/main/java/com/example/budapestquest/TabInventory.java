@@ -76,9 +76,9 @@ public class TabInventory extends Fragment {
      *   Frissíti a tabon lévő itemeket.
      * */
     public void Update(){
-        UpdateInventoryRow(item0Row, GameController.En.Felszereles[Targy.FEJ_ID]);
-        UpdateInventoryRow(item1Row, GameController.En.Felszereles[Targy.MELLKAS_ID]);
-        UpdateInventoryRow(item2Row, GameController.En.Felszereles[Targy.LAB_ID]);
+        UpdateInventoryRow(item0Row, GameController.En.Felszereles[Targy.FELSO_ID]);
+        UpdateInventoryRow(item1Row, GameController.En.Felszereles[Targy.NADRAG_ID]);
+        UpdateInventoryRow(item2Row, GameController.En.Felszereles[Targy.CIPO_ID]);
         UpdateInventoryRow(item3Row, GameController.En.Felszereles[Targy.FEGYVER_ID]);
     }
 

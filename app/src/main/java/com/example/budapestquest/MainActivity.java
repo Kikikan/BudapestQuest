@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     public static ViewPager viewPager;
     public static TabLayout tabLayout;
 
-    private static SectionsPagerAdapter sectionsPagerAdapter = null;
+    private SectionsPagerAdapter sectionsPagerAdapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

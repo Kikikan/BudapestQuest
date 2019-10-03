@@ -1,9 +1,9 @@
 package com.example.budapestquest.Targyak;
 
 public class Targy {
-    public static final int FEJ_ID = 0;
-    public static final int MELLKAS_ID = 1;
-    public static final int LAB_ID = 2;
+    public static final int FELSO_ID = 0;
+    public static final int NADRAG_ID = 1;
+    public static final int CIPO_ID = 2;
     public static final int FEGYVER_ID = 3;
 
     public static final int TIER_1 = 0;
@@ -40,10 +40,10 @@ public class Targy {
     /*
     *   Visszaadják a tárgy statjat
     * */
-    public double SumHP(){ return item.HP + modifier.HP; }
-    public double SumDMG(){ return item.DMG + modifier.DMG; }
-    public double SumDaP(){ return item.DaP + modifier.DaP; }
-    public double SumDeP(){ return item.DeP + modifier.DeP; }
+    public double SumHP(){ return item.HP * modifier.HP; }
+    public double SumDMG(){ return item.DMG * modifier.DMG; }
+    public double SumDaP(){ return item.DaP * modifier.DaP; }
+    public double SumDeP(){ return item.DeP * modifier.DeP; }
 
     public static WeightedContainer<Item> GetItemContainer(int Slot, int Tier){
         if((Slot < 0 || Slot > 3) || (Tier< 0 || Tier > 2))
@@ -107,68 +107,64 @@ public class Targy {
     //TODO: Ezt itt alul mind helyrerakni + feltölteni contenttel
     //TODO: Esetleg valami adatbázisba kiszervezni az egészet, amit aztán lehet majd frissíteni?
     public static final WeightedContainer<Item>[][] ItemSchema = new WeightedContainer[][]{
-            /* FEJ ITEMEK */
+            /* FELSŐ ITEMEK */
             new WeightedContainer[]{
                     new WeightedContainer<>(new Item[]{
-                            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 100, 200.0f, 0.0f,3.0f,0.0f),
-                            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 100, 0.0f, 20.0f,3.0f,0.0f),
+                            new Item("Hálóing", "Elnézést a késésért.", 1.0f, 120, 400.0f, 0.0f,2.0f,0.0f),
+                            new Item("Trikó", "Feszítős.", 1.0f, 120, 400.0f, 0.0f,0.0f,2.0f),
                     }),
                     new WeightedContainer<>(new Item[]{
-                            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 120, 300.0f, 0.0f,4.0f,0.0f),
-                            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 120, 0.0f, 30.0f,4.0f,0.0f),
+                            new Item("Kockás ing", "Szexi.", 1.0f, 140, 500.0f, 0.0f,3.0f,0.0f),
+                            new Item("Téli kabát", "Jó meleg.", 1.0f, 140, 500.0f, 0.0f,0.0f,3.0f),
                     }),
                     new WeightedContainer<>(new Item[]{
-                            new Item("Bukósisak", "Menőn néz ki.", 1.0f, 160, 400.0f, 0.0f,6.0f,0.0f),
-                            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 160, 0.0f, 40.0f,6.0f,0.0f),
+                            new Item("Golyóálló mellény", "Amerikai középiskola feeling.", 1.0f, 180, 700.0f, 0.0f,4.0f,0.0f),
+                            new Item("Gyémánt mellvért", "Protection IV", 1.0f, 180, 700.0f, 0.0f,0.0f,4.0f),
                     })
             },
-            /* MELLKAS ITEMEK */
+            /* NADRÁG ITEMEK */
             new WeightedContainer[]{
                     new WeightedContainer<>(new Item[]{
-                            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 120, 400.0f, 0.0f,.0f,2.0f),
-                            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 120, 400.0f, 0.0f,2.0f,0.0f),
+                            new Item("Farmer", "Klasszikus.", 1.0f, 120, 200.0f, 0.0f,0.0f,4.0f),
+                            new Item("Mackónadrág", "Király Gabi ajánlásával.", 1.0f, 120, 0.0f, 20.0f,0.0f,4.0f),
                     }),
                     new WeightedContainer<>(new Item[]{
-                            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 140, 500.0f, 0.0f,0.0f,3.0f),
-                            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 140, 500.0f, 0.0f,3.0f,0.0f),
+                            new Item("Nadrág #1", "A kollekció első darabja.", 1.0f, 140, 300.0f, 0.0f,0.0f,5.0f),
+                            new Item("Nadrág #2", "A kollekció második darabja.", 1.0f, 140, 0.0f, 30.0f,0.0f,5.0f),
                     }),
                     new WeightedContainer<>(new Item[]{
-                            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 180, 700.0f, 0.0f,0.0f,4.0f),
-                            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 180, 700.0f, 0.0f,4.0f,0.0f),
+                            new Item("Lábszárvédő", "Megvéd sok mindentől.", 1.0f, 180, 400.0f, 0.0f,0.0f,7.0f),
+                            new Item("Vászonnadrág", "Nemtudom... talán kemény?", 1.0f, 180, 0.0f, 40.0f,0.0f,7.0f),
                     })
             },
-            /* LÁB ITEMEK */
+            /* CIPŐ ITEMEK */
             new WeightedContainer[]{
                     new WeightedContainer<>(new Item[]{
-                            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 120, 200.0f, 0.0f,0.0f,4.0f),
-                            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 120, 0.0f, 20.0f,0.0f,4.0f),
+                            new Item("Strandpapucs", "Szép.", 1.0f, 100, 200.0f, 0.0f,3.0f,0.0f),
+                            new Item("Zokniszandál", "Mindenki kedvence.", 1.0f, 100, 0.0f, 20.0f,3.0f,0.0f),
                     }),
                     new WeightedContainer<>(new Item[]{
-                            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 140, 300.0f, 0.0f,0.0f,5.0f),
-                            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 140, 0.0f, 30.0f,0.0f,5.0f),
+                            new Item("Sportcipő", "Teljesen átlagos.", 1.0f, 120, 300.0f, 0.0f,4.0f,0.0f),
+                            new Item("Futócipő", "Sebesség vagyok.", 1.0f, 120, 0.0f, 30.0f,4.0f,0.0f),
                     }),
                     new WeightedContainer<>(new Item[]{
-                            new Item("Hálósapka", "Menőn néz ki.", 1.0f, 180, 400.0f, 0.0f,0.0f,7.0f),
-                            new Item("Alufólia sapka", "Megvéd az UFÓktól.", 1.0f, 180, 0.0f, 40.0f,0.0f,7.0f),
+                            new Item("Acélbetétes bakancs", "Kemény.", 1.0f, 160, 400.0f, 0.0f,6.0f,0.0f),
+                            new Item("Lakkcipő", "Elegante.", 1.0f, 160, 0.0f, 40.0f,6.0f,0.0f),
                     })
             },
             /* FEGYVER ITEMEK */
             new WeightedContainer[]{
                     new WeightedContainer<>(new Item[]{
-                            new Item("Bot", "Egy bot...", 1.0f, 140, 0.0f, 40.0f,3.0f,0.0f),
-                            new Item("Esernyő", "Egy e-ser-NYŐ!", 1.0f, 140, 0.0f, 40.0f,0.0f,3.0f),
-                            new Item("Baseball ütő", "Most pofázzá'.", 1.0f, 140, 0.0f, 40.0f,3.0f,0.0f),
+                            new Item("Ásó", "Aki másnak...", 1.0f, 140, 0.0f, 40.0f,3.0f,0.0f),
                             new Item("Törött borosüveg", "Lafiesta édes élmény.", 1.0f, 140, 0.0f, 40.0f,0.0f,3.0f),
                     }),
                     new WeightedContainer<>(new Item[]{
-                            new Item("Buzogány", "Menőn néz ki.", 1.0f, 160, 0.0f, 50.0f,4.0f,0.0f),
                             new Item("Bicska", "Van cigid? Buszjegyre kell.", 1.0f, 160, 0.0f, 50.0f,0.0f,4.0f),
                             new Item("Rozsdás bökő", "Tetanusz is coming.", 1.0f, 160, 0.0f, 50.0f,4.0f,0.0f),
                     }),
                     new WeightedContainer<>(new Item[]{
-                            new Item("MP5", "\uD83C\uDFB6All the other kids with the pumped up kicks\uD83C\uDFB6", 1.0f, 200, 0.0f, 70.0f,50.0f,0.0f),
-                            new Item("Láncfűrész", "Vrr-vrrrrrr", 1.0f, 200, 0.0f, 70.0f,0.0f,50.0f),
-                            new Item("Stielhandgranate", "*insert német szöveg here*.", 1.0f, 200, 0.0f, 70.0f,50.0f,0.0f),
+                            new Item("MP5", "\uD83C\uDFB6All the other kids with the pumped up kicks\uD83C\uDFB6", 1.0f, 200, 0.0f, 70.0f,5.0f,0.0f),
+                            new Item("Láncfűrész", "Vrr-vrrrrrr", 1.0f, 200, 0.0f, 70.0f,0.0f,5.0f),
                     })
             }
     };
@@ -177,21 +173,21 @@ public class Targy {
     public static final WeightedContainer<Modifier>[] Modifiers = (WeightedContainer<Modifier>[])new WeightedContainer[]{
             /* RUHÁRA */
             new WeightedContainer<>(new Modifier[]{
-                    new Modifier("Szakadt", 2.0f, 0.6f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("Rongyos", 5.0f, 0.8f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("Átlagos", 12.0f, 1.0f,0xff005500, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("H&M-es", 5.0f, 1.3f, 0xff005500,0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("Epikus", 1.0f, 1.8f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("Legendás", 0.5f, 2.2f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
+                    new Modifier("Szakadt", 2.0f, 0.6f, 0xff005500, 1.0f, 1.0f,1.0f,1.0f),
+                    new Modifier("Rongyos", 5.0f, 0.8f, 0xff005500, 1.0f, 1.0f,1.0f,1.0f),
+                    new Modifier("Átlagos", 12.0f, 1.0f,0xff005500, 1.0f, 1.0f,1.0f,1.0f),
+                    new Modifier("H&M-es", 5.0f, 1.3f, 0xff005500,1.0f, 1.0f,1.0f,1.0f),
+                    new Modifier("Epikus", 1.0f, 1.8f, 0xff005500, 1.0f, 1.0f,1.0f,1.0f),
+                    new Modifier("Legendás", 0.5f, 2.2f, 0xff005500, 1.0f, 1.0f,1.0f,1.0f),
             }),
             /* FEGYVERRE */
             new WeightedContainer<>(new Modifier[]{
-                    new Modifier("Borzalmas", 2.0f, 0.6f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("Törött", 5.0f, 0.8f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("Átlagos", 12.0f, 1.0f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("Nagyon klassz", 5.0f, 1.3f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("Epikus", 1.0f, 1.8f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
-                    new Modifier("Legendás", 0.5f, 2.2f, 0xff005500, 0.0f, 0.0f,0.0f,0.0f),
+                    new Modifier("Borzalmas", 2.0f, 0.6f, 0xff005500, 1.0f, 1.0f,1.0f,1.0f),
+                    new Modifier("Törött", 5.0f, 0.8f, 0xff005500, 1.0f, 1.0f,1.0f,1.0f),
+                    new Modifier("Átlagos", 12.0f, 1.0f, 0xff005500, 1.0f, 1.0f,1.0f,1.0f),
+                    new Modifier("Nagyon klassz", 5.0f, 1.3f, 0xff005500, 1.0f, 1.0f,1.0f,1.0f),
+                    new Modifier("Epikus", 1.0f, 1.8f, 0xff005500, 1.0f, 1.0f,1.0f,1.0f),
+                    new Modifier("Legendás", 0.5f, 2.2f, 0xff005500, 1.0f, 1.0f,1.0f,1.0f),
             })
     };
 

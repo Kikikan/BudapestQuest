@@ -51,6 +51,7 @@ public class GameController {
             spe.putString("karakter", En.Serialize());
             spe.putInt("vonaljegy", En.vonaljegy);
             spe.putInt("kimaradas", En.kimaradas);
+            spe.putInt("elkothetoxp", En.elkolthetoXP);
             spe.apply();
         }catch (Exception e){
             return false;
@@ -68,12 +69,14 @@ public class GameController {
             String k = sp.getString("karakter", "");
             int vj = sp.getInt("vonaljegy", -1);
             int km = sp.getInt("kimaradas", -1);
+            int xp = sp.getInt("elkothetoxp", -1);
 
-            if (k.isEmpty() || vj == -1 || km == -1) return false;
+            if (k.isEmpty() || vj == -1 || km == -1 || xp == -1) return false;
 
             En = new LocalKarakter(k);
             En.vonaljegy = vj;
             En.kimaradas = km;
+            En.elkolthetoXP = xp;
         }catch (Exception e){
             return false;
         }
@@ -106,6 +109,7 @@ public class GameController {
         if(name.startsWith("5vos")){
             En.FT = 2000;
             En.vonaljegy = 3;
+            En.GiveXP(5);
         }
     }
 
@@ -181,16 +185,29 @@ public class GameController {
                 }
                 break;
                 case QRManager.QR_AKCIOK: { // Akciókártya Húzása (data: 0 penz+, 1 penz-, 2 targy+ RELATÍV ESÉLYEK) (azért nincs targy- mert tul nagy hátrány)
-                    if (data.length() != 3)
-                        throw new Exception("3 paraméter szükséges.");
-                    int o1 = data.charAt(0) - '0';
-                    int o2 = data.charAt(1) - '0';
-                    int o3 = data.charAt(2) - '0';
+                    int o1 = 0, o2 = 0, o3 = 0;
+                    if(version.equals("1000")){ // Kompatibilitás miatt, TODO: Ha újra nyomtatunk, akkor azthiszem felesleges
+                        if(data.length() != 1)
+                            throw new Exception("Nincs paraméter.");
+                        switch (data.charAt(0)){
+                            case '0': o1 = 1; break;
+                            case '1': o2 = 1; break;
+                            //case '2': o3 = 1; break;
+                            default:
+                                throw new Exception("Nem létező akció.");
+                        }
+                    }else {
+                        if (data.length() != 3)
+                            throw new Exception("3 paraméter szükséges.");
+                        o1 = data.charAt(0) - '0';
+                        o2 = data.charAt(1) - '0';
+                        o3 = data.charAt(2) - '0';
 
-                    if(o1 < 0 || o2 < 0 || o3 < 0)
-                        throw new Exception("Nem lehet negatív paraméter.");
-                    if(o1 == 0 && o2 == 0 && o3 == 0)
-                        throw new Exception("Nem lehet minden paraméter 0.");
+                        if (o1 < 0 || o2 < 0 || o3 < 0)
+                            throw new Exception("Nem lehet negatív paraméter.");
+                        if (o1 == 0 && o2 == 0 && o3 == 0)
+                            throw new Exception("Nem lehet minden paraméter 0.");
+                    }
 
                     intent = new Intent(context, AkcioAct.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

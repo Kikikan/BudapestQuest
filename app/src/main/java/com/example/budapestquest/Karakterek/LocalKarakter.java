@@ -3,13 +3,11 @@ package com.example.budapestquest.Karakterek;
 import com.example.budapestquest.GameController;
 
 import java.io.IOException;
-import android.view.View;
 
 public class LocalKarakter extends Karakter {
     public int vonaljegy = 0;
     public int kimaradas = 0;
-
-    public double elkoltotXP = 0;
+    public int elkolthetoXP = 0;
 
     public LocalKarakter(String _Name, int _UNI, int _KASZT){
         super(_Name, _UNI, _KASZT, GameController.rand.nextInt());
@@ -30,87 +28,47 @@ public class LocalKarakter extends Karakter {
     }
 
     /*
-    *   Megpróbál szintet léptetni az adott statból, visszaadja sikerült-e. Ha sikerült, akkor le is vonja az XP-t.
-    * */
-    public boolean XPtKolt(int mennyiseg){
-        if(((XP-elkoltotXP) < mennyiseg) || (mennyiseg < 0)) return false;
-        elkoltotXP += mennyiseg;
-        return true;
-
-    }
-
-
-
-    public void ButtonlvlUPHP(View v)
-    {
-        if(XPtKolt(1))
-        {
-            HP += 1*100;
-        }
-        else
-        {
-            //NINCS ELÉG XP-éd
-        }
-    }
-
-    public void ButtonlvlUPDMG(View v)
-    {
-        if(XPtKolt(1))
-        {
-            DMG += 1*10;
-        }
-        else
-        {
-            //NINCS ELÉG XP-éd
-        }
-    }
-
-    public void ButtonlvlUPDaP(View v)
-    {
-        if(XPtKolt(1))
-        {
-            DaP += 1;
-        }
-        else
-        {
-            //NINCS ELÉG XP-éd
-        }
-    }
-
-    public void ButtonlvlUPDeP(View v) {
-        if(XPtKolt(1)) {
-            DeP += 1;
-        }
-        else {
-            //NINCS ELÉG XP-éd
-        }
+    *   Valami szofisztikált LVLUP rendszert alapoz meg a késöbbiekre tekintettel léve. Egyszerőbb lesz majd bevezetni a szinteket, és hogy pl szintenként járjon majd "LVLUP jog"
+     * */
+    public void GiveXP(int xp){
+        XP += xp;
+        elkolthetoXP += xp;
     }
 
     /*
-    public void levelUPCR()
-    {
-        if(GameController.En.XP >= 1)
-        {
-            GameController.En.CR += 1;
-            GameController.En.XP -= 1;
-        }
-        else
-        {
-            //NINCS ELÉG XP-éd
-        }
+    *   Megpróbál szintet léptetni az adott statból, visszaadja sikerült-e. Ha sikerült, akkor le is vonja az XP-t.
+    * */
+    public boolean SpendXP(int mennyiseg){
+        if((elkolthetoXP < mennyiseg) || (mennyiseg < 0)) return false;
+        elkolthetoXP -= mennyiseg;
+        return true;
     }
 
-    public void levelUPDO()
-    {
-        if(GameController.En.XP >= 1)
-        {
-            GameController.En.DO += 1;
-            GameController.En.XP -= 1;
-        }
-        else
-        {
-            //NINCS ELÉG XP-éd
-        }
-    }*/
+    public boolean DoLVLUP_HP() {
+        boolean success;
+        if(success = SpendXP(1)) {
+            HP += 1*100;
+        }return success;
+    }
 
+    public boolean DoLVLUP_DMG() {
+        boolean success;
+        if(success = SpendXP(1)) {
+            DMG += 1*10;
+        }return success;
+    }
+
+    public boolean DoLVLUP_DaP() {
+        boolean success;
+        if(success = SpendXP(1)) {
+            DaP += 1;
+        }return success;
+    }
+
+    public boolean DoLVLUP_DeP() {
+        boolean success;
+        if(success = SpendXP(1)) {
+            DeP += 1;
+        }return success;
+    }
 }

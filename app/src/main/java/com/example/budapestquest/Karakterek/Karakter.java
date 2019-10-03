@@ -63,8 +63,8 @@ public class Karakter extends KarakterStats{
         RandFactor = _SEED;
     }
 
-    public int      FT = 100;
-    public double   XP = 0;
+    public int FT = 100;
+    public int XP = 0;
 
     public int      RandFactor = 0;
     public Targy[]  Felszereles = new Targy[4];
@@ -125,7 +125,7 @@ public class Karakter extends KarakterStats{
 
         // -Stats-
         FT = objStream.readInt();
-        XP = objStream.readDouble();
+        XP = objStream.readInt();
 
         HP = objStream.readDouble();
         DMG = objStream.readDouble();
@@ -166,7 +166,7 @@ public class Karakter extends KarakterStats{
 
             //Ezek azért mennek át, mert esetlegesen késöbb lehetne őket használni csatában?
             objStream.writeInt(FT);
-            objStream.writeDouble(XP);
+            objStream.writeInt(XP);
 
             objStream.writeDouble(HP);
             objStream.writeDouble(DMG);
