@@ -85,7 +85,7 @@ public class HarcAct extends AppCompatActivity {
                 GameController.En.GiveXP(1);
             }else{
                 Toast.makeText(getApplicationContext(), "VESZTETTÉL!", Toast.LENGTH_LONG).show();
-                //GameController.En.kimaradas = 2;
+                GameController.En.kimaradas = 1;
             }
             SortKiir("A nyertes: " + (nyertem ? GameController.En.Name : enemy.Name));
             qrkod.setVisibility(View.GONE);
