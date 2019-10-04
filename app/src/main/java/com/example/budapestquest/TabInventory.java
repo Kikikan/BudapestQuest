@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -51,6 +52,8 @@ public class TabInventory extends Fragment {
         TextView itemname = row.findViewById(R.id.itemname);
         TextView itemdesc = row.findViewById(R.id.itemdesc);
         LinearLayout statok = row.findViewById(R.id.itemstatok);
+        ImageView itempic = row.findViewById(R.id.itempic);
+        itempic.setImageResource(targy == null ? android.R.drawable.ic_delete : targy.item.KepID);
 
         //TODO: ez megint csak egy ugly hack
         if(targy == null){

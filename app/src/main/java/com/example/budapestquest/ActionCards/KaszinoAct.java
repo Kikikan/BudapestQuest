@@ -34,7 +34,7 @@ public class KaszinoAct extends AppCompatActivity {
 
     //TODO: az algo hibás volt, pénzt vesztettél. Most "javítva van", nem vesztesz pénzt, de a súlyokat stb kérem hogy valaki állítsa be.
 
-    public void Game(int szint, double odds){
+    public void Game(double szint, double odds){
         try {
             int osszeg = Integer.parseInt(((EditText) findViewById(R.id.osszeg)).getText().toString());
             if(osszeg <= 0) {
@@ -43,7 +43,7 @@ public class KaszinoAct extends AppCompatActivity {
             }
             if(GameController.En.SpendMoney(osszeg)) {
                 if(GameController.rand.nextDouble() < odds) {
-                    int nyer = (osszeg * 2);
+                    int nyer = (int) Math.round((osszeg * (1.0+((double)szint /100))));
                     GameController.En.FT += nyer;
                     Toast.makeText(getApplicationContext(), "Nyertél " + nyer + " Ft-t!", Toast.LENGTH_LONG).show();
                 }else

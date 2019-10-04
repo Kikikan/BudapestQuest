@@ -11,6 +11,7 @@ import com.example.budapestquest.Targyak.Targy;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -65,6 +66,8 @@ public class BoltAct extends AppCompatActivity {
 
             TextView itemname = itemrow.findViewById(R.id.itemname);
             itemname.setText(t.modifier.Name + " " + t.item.Name);
+
+            ((ImageView)itemrow.findViewById(R.id.itempic)).setImageResource(t.item.KepID);
 
             // Modifier adja a színét
             itemname.setTextColor(t.modifier.Color);

@@ -113,8 +113,8 @@ public class GameController {
         En = new LocalKarakter(name, uniId, kasztId);
 
         //TODO: Kezdő statok
-        En.HP = 100;
-        En.DMG = 10;
+        En.HP = 1000;
+        En.DMG = 100;
         En.DaP = 0;
         En.DeP = 0;
         En.CR = 0.05;
@@ -207,17 +207,17 @@ public class GameController {
                 }
                 break;
                 case QRManager.QR_AKCIOK: { // Akciókártya Húzása (data: 0 penz+, 1 penz-, 2 targy+ RELATÍV ESÉLYEK) (azért nincs targy- mert tul nagy hátrány)
-                    int o1 = 0, o2 = 0, o3 = 0;
-                    if(version.equals("1000")){ // Kompatibilitás miatt, TODO: Ha újra nyomtatunk, akkor azthiszem felesleges
-                        if(data.length() != 1)
-                            throw new Exception("Nincs paraméter.");
-                        switch (data.charAt(0)){
-                            case '0': o1 = 1; break;
-                            case '1': o2 = 1; break;
-                            //case '2': o3 = 1; break;
-                            default:
-                                throw new Exception("Nem létező akció.");
+                    int o1, o2, o3;
+                    if(data.length() == 0)
+                        throw new Exception("Nincs paraméter.");
+                    if(version.equals("1000") && data.charAt(0) == '3'){ // Kompatibilitás miatt, TODO: Ha újra nyomtatunk, akkor azthiszem felesleges
+                        if(En.ArenaBajnok()) {
+                            tabStats.Update();
+                            ShowPopup("Aréna bajnoka", "Gratulálunk "+En.Name+"!\nAz Aréna új bajnokot avathatott személyedben! Jutalmul pedig ezeket kaptad:\n"+LocalKarakter.ArenabajnokRewardXP+" XP és "+LocalKarakter.ArenabajnokRewardPenz+" Ft");
                         }
+                        else
+                            Toast.makeText(context, "Már aréna bajnok vagy.", Toast.LENGTH_LONG).show();
+                        return;
                     }else {
                         if (data.length() != 3)
                             throw new Exception("3 paraméter szükséges.");
@@ -245,7 +245,7 @@ public class GameController {
                     context.startActivity(intent);
                 }
                 break;
-                case QRManager.QR_ARENABAJNOK: {
+                /*case QRManager.QR_ARENABAJNOK: {
                     if(En.ArenaBajnok()) {
                         tabStats.Update();
                         ShowPopup("Aréna bajnoka", "Gratulálunk "+En.Name+"!\nAz Aréna új bajnokot avathatott személyedben! Jutalmul pedig ezeket kaptad:\n"+LocalKarakter.ArenabajnokRewardXP+" XP és "+LocalKarakter.ArenabajnokRewardPenz+" Ft");
@@ -253,13 +253,10 @@ public class GameController {
                     else
                         Toast.makeText(context, "Az Aréna bajnoki címének elnyeréséhez győznöd kell egy csatában.", Toast.LENGTH_LONG).show();
                 }
-                break;
+                break;*/
                 default:
                     throw new Exception("Ismeretlen QR kód utasítás.");
             }
         }
-
-        // Csak csata után tudjuk beolvasni a Aréna bajnok kártyát, utána elesünk a jutalmaktól.
-        En.winreward = false;
     }
 }

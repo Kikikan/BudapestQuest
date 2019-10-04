@@ -1,5 +1,7 @@
 package com.example.budapestquest.Targyak;
 
+import com.example.budapestquest.R;
+
 public class Targy {
     public static final int FELSO_ID = 0;
     public static final int NADRAG_ID = 1;
@@ -110,61 +112,61 @@ public class Targy {
             /* FELSŐ ITEMEK */
             new WeightedContainer[]{
                     new WeightedContainer<>(new Item[]{
-                            new Item("Hálóing", "Elnézést a késésért.", 1.0f, 120, 400.0f, 0.0f,2.0f,0.0f),
-                            new Item("Trikó", "Feszítős.", 1.0f, 120, 400.0f, 0.0f,0.0f,2.0f),
+                            new Item("Hálóing", "Elnézést a késésért.", R.drawable.haloing, 1.0f, 120, 400.0f, 0.0f,2.0f,0.0f),
+                            new Item("Trikó", "Feszítős.", R.drawable.triko, 1.0f, 120, 400.0f, 0.0f,0.0f,2.0f),
                     }),
                     new WeightedContainer<>(new Item[]{
-                            new Item("Kockás ing", "Szexi.", 1.0f, 140, 500.0f, 0.0f,3.0f,0.0f),
-                            new Item("Téli kabát", "Jó meleg.", 1.0f, 140, 500.0f, 0.0f,0.0f,3.0f),
+                            new Item("Kockás ing", "Szexi.", R.drawable.kockasing, 1.0f, 140, 500.0f, 0.0f,3.0f,0.0f),
+                            new Item("Téli kabát", "Jó meleg.", R.drawable.telikabat, 1.0f, 140, 500.0f, 0.0f,0.0f,3.0f),
                     }),
                     new WeightedContainer<>(new Item[]{
-                            new Item("Golyóálló mellény", "Amerikai középiskola feeling.", 1.0f, 180, 700.0f, 0.0f,4.0f,0.0f),
-                            new Item("Gyémánt mellvért", "Protection IV", 1.0f, 180, 700.0f, 0.0f,0.0f,4.0f),
+                            new Item("Golyóálló mellény", "Amerikai középiskola feeling.", R.drawable.golyoallo, 1.0f, 180, 700.0f, 0.0f,4.0f,0.0f),
+                            new Item("Gyémánt mellvért", "Protection IV", R.drawable.diamellvert,1.0f, 180, 700.0f, 0.0f,0.0f,4.0f),
                     })
             },
             /* NADRÁG ITEMEK */
             new WeightedContainer[]{
                     new WeightedContainer<>(new Item[]{
-                            new Item("Farmer", "Klasszikus.", 1.0f, 120, 200.0f, 0.0f,0.0f,4.0f),
-                            new Item("Mackónadrág", "Király Gabi ajánlásával.", 1.0f, 120, 0.0f, 20.0f,0.0f,4.0f),
+                            new Item("Farmer", "Klasszikus.", R.drawable.farmer,1.0f, 120, 200.0f, 0.0f,0.0f,4.0f),
+                            new Item("Mackónadrág", "Király Gabi ajánlásával.", R.drawable.macko, 1.0f, 120, 0.0f, 20.0f,0.0f,4.0f),
                     }),
                     new WeightedContainer<>(new Item[]{
-                            new Item("Nadrág #1", "A kollekció első darabja.", 1.0f, 140, 300.0f, 0.0f,0.0f,5.0f),
-                            new Item("Nadrág #2", "A kollekció második darabja.", 1.0f, 140, 0.0f, 30.0f,0.0f,5.0f),
+                            new Item("Nadrág #1", "A kollekció első darabja.", R.drawable.nadrag1,1.0f, 140, 300.0f, 0.0f,0.0f,5.0f),
+                            new Item("Nadrág #2", "A kollekció második darabja.", R.drawable.nadrag2, 1.0f, 140, 0.0f, 30.0f,0.0f,5.0f),
                     }),
                     new WeightedContainer<>(new Item[]{
-                            new Item("Lábszárvédő", "Megvéd sok mindentől.", 1.0f, 180, 400.0f, 0.0f,0.0f,7.0f),
-                            new Item("Vászonnadrág", "Nemtudom... talán kemény?", 1.0f, 180, 0.0f, 40.0f,0.0f,7.0f),
+                            new Item("Lábszárvédő", "Megvéd sok mindentől.", R.drawable.dialab,1.0f, 180, 400.0f, 0.0f,0.0f,7.0f),
+                            new Item("Vászonnadrág", "Nemtudom... talán kemény?", R.drawable.vaszonnadrag,1.0f, 180, 0.0f, 40.0f,0.0f,7.0f),
                     })
             },
             /* CIPŐ ITEMEK */
             new WeightedContainer[]{
                     new WeightedContainer<>(new Item[]{
-                            new Item("Strandpapucs", "Szép.", 1.0f, 100, 200.0f, 0.0f,3.0f,0.0f),
-                            new Item("Zokniszandál", "Mindenki kedvence.", 1.0f, 100, 0.0f, 20.0f,3.0f,0.0f),
+                            new Item("Strandpapucs", "Szép.", R.drawable.papucs,1.0f, 100, 200.0f, 0.0f,3.0f,0.0f),
+                            new Item("Zokniszandál", "Mindenki kedvence.", R.drawable.zokni,1.0f, 100, 0.0f, 20.0f,3.0f,0.0f),
                     }),
                     new WeightedContainer<>(new Item[]{
-                            new Item("Sportcipő", "Teljesen átlagos.", 1.0f, 120, 300.0f, 0.0f,4.0f,0.0f),
-                            new Item("Futócipő", "Sebesség vagyok.", 1.0f, 120, 0.0f, 30.0f,4.0f,0.0f),
+                            new Item("Sportcipő", "Teljesen átlagos.", R.drawable.papucs,1.0f, 120, 300.0f, 0.0f,4.0f,0.0f),
+                            new Item("Futócipő", "Sebesség vagyok.", R.drawable.papucs,1.0f, 120, 0.0f, 30.0f,4.0f,0.0f),
                     }),
                     new WeightedContainer<>(new Item[]{
-                            new Item("Acélbetétes bakancs", "Kemény.", 1.0f, 160, 400.0f, 0.0f,6.0f,0.0f),
-                            new Item("Lakkcipő", "Elegante.", 1.0f, 160, 0.0f, 40.0f,6.0f,0.0f),
+                            new Item("Acélbetétes bakancs", "Kemény.", R.drawable.papucs,1.0f, 160, 400.0f, 0.0f,6.0f,0.0f),
+                            new Item("Lakkcipő", "Elegante.", R.drawable.papucs,1.0f, 160, 0.0f, 40.0f,6.0f,0.0f),
                     })
             },
             /* FEGYVER ITEMEK */
             new WeightedContainer[]{
                     new WeightedContainer<>(new Item[]{
-                            new Item("Ásó", "Aki másnak...", 1.0f, 140, 0.0f, 40.0f,3.0f,0.0f),
-                            new Item("Törött borosüveg", "Lafiesta édes élmény.", 1.0f, 140, 0.0f, 40.0f,0.0f,3.0f),
+                            new Item("Ásó", "Aki másnak...", R.drawable.aso,1.0f, 140, 0.0f, 40.0f,3.0f,0.0f),
+                            new Item("Borosüveg", "Lafiesta édes élmény.",R.drawable.bor, 1.0f, 140, 0.0f, 40.0f,0.0f,3.0f),
                     }),
                     new WeightedContainer<>(new Item[]{
-                            new Item("Bicska", "Van cigid? Buszjegyre kell.", 1.0f, 160, 0.0f, 50.0f,0.0f,4.0f),
-                            new Item("Rozsdás bökő", "Tetanusz is coming.", 1.0f, 160, 0.0f, 50.0f,4.0f,0.0f),
+                            new Item("Bicska", "Van cigid? Buszjegyre kell.",R.drawable.bicska, 1.0f, 160, 0.0f, 50.0f,0.0f,4.0f),
+                            new Item("Rozsdás bökő", "Tetanusz is coming.", R.drawable.rozsdas,1.0f, 160, 0.0f, 50.0f,4.0f,0.0f),
                     }),
                     new WeightedContainer<>(new Item[]{
-                            new Item("MP5", "\uD83C\uDFB6All the other kids with the pumped up kicks\uD83C\uDFB6", 1.0f, 200, 0.0f, 70.0f,5.0f,0.0f),
-                            new Item("Láncfűrész", "Vrr-vrrrrrr", 1.0f, 200, 0.0f, 70.0f,0.0f,5.0f),
+                            new Item("MP5", "\uD83C\uDFB6All the other kids with the pumped up kicks\uD83C\uDFB6", R.drawable.mp5,1.0f, 200, 0.0f, 70.0f,5.0f,0.0f),
+                            new Item("Láncfűrész", "Vrr-vrrrrrr", R.drawable.furesz,1.0f, 200, 0.0f, 70.0f,0.0f,5.0f),
                     })
             }
     };

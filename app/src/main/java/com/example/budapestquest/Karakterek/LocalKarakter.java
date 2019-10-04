@@ -80,8 +80,8 @@ public class LocalKarakter extends Karakter {
     *   Ha valaki beolvasta az Aréna Bajnok QR-t egy győztes csata után, akkor kap bónuszt.
     * */
     public boolean ArenaBajnok(){
-        if(winreward) {
-            winreward = false;
+        if(!winreward) {
+            winreward = true;
             GiveXP(ArenabajnokRewardXP);
             FT += ArenabajnokRewardPenz;
             return true;

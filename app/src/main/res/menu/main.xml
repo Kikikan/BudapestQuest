@@ -15,6 +15,6 @@
         app:showAsAction="never"/>
 
     <item android:id="@+id/action_exit"
-        android:title="Menéts és kilépés"
+        android:title="Mentés és kilépés"
         app:showAsAction="never"/>
 </menu>

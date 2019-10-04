@@ -78,7 +78,7 @@ public class HarcAct extends AppCompatActivity {
             finish();
         }else {
             SortKiir(""+GameController.En.Name + " VS " + enemy.Name + "\nKEZD: " + (enkezd ? GameController.En.Name : enemy.Name) + "\n");
-            boolean nyertem = GameController.En.winreward = Fight();
+            boolean nyertem = Fight();
             if(nyertem) {
                 Toast.makeText(getApplicationContext(), "NYERTÉL!", Toast.LENGTH_LONG).show();
                 GameController.En.FT += 30;

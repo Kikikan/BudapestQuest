@@ -32,7 +32,7 @@ public class MunkaAct extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Minimum 1 napott kell dolgoznod. Ha nem akarsz dolgozni, akkor lépj vissza a vissza gombbal.", Toast.LENGTH_LONG).show();
                 return;
             }
-            GameController.En.kimaradas += darab - GameController.En.UNI == Karakter.BME_ID ? 1 : 0;
+            GameController.En.kimaradas += darab - (GameController.En.UNI == Karakter.BME_ID ? 1 : 0);
             GameController.En.FT += munkaber * darab;
             GameController.tabStats.Update();
             finish();

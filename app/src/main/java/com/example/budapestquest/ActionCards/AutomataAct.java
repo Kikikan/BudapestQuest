@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class AutomataAct extends AppCompatActivity {
 
-    public static final int vonaljegyar = 50;
+    public static final int vonaljegyar = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
