@@ -12,10 +12,10 @@ import com.example.budapestquest.GameController;
 import com.example.budapestquest.R;
 
 public class KaszinoAct extends AppCompatActivity {
-    private static final int pokerszint = 50;
+    private static final int pokerszint = 30;
     public static final double pokerodds = 0.45;
 
-    private static final int ruletszint = 30;
+    private static final int ruletszint = 50;
     public static final double ruletodds = 0.25;
 
     private static final int blackszint = 40;

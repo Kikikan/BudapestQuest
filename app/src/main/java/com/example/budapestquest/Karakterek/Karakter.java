@@ -80,15 +80,15 @@ public class Karakter extends KarakterStats{
         s.DMG += DMG;
         s.DaP += DaP;
         s.DeP += DeP;
-        s.CR = Math.max(Math.min(CR, 1), 0.0);
-        s.DO = Math.max(Math.min(DO, 1), 0.0);
+        s.CR = Math.max(Math.min(CR, 100.0), 0.0);
+        s.DO = Math.max(Math.min(DO, 100.0), 0.0);
 
         // Megadjuk a statok korlátjait
         //TODO: szebben
-        s.HP = Math.max(s.HP, 100.0);
+        s.HP = Math.max(s.HP, 1000.0);
         s.DMG = Math.max(s.DMG, 0.0);
-        s.DaP = Math.max(Math.min(s.DaP, 5000.0), 0.0);
-        s.DeP = Math.max(Math.min(s.DeP, 5000.0), 0.0);
+        s.DaP = Math.max(s.DaP, 0.0);
+        s.DeP = Math.max(s.DeP, 0.0);
 
         return s;
     }
