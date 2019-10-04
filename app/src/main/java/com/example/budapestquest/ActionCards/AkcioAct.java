@@ -17,12 +17,14 @@ public class AkcioAct extends AppCompatActivity {
 
     public static final int penzPluszMin = 15, penzPluszMax = 30;
     public static final String[] penzPlusz = new String[]{
-            "A földön találtál egy pénztárcát, melyben fura módon iratok nem, csak egy köteg pénz lapult, melyet gyorsan zsebre is vágtál:\n"
+            "A földön találtál egy pénztárcát, melyben fura módon iratok nem, csak egy köteg pénz lapult, melyet gyorsan zsebre is vágtál:\n",
+            "A Borároson sétálva egy hajléktalan nehezen összegyűjtött apróit lenyúltad, ejnye-bejnye\n"
     };
 
     public static final int penzMinuszMin = 5, penzMinuszMax = 20;
     public static final String[] penzMinusz = new String[]{
-            "Betévedtél a város egyik hírhedten rossz nyegyedébe, és kiraboltak. Ennyit vittek el tőled:\n"
+            "Betévedtél a város egyik hírhedten rossz nyegyedébe, és kiraboltak. Ennyit vittek el tőled:\n",
+            "Diákhiteledet törlesztetted:\n"
     };
 
     public static final String[] penzMinusz0 = new String[]{
