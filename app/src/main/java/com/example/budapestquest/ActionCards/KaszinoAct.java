@@ -26,6 +26,9 @@ public class KaszinoAct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kaszino);
 
+        ((TextView)findViewById(R.id.pokerodds)).setText("Esély a nyerésre: "+ pokerodds*100 + " %");
+        ((TextView)findViewById(R.id.rulettodds)).setText("Esély a nyerésre: "+ ruletodds*100 + " %");
+        ((TextView)findViewById(R.id.blackjackodds)).setText("Esély a nyerésre: "+ blackodds*100 + " %");
         ((TextView)findViewById(R.id.statom)).setText("Pénzem: "+ GameController.En.FT + " Ft");
     }
 
