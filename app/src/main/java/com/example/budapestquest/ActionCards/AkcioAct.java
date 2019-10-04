@@ -25,6 +25,10 @@ public class AkcioAct extends AppCompatActivity {
             "Betévedtél a város egyik hírhedten rossz nyegyedébe, és kiraboltak. Ennyit vittek el tőled:\n"
     };
 
+    public static final String[] penzMinusz0 = new String[]{
+            "Beléd kötött a família a Blahán. Sajnos nem volt nálad pénz, náluk meg terminál, így a testi épségeddel fizettél. Menj a kórházba.\n"
+    };
+
     public static final String[] itemPlusz = new String[]{
             "Egy aluljáróban bóklászva hirtelen valami csillogásra lettél figyelmes a földön. Közelebb mentél, és döbbenve láttad, hogy találtál egy: ",
             "Az utcán sétálva egyszer csak egy katonai konvoj süvített el, és az egyik teherautó platójáról valami pont a lábad elé esett: "
@@ -53,9 +57,16 @@ public class AkcioAct extends AppCompatActivity {
             msg.setText(penzPlusz[GameController.rand.nextInt(penzPlusz.length)] + nyert + " Ft");
             GameController.En.FT += nyert;
         }else if(rnd < o2) {
-            int veszit = Math.min(GameController.rand.nextInt(penzMinuszMax - penzMinuszMin) + penzMinuszMin, GameController.En.FT);
-            msg.setText(penzMinusz[GameController.rand.nextInt(penzMinusz.length)] + veszit + " Ft");
-            GameController.En.FT -= veszit;
+            if (GameController.En.FT > 0) {
+                int veszit = Math.min(GameController.rand.nextInt(penzMinuszMax - penzMinuszMin) + penzMinuszMin, GameController.En.FT);
+                msg.setText(penzMinusz[GameController.rand.nextInt(penzMinusz.length)] + veszit + " Ft");
+                GameController.En.FT -= veszit;
+            }
+            else
+            {
+                msg.setText(penzMinusz0[GameController.rand.nextInt(penzMinusz0.length)]);
+            }
+
         }else {
             itemtalalat = true;
             msg.setText(itemPlusz[GameController.rand.nextInt(itemPlusz.length)]);
