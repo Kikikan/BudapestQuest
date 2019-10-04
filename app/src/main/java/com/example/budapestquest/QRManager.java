@@ -21,6 +21,7 @@ public class QRManager {
     public final static char QR_LEPES   = '6';
     public final static char QR_AKCIOK  = '7';
     public final static char QR_MUNKA   = '8';
+    public final static char QR_ARENABAJNOK= '9';
 
     /*
     *

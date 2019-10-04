@@ -38,13 +38,13 @@ public class MainActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.view_pager);
         tabLayout = findViewById(R.id.tabs);
 
+        // Odaadjuk neki az appcontextet
+        // TODO: kell/szebb megoldás?
+        GameController.context = this;
+
         // Legyen menünk
         setSupportActionBar((Toolbar) findViewById(R.id.main_toolbar));
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        // Odaadjuk neki az appcontextet
-        // TODO: kell/szebb megoldás?
-        GameController.context = getApplicationContext();
 
         // Készíttessünk karaktert (vagy töltsük be)
         //TODO: Talán kéne egy külön activity ami indul és kiválasztja, hogy karaktert készítünk vagy betöltünk
@@ -122,12 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.action_about: {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("About");
-                builder.setMessage("© 5vös gang 2019");
-                builder.setCancelable(false);
-                builder.setPositiveButton("Ok", null);
-                builder.show();
+                GameController.ShowPopup("About", "© 5vös gang 2019");
                 return true;
             }
             case R.id.action_exit: {

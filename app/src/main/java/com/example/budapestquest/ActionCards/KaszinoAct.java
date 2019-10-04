@@ -38,7 +38,7 @@ public class KaszinoAct extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Minimum 1 forintot fel kell tenned. Ha nem akarsz játszani, akkor lépj vissza a vissza gombbal.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if(GameController.En.PenztKolt(osszeg)) {
+            if(GameController.En.SpendMoney(osszeg)) {
                 if(GameController.rand.nextDouble() < odds) {
                     int nyer = (osszeg * 2);
                     GameController.En.FT += nyer;

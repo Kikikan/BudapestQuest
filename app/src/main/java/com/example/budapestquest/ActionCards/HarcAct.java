@@ -77,14 +77,15 @@ public class HarcAct extends AppCompatActivity {
             GameController.UpdateStats();
             finish();
         }else {
-            SortKiir("Támadó: "+GameController.En.Name+" A védekező: "+enemy.Name);
-            boolean nyertem = Fight();
+            SortKiir(""+GameController.En.Name + " VS " + enemy.Name + "\nKEZD: " + (enkezd ? GameController.En.Name : enemy.Name) + "\n");
+            boolean nyertem = GameController.En.winreward = Fight();
             if(nyertem) {
                 Toast.makeText(getApplicationContext(), "NYERTÉL!", Toast.LENGTH_LONG).show();
                 GameController.En.FT += 30;
+                GameController.En.GiveXP(1);
             }else{
                 Toast.makeText(getApplicationContext(), "VESZTETTÉL!", Toast.LENGTH_LONG).show();
-                //GameController.En.kimaradas = 3;
+                //GameController.En.kimaradas = 2;
             }
             SortKiir("A nyertes: " + (nyertem ? GameController.En.Name : enemy.Name));
             qrkod.setVisibility(View.GONE);
@@ -127,30 +128,35 @@ public class HarcAct extends AppCompatActivity {
         int bevitSebzes;
 
         if(enkezd) {
+            SortKiir((kor++) + ". kör, TE támadsz.");
+
             bevitSebzes = SimulateKor(GameController.En, enemy);
             stat_enemy.HP -= bevitSebzes;
 
-            SortKiir((kor++) + ". kör, támadtál és ennyit sebeztél: "+bevitSebzes+
-                    " (ennyi életereje maradt: "+stat_enemy.HP+")");
+            SortKiir("  " + enemy.Name + "-nak/nek ennyit sebeztél: "+bevitSebzes+ " (HP: "+stat_enemy.HP+")");
 
-            if(stat_en.HP <= 0) return true;
+            if(stat_enemy.HP <= 0) return true;
         }
         while(true){
+            SortKiir((kor++) + ". kör, " + enemy.Name + " támad.");
+
             bevitSebzes = SimulateKor(enemy, GameController.En);
             stat_en.HP -= bevitSebzes;
 
-            SortKiir((kor++) + ". kör, " + enemy.Name + " támadot és ennyit sebzet beled: "+bevitSebzes+
-                    " (ennyi életerőd maradt: "+stat_en.HP+")");
+            SortKiir("  ennyit sebezett Neked: "+bevitSebzes+ " (HP: "+stat_en.HP+")");
 
             if(stat_en.HP <= 0) return false;
+
+            // ----
+
+            SortKiir((kor++) + ". kör, TE támadsz.");
 
             bevitSebzes = SimulateKor(GameController.En, enemy);
             stat_enemy.HP -= bevitSebzes;
 
-            SortKiir((kor++) + ". kör, támadtál és ennyit sebeztél: "+bevitSebzes+
-                    " (ennyi életereje maradt: "+stat_enemy.HP+")");
+            SortKiir("  " + enemy.Name + "-nak/nek ennyit sebeztél: "+bevitSebzes+ " (HP: "+stat_enemy.HP+")");
 
-            if(stat_en.HP <= 0) return true;
+            if(stat_enemy.HP <= 0) return true;
         }
     }
 }

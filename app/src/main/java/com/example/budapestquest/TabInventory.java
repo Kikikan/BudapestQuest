@@ -44,7 +44,7 @@ public class TabInventory extends Fragment {
         }
         stat.setVisibility(View.VISIBLE);
         stat.setText(s + (v > 0 ? "+" : "")+v);
-        stat.setTextColor(v > 0 ? Color.GREEN : Color.RED);
+        stat.setTextColor(v > 0 ? 0xff5abf36 : 0xffbf3636);
     }
 
     public static void UpdateInventoryRow(View row, Targy targy){

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.example.budapestquest.ActionCards.AkcioAct;
 import com.example.budapestquest.ActionCards.BoltAct;
 import com.example.budapestquest.ActionCards.HarcAct;
@@ -17,6 +19,7 @@ import com.example.budapestquest.Karakterek.Karakter;
 import com.example.budapestquest.Karakterek.LocalKarakter;
 import com.example.budapestquest.ui.main.SectionsPagerAdapter;
 
+import java.util.Locale;
 import java.util.Random;
 
 public class GameController {
@@ -31,7 +34,7 @@ public class GameController {
     // MainActivity "tölti ki"
     public static TabStats tabStats = null;
     public static TabInventory tabInventory = null;
-    public static Context context = null;
+    public static MainActivity context = null;
 
     /*
     *   Frissíti az "Én" és az "Inventory" tabot is
@@ -39,6 +42,22 @@ public class GameController {
     public static void UpdateStats(){
         tabStats.Update();
         tabInventory.Update();
+    }
+
+    /*
+    *   Feldob egy ablakot a megadott címmel és üzenettel, melyre csak OK-ot lehet válaszolni.
+    * */
+    public static void ShowPopup(String title, String body){
+        try {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle(title);
+            builder.setMessage(body);
+            builder.setCancelable(false);
+            builder.setPositiveButton("Ok", null);
+            builder.show();
+        }catch (Exception e){
+            Toast.makeText(context, "Error: " + e.toString(), Toast.LENGTH_LONG).show();
+        }
     }
 
     /*
@@ -52,6 +71,7 @@ public class GameController {
             spe.putInt("vonaljegy", En.vonaljegy);
             spe.putInt("kimaradas", En.kimaradas);
             spe.putInt("elkothetoxp", En.elkolthetoXP);
+            spe.putBoolean("winreward", En.winreward);
             spe.apply();
         }catch (Exception e){
             return false;
@@ -70,6 +90,7 @@ public class GameController {
             int vj = sp.getInt("vonaljegy", -1);
             int km = sp.getInt("kimaradas", -1);
             int xp = sp.getInt("elkothetoxp", -1);
+            boolean rw = sp.getBoolean("winreward", false);
 
             if (k.isEmpty() || vj == -1 || km == -1 || xp == -1) return false;
 
@@ -77,6 +98,7 @@ public class GameController {
             En.vonaljegy = vj;
             En.kimaradas = km;
             En.elkolthetoXP = xp;
+            En.winreward = rw;
         }catch (Exception e){
             return false;
         }
@@ -223,9 +245,21 @@ public class GameController {
                     context.startActivity(intent);
                 }
                 break;
+                case QRManager.QR_ARENABAJNOK: {
+                    if(En.ArenaBajnok()) {
+                        tabStats.Update();
+                        ShowPopup("Aréna bajnoka", "Gratulálunk "+En.Name+"!\nAz Aréna új bajnokot avathatott személyedben! Jutalmul pedig ezeket kaptad:\n"+LocalKarakter.ArenabajnokRewardXP+" XP és "+LocalKarakter.ArenabajnokRewardPenz+" Ft");
+                    }
+                    else
+                        Toast.makeText(context, "Az Aréna bajnoki címének elnyeréséhez győznöd kell egy csatában.", Toast.LENGTH_LONG).show();
+                }
+                break;
                 default:
                     throw new Exception("Ismeretlen QR kód utasítás.");
             }
         }
+
+        // Csak csata után tudjuk beolvasni a Aréna bajnok kártyát, utána elesünk a jutalmaktól.
+        En.winreward = false;
     }
 }

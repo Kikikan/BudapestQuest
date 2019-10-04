@@ -46,7 +46,7 @@ public class LepesAct extends AppCompatActivity {
 
     public void ButtonBlicc(View v){
         if (GameController.rand.nextDouble() < (GameController.En.UNI == Karakter.ELTE_ID ? 0.125 : 0.25)) {
-            if(GameController.En.PenztKolt(bliccbirsag)) {
+            if(GameController.En.SpendMoney(bliccbirsag)) {
                 Toast.makeText(getApplicationContext(), "Elkapott a kaller és megbírságolt téged " + bliccbirsag +" Ft-ra.", Toast.LENGTH_LONG).show();
             }else{
                 Toast.makeText(getApplicationContext(), "Elkapott a keller, viszont nem tudtad kifizetni a helyszíni bírságot ( " + bliccbirsag + " Ft ), ezért bevágtak téged a böribe " + blicckorkimaradas + " körre.", Toast.LENGTH_LONG).show();

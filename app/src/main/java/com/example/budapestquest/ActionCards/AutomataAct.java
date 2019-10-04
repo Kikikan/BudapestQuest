@@ -31,7 +31,7 @@ public class AutomataAct extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Minimum 1 darab jegyet kell venned. Ha nem akarsz venni, akkor lépj vissza a vissza gombbal.", Toast.LENGTH_LONG).show();
                 return;
             }
-            if (GameController.En.PenztKolt(darab * vonaljegyar)) {
+            if (GameController.En.SpendMoney(darab * vonaljegyar)) {
                 GameController.En.vonaljegy += darab;
                 GameController.tabStats.Update();
                 finish();

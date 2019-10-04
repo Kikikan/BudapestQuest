@@ -41,7 +41,7 @@ public class KondiAct extends AppCompatActivity {
     }
 
     public void ButtonHarci(View v){
-        if(GameController.En.PenztKolt(belepo_harci)) {
+        if(GameController.En.SpendMoney(belepo_harci)) {
             GameController.En.DMG += 2 * 10;
             GameController.En.DaP += 2;
             GameController.En.CR += 2;
@@ -52,7 +52,7 @@ public class KondiAct extends AppCompatActivity {
     }
 
     public void ButtonKardio(View v){
-        if(GameController.En.PenztKolt(belepo_kardio)) {
+        if(GameController.En.SpendMoney(belepo_kardio)) {
             GameController.En.HP += 2 * 100;
             GameController.En.DeP += 2;
             GameController.En.DO += 2;

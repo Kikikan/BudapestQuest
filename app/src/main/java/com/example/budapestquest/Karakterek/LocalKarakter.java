@@ -5,9 +5,13 @@ import com.example.budapestquest.GameController;
 import java.io.IOException;
 
 public class LocalKarakter extends Karakter {
+    public static final int ArenabajnokRewardPenz = 100;
+    public static final int ArenabajnokRewardXP = 5;
+
     public int vonaljegy = 0;
     public int kimaradas = 0;
     public int elkolthetoXP = 0;
+    public boolean winreward = false;
 
     public LocalKarakter(String _Name, int _UNI, int _KASZT){
         super(_Name, _UNI, _KASZT, GameController.rand.nextInt());
@@ -21,7 +25,7 @@ public class LocalKarakter extends Karakter {
     /*
      *   Megpróbál pénzt költeni, visszaadja sikerült-e. Ha sikerült akkor le is vonja.
      * */
-    public boolean PenztKolt(int osszeg){
+    public boolean SpendMoney(int osszeg){
         if((FT  < osszeg) || (osszeg < 0)) return false;
         FT -= osszeg;
         return true;
@@ -70,5 +74,17 @@ public class LocalKarakter extends Karakter {
         if(success = SpendXP(1)) {
             DeP += 1;
         }return success;
+    }
+
+    /*
+    *   Ha valaki beolvasta az Aréna Bajnok QR-t egy győztes csata után, akkor kap bónuszt.
+    * */
+    public boolean ArenaBajnok(){
+        if(winreward) {
+            winreward = false;
+            GiveXP(ArenabajnokRewardXP);
+            FT += ArenabajnokRewardPenz;
+            return true;
+        }return false;
     }
 }

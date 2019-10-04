@@ -171,7 +171,7 @@ public class TabStats extends Fragment implements View.OnClickListener {
         first.setText(String.valueOf(vf));
         if(vm != 0) {
             mod.setText(" (" + (vm > 0 ? "+" : "") + vm + ")");
-            mod.setTextColor(vm > 0 ? Color.GREEN : Color.RED);
+            mod.setTextColor(vm > 0 ? 0xff5abf36 : 0xffbf3636);
         }
         else
             mod.setText("");

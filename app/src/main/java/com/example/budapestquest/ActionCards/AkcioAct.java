@@ -42,10 +42,10 @@ public class AkcioAct extends AppCompatActivity {
         Button RendbenButton = findViewById(R.id.RendbenButton);
         Button MegsemButton = findViewById(R.id.MegsemButton);
 
+        // Esélyek kiszámítása
         int o1 = getIntent().getIntExtra("ODDS_PENZ+", 0);
         int o2 = o1 + getIntent().getIntExtra("ODDS_PENZ-", 0);
         int o3 = o2 + getIntent().getIntExtra("ODDS_TARGY+", 0);
-
         int rnd = GameController.rand.nextInt(o3);
 
         if(rnd < o1) {
@@ -75,12 +75,6 @@ public class AkcioAct extends AppCompatActivity {
 
             MegsemButton.setVisibility(View.VISIBLE);
         }
-
-        /*
-        * //TODO: Zsolt kéri, hogy ezt akkor tisztázzuk le, mi, miért, hogy, és valaki álljon elő egy KONKRÉT algoritmussal erre
-          Toast.makeText(getApplicationContext(), "Arena Bajnok", Toast.LENGTH_LONG).show();
-          //gc.En.arenaBajnok();
-        * */
     }
 
     public void ButtonRendben(View v){

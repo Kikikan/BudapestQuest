@@ -8,7 +8,6 @@ import com.example.budapestquest.R;
 import com.example.budapestquest.TabInventory;
 import com.example.budapestquest.Targyak.Targy;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +32,7 @@ public class BoltAct extends AppCompatActivity {
     protected TextView MakeStat(String s, double v){
         TextView stat = new TextView(this);
         stat.setText(s + (v > 0 ? "+" : "")+v);
-        stat.setTextColor(v > 0 ? Color.GREEN : Color.RED);
+        stat.setTextColor(v > 0 ? 0xff5abf36 : 0xffbf3636);
         return stat;
     }
 
@@ -101,7 +100,7 @@ public class BoltAct extends AppCompatActivity {
             lecserel.setVisibility(View.GONE);
             regiitem.setVisibility(View.GONE);
         }else{
-            v.setBackgroundColor(0xffb3b3b3);
+            v.setBackgroundColor(0xffcfcfcf);
             Valasztott = (int) v.getTag();
             Targy t = GameController.En.Felszereles[targyak[Valasztott].Slot];
             if(t != null) {
@@ -125,7 +124,7 @@ public class BoltAct extends AppCompatActivity {
         Targy t = targyak[Valasztott];
         int actualPrice = arak[Valasztott];
 
-        if (GameController.En.PenztKolt(actualPrice)) {
+        if (GameController.En.SpendMoney(actualPrice)) {
             GameController.En.Felszereles[t.Slot] = t;
             GameController.UpdateStats();
             finish();
